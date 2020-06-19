@@ -1,0 +1,282 @@
+<app-navbar></app-navbar>
+<div
+  class="card mt-3 mr-3 ml-3 text-white"
+  style="background-color: #2A206F; font-size: 1rem"
+>
+  <div class="card-body">
+    <i class="fa fa-bar-chart" aria-hidden="true"></i>
+    <strong> SEVS - Nuevos Campos</strong>
+  </div>
+</div>
+<br />
+<div class="col-md-3">
+  <div
+    class="card mt-3 text-white"
+    style="background-color: #2A206F; font-size: 1rem"
+  >
+    <div class="card-body">
+      <i class="fa fa-check" aria-hidden="true"></i>
+      <strong> Agregar nuevos campos </strong>
+    </div>
+  </div>
+</div>
+<br />
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 reg">
+      <div class="card">
+        <div class="card-body">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          <strong> Administradores de Flota</strong>
+        </div>
+        <div class="card-header">
+          <form (ngSubmit)="nuevoAdminFlota(nuevoaf.value)" [formGroup]="nuevoaf">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombreAdminFlota">Nombre: </label><br />
+                <input class="form-control" type="text" formControlName="nombre"/>
+              </div>
+              <br>
+              <div class="col-md-6">
+              <button
+              type="submit"
+              [disabled]="!nuevoaf.valid"
+              class="btn btn-outline-primary btn-block btn-lg"
+            >
+              Enviar
+            </button>
+            <br>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4 reg">
+      <div class="card">
+        <div class="card-body">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          <strong> Mecanicos</strong>
+        </div>
+        <div class="card-header">
+          <form (ngSubmit)="nuevomecanico(mecanico.value)" [formGroup]="mecanico">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombreMecanico">Nombre: </label><br />
+                <input class="form-control" type="text" formControlName="nombre"/>
+              </div>
+              <br>
+              <div class="col-md-6">
+                <button
+                  type="submit"
+                  [disabled]="!mecanico.valid"
+                  class="btn btn-outline-primary btn-lg btn-block"
+                >
+                  Enviar
+                </button>
+              </div>
+              <br>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="row">
+ <div class="col-md-4 reg">
+      <div class="card">
+        <div class="card-body">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          <strong> Asesor </strong>
+        </div>
+        <div class="card-header">
+          <form (ngSubmit)="nuevoasesor(asesor.value)" [formGroup]="asesor">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombreasesor">Nombre: </label><br />
+                <input class="form-control" type="text" formControlName="nombre"/>
+              </div>
+              <br>
+              <div class="col-md-6">
+                  <button
+                  type="submit"
+                  [disabled]="!asesor.valid"
+                  class="btn btn-outline-primary btn-lg btn-block"
+                >
+                  Enviar
+                </button>
+              </div>
+              <br>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="col-md-4 reg">
+      <div class="card">
+        <div class="card-body">
+          <i class="fa fa-address-book" aria-hidden="true"></i>
+          <strong> Clientes</strong>
+        </div>
+        <div class="card-header">
+          <form (ngSubmit)="nuevocliente(cliente.value)" [formGroup]="cliente">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombreCliente">Nombre: </label><br />
+                <input class="form-control" type="text" formControlName="nombre"/>
+              </div>
+              <br>
+              <div class="col-md-6">
+                <button
+                  type="submit"
+                  [disabled]="!cliente.valid"
+                  class="btn btn-outline-primary btn-lg btn-block "
+                >
+                  Enviar
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div> -->
+
+  </div>
+</div>
+
+<div class="col-md-3">
+  <div
+    class="card mt-3 text-white"
+    style="background-color: #2A206F; font-size: 1rem"
+  >
+    <div class="card-body">
+      <i class="fa fa-search" aria-hidden="true"></i>
+      <strong> Registros </strong>
+    </div>
+  </div>
+</div>
+<br />
+<!-- <div class="tab-content" id="pills-tabContent"> -->
+  <!-- Detalles de Encuesta "Muestra las encuestas realizadas con la calificación que tienen en cada pregunta" -->
+  <!-- <div class="tab-pane fade" id="pills-encuesta" role="tabpanel" aria-labelledby="pills-encuesta-tab"> -->
+    <div class="card border-success mt-3 mr-3 ml-3 mb-3">
+    <!-- Tabla encuestas Express -->
+    <!-- <div class="card border-primary mt-3 ml-3 mr-3">
+        <div class="card-header text-center bg-info text-white">
+            <h5><strong style="font-size: 1.5rem">Clientes</strong></h5>
+        </div>
+            <div class="card-body ">
+                <ngx-datatable
+                    class="material"
+                    [headerHeight]="35"
+                    [columnMode]="'force'"
+                    [rowHeight]="'auto'"
+                    [footerHeight]="30"
+                    [count]="true"
+                    [limit]="5"
+                    [rows]="rows1"
+                >
+                <ngx-datatable-column name="id">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="nombre">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-value="value"><button class="btn btn-danger" type="button"  (click)="eliminarc(row.id)" >Eliminar</button></ng-template>
+              </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+    </div> -->
+    <!-- Tabla encuestas Reparaciones -->
+    <div class="card border-primary mt-3 ml-3 mr-3">
+        <div class="card-header text-center bg-danger text-white">
+            <h5><strong style="font-size: 1.5rem">Administradores Flota</strong></h5>
+        </div>
+            <div class="card-body ">
+                <ngx-datatable
+                    class="material"
+                    [headerHeight]="35"
+                    [columnMode]="'force'"
+                    [rowHeight]="'auto'"
+                    [footerHeight]="30"
+                    [count]="true"
+                    [limit]="5"
+                    [rows]="rows2"
+                >
+                <ngx-datatable-column name="id">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="nombre">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-value="value"><button class="btn btn-danger" type="button"  (click)="eliminaraf(row.id)" >Eliminar</button></ng-template>
+              </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+    </div>
+    
+        <!-- Tabla encuestas Tramites -->
+    <div class="card border-primary mt-3 ml-3 mr-3">
+        <div class="card-header text-center bg-success text-white">
+            <h5><strong style="font-size: 1.5rem">Mecánicos</strong></h5>
+        </div>
+        <div class="card-body ">
+            <ngx-datatable
+                class="material"
+                [headerHeight]="35"
+                [columnMode]="'force'"
+                [rowHeight]="'auto'"
+                [footerHeight]="30"
+                [count]="true"
+                [limit]="5"
+                [rows]="rows3"
+            >
+            <ngx-datatable-column name="id">
+                <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="nombre">
+                <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="">
+              <ng-template ngx-datatable-cell-template let-row="row" let-value="value"><button class="btn btn-danger" type="button"  (click)="eliminarm(row.id)" >Eliminar</button></ng-template>
+          </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+         <!-- Tabla encuestas Tramites -->
+         <div class="card border-primary mt-3 ml-3 mr-3">
+            <div class="card-header text-center bg-warning text-white">
+                <h5><strong style="font-size: 1.5rem">Asesores</strong></h5>
+            </div>
+            <div class="card-body ">
+                <ngx-datatable
+                    class="material"
+                    [headerHeight]="35"
+                    [columnMode]="'force'"
+                    [rowHeight]="'auto'"
+                    [footerHeight]="30"
+                    [count]="true"
+                    [limit]="5"
+                    [rows]="rows4"
+                >
+                <ngx-datatable-column name="id">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="nombre">
+                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-value="value"><button class="btn btn-danger" type="button"  (click)="eliminaras(row.id)" >Eliminar</button></ng-template>
+              </ngx-datatable-column>
+                </ngx-datatable>
+            </div>
+        </div>
+</div>
+    <!-- </div> -->
+<!-- </div> -->

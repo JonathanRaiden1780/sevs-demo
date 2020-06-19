@@ -1,0 +1,135 @@
+<!-- Nav bar para encuesta-->
+<app-encuesta></app-encuesta>
+<!-- Fomularios para encuesta Express-->
+<br><br><br>
+<div class="col-md-12">
+    <div class="card" style="background-color: transparent">
+        <mat-horizontal-stepper style="background-color: transparent">
+                <mat-step state="start" editable="false" class="mt-5">
+                    <div class="text-center" style="background-color: white"><h2><strong>El tiempo que transcurrió para que lo atendieran en recepción fue:</strong></h2></div>
+                    <form>
+                    <div class="text-center mt-3">
+                        <button id="pregunta1" name="pregunta1" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p1ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta1" name="pregunta1" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p1ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta1" name="pregunta1" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p1ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta1" name="pregunta1" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p1ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta1" name="pregunta1" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p1ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                    </form>
+                </mat-step>
+                <mat-step state="start" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>¿Usted es la persona que ingresó el vehículo al taller?</strong></h2></div>
+                    <form>
+                    <div class="text-center mt-3">
+                        <button id="pregunta2" name="pregunta2" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext (click)="p10ex(true)"><fa-icon [icon]="faCheckSquare" class="fa-7x" style="color: green"></fa-icon></button>
+                        <button id="pregunta2" name="pregunta2" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext (click)="onNo(); p10ex(false)"><fa-icon [icon]="faTimesCircle" class="fa-7x" style="color: red"></fa-icon></button>
+                    </div>
+                    </form>
+                </mat-step>
+                <mat-step state="middle" editable="false" *ngIf="isYes">
+                    <div class="text-center" style="background-color: white"><h2><strong>Durante la recepción ¿Nuestro asesor le preguntó si su vehículo requería de algún servicio adicional a lo previamente solicitado?</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta3" name="pregunta3" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p2ex(100)"><fa-icon [icon]="faCheckSquare" class="fa-7x" style="color: green"></fa-icon></button>
+                        <button id="pregunta3" name="pregunta3" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="0" (click)="p2ex(50)"><fa-icon [icon]="faTimesCircle" class="fa-7x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="middle" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>El tiempo de entrega acorde al proporcionado posterior al diagnostico fue:</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta4" name="pregunta4" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p3ex(100); onSi()"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta4" name="pregunta4" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p3ex(80); onSi()"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta4" name="pregunta4" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p3ex(60); onSi()"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta4" name="pregunta4" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p3ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta4" name="pregunta4" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p3ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="middle" editable="false" *ngIf="isNo">
+                    <div class="text-center" style="background-color: white"><h2><strong>¿Se le explicó el motivo?</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta5" name="pregunta5" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext  (click)="p9ex(true)"><fa-icon [icon]="faCheckSquare" class="fa-7x" style="color: green"></fa-icon></button>
+                        <button id="pregunta5" name="pregunta5" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext  (click)="p9ex(false)"><fa-icon [icon]="faTimesCircle" class="fa-7x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="middle" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>¿Cómo calificaría la imagen de nuestras instalaciones?</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta6" name="pregunta6" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p4ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta6" name="pregunta6" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p4ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta6" name="pregunta6" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p4ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta6" name="pregunta6" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p4ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta6" name="pregunta6" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p4ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="middle" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>La atención que recibió de nuestro asesor de servicio fue….</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta7" name="pregunta7" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p5ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta7" name="pregunta7" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p5ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta7" name="pregunta7" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p5ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta7" name="pregunta7" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p5ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta7" name="pregunta7" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p5ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="finish" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>Considera que la imagen de nuestro asesor de servicio es...</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta8" name="pregunta8" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p6ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta8" name="pregunta8" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p6ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta8" name="pregunta8" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p6ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta8" name="pregunta8" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p6ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta8" name="pregunta8" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p6ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="finish" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>La limpieza de su vehículo fue:</strong></h2></div>
+                    <div class="text-center mt-3">
+                            <button id="pregunta9" name="pregunta9" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p7ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                            <button id="pregunta9" name="pregunta9" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p7ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                            <button id="pregunta9" name="pregunta9" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p7ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                            <button id="pregunta9" name="pregunta9" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p7ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                            <button id="pregunta9" name="pregunta9" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p7ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>     
+                </mat-step>
+                <mat-step state="finish" editable="false">
+                    <div class="text-center" style="background-color: white"><h2><strong>La experiencia en general de su visita a Casanova fue…</strong></h2></div>
+                    <div class="text-center mt-3">
+                        <button id="pregunta10" name="pregunta10" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="5" (click)="p8ex(100)"><fa-icon [icon]="faSmileBeam" class="fa-6x" style="color: green"></fa-icon></button>
+                        <button id="pregunta10" name="pregunta10" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="4" (click)="p8ex(80)"><fa-icon [icon]="faGrin" class="fa-6x" style="color: yellowgreen"></fa-icon></button>
+                        <button id="pregunta10" name="pregunta10" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="3" (click)="p8ex(60)"><fa-icon [icon]="faMeh" class="fa-6x" style="color: rgb(206, 206, 12)"></fa-icon></button>
+                        <button id="pregunta10" name="pregunta10" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="2" (click)="p8ex(40)"><fa-icon [icon]="faSadTear" class="fa-6x" style="color: orange"></fa-icon></button>
+                        <button id="pregunta10" name="pregunta10" type="button" class="btn btn-outline-secondary col-md-2" mat-button mat-raised-button matStepperNext value="1" (click)="p8ex(20)"><fa-icon [icon]="faTired" class="fa-6x" style="color: red"></fa-icon></button>
+                    </div>
+                </mat-step>
+                <mat-step state="thanks" editable="false">
+                        <div class="col-md-5 mx-auto mt-5">
+                                <form #formguardar="ngForm" (ngSubmit)="sum();onGuardarEncuesta(formguardar)">
+                                        <div class="card mb-3" style="max-width: 20rem;" style="background-color: #2a206f">  
+                                                <div class="card-header text-center">
+                                        <img class="card-img-top" src="https://i.ibb.co/kqjK0Y5/SEVSCASANOVA.png " alt="casanova-renta-de-autos-24">
+                                    </div>
+                                    <div class="card-header text-center text-white"><h5><strong>¡¡Muchas gracias por tu evaluación!!</strong></h5></div>
+                                    <div class="card-body text-center text-white form-group"><h5><strong>¡¡Tu opinión es muy importante para nosotros!!</strong></h5><br><h5><strong>Por favor regresa el dispositivo a tu asesor más cercano</strong></h5></div>
+                                    <button type="submit" value="Guardar" class="btn btn-warning text-center btn-block"  ><fa-icon [icon]="faVoteYea" class="fa-2x"></fa-icon><h5>Finalizar Encuesta</h5></button>
+                                </div>
+                            </form>
+                        </div>
+                </mat-step>
+              
+                <!-- Icon overrides. -->
+                <ng-template matStepperIcon="start">
+                  <mat-icon>local_shipping</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="middle">
+                  <mat-icon>local_shipping</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="finish">
+                  <mat-icon>local_shipping</mat-icon>
+                </ng-template>
+                <ng-template matStepperIcon="thanks">
+                    <mat-icon>thumb_up</mat-icon>
+                </ng-template>
+        </mat-horizontal-stepper>
+    </div>
+</div>
+<!-- NAVBAR DOWN-->
+<app-navbardown></app-navbardown>

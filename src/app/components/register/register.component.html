@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+<div class="col-md-3 mx-auto mt-2">
+    <form>
+        <div class="card mb-3 text-center" style="max-width: 20rem; background-color: #2a206f">
+                <div class="card-body">
+                    <img class="card-img-top"src="https://i.ibb.co/kqjK0Y5/SEVSCASANOVA.png " alt="casanova-renta-de-autos-24">
+                </div>
+                <form #formguardar="ngForm" (ngSubmit)="addnewuser();guardarregistro(formguardar)">
+                    
+                      <div class="card-header form-group text-white">
+                          <p><strong>Nombre Apellido(s)</strong></p>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="background-color: #f16821; color: white"><fa-icon [icon]="faUser"></fa-icon></span>
+                          </div>
+                          <input type="text" name="nombre" [(ngModel)]="nombre" [ngModelOptions]="{standalone:true}" class="form-control" placeholder="  Juan Perez Sanchez">
+                        </div>
+                        <p><strong>Correo Electrónico</strong></p>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="background-color: #f16821; color: white"><fa-icon [icon]="faEnvelope"></fa-icon></span>
+                          </div>
+                          <input type="email" name="email" [(ngModel)]="email" [ngModelOptions]="{standalone:true}" class="form-control" placeholder="tunombre@casanovarentacar.mx">
+                        </div>
+                        <p><strong>Contraseña</strong></p>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="background-color: #f16821; color: white"><fa-icon [icon]="faKey"></fa-icon></span>
+                          </div>
+                          <input type ="password" name="password" [(ngModel)]="pass" [ngModelOptions]="{standalone:true}" class="form-control text-center">
+                        </div>
+                        <p><strong>Nivel de Usuario</strong></p>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="background-color: #f16821; color: white"><fa-icon [icon]="faUserCog"></fa-icon></span>
+                          </div>
+                          <select class="form-control" name="tipo" [(ngModel)]="tipo" #Tipo="ngModel">
+                            <option>Selecciona...</option>
+                              <option>Administrador</option>
+                              <option>Taller</option>
+                              <option>CallCenter</option>
+                          </select>
+                        </div>
+                        <p><strong>Ubicación</strong></p>
+                        <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text" style="background-color: #f16821; color: white"><fa-icon [icon]="faMapMarkerAlt"></fa-icon></span>
+                          </div>
+                          <select class="form-control" name="ubicacion" [(ngModel)]="ubicacion" #ubica="ngModel">
+                            <option>Selecciona...</option>
+                            <option>Viga</option>
+                            <option>Centenario</option> 
+                          </select>
+                        </div>
+                      </div>
+                    <button type="submit" value="Guardar" class="btn btn-warning text-center btn-block"><fa-icon [icon]="faSignInAlt" class="fa-2x"></fa-icon><h6><strong>Registrar</strong></h6></button>
+                </form>
+        </div>
+    </form>
+</div>
+<div class="col-md-6 mx-auto mt-2">
+  <flash-messages></flash-messages>
+</div>

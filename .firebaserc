@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "casanovasevs"
+  },
+  "targets": {
+    "casanovaeva01": {
+      "hosting": {
+        "prod": [
+          "casanovasevs"
+        ],
+        "prim": [
+          "casanovaeva01"
+        ]
+      }
+    }
+  }
+}

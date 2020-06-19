@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "target": "prod",
+    "public": "dist/CasanovaSevs",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "targets":{
+    "target": "prim",
+    "public": "dist/CasanovaSevs/page404.component.html"
+  }
+}

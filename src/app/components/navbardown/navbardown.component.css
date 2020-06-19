@@ -1,0 +1,12 @@
+#animated-gif-container {
+    /*    
+    background-image:url(http://winnerhun.uw.hu/vigyorpofa.gif);
+    background-repeat:no-repeat;
+    */
+          
+    width:48px;
+    height:48px;      
+    background: #e0ffc7 url("https://i.ibb.co/TH5g8v4/carfull.gif") no-repeat center center;  
+  }
+  
+  

@@ -1,0 +1,315 @@
+<!-- NAVBAR -->
+<app-navbar></app-navbar>
+<!-- Contenido -->
+<!-- 
+<div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><fa-icon [icon]="faCarCrash" class="fa-2x"></fa-icon><strong><h2>SEVS - Taller - Consulta</h2></strong></div>
+<div class="row">
+  <div class="col-md-12">
+      <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong><h2>Resumen de Reportes</h2></strong></div>
+          <div class="mat-elevation-z8">
+          <mat-form-field class="ml-3">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Búsqueda...">
+          </mat-form-field>
+          <mat-table #table [dataSource]="dataSource" matSort>
+          
+            <ng-container matColumnDef="Folio Encuesta">
+              <mat-header-cell *matHeaderCellDef> Folio </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Fecha Entrada">
+              <mat-header-cell *matHeaderCellDef> Fecha Entrada </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fechaent}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Fecha Salida">
+              <mat-header-cell *matHeaderCellDef> Fecha Salida </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.fechasal}} </mat-cell>
+            </ng-container> 
+            <ng-container matColumnDef="Placa">
+              <mat-header-cell *matHeaderCellDef> Placa </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.placa | uppercase }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Servicio">
+              <mat-header-cell *matHeaderCellDef> Servicio </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.tipo | uppercase }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Asesor">
+              <mat-header-cell *matHeaderCellDef> Asesor </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.asesor | titlecase}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Cliente">
+              <mat-header-cell *matHeaderCellDef> Cliente </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.NombreCliente | titlecase }} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="Calificacion">
+              <mat-header-cell *matHeaderCellDef> Calificación </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{ element.total }} </mat-cell>
+            </ng-container>
+                  
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+          <mat-paginator #paginator
+            [length]="dataSource.filteredData.length"
+            [pageIndex]="0"
+            [pageSize]="25">
+          </mat-paginator>
+        </div>
+  </div>
+</div>
+ --><div class="row">
+  <div class="col-md-12 mx-auto">
+    <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong><h2>Exportar Información</h2></strong></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <form >
+        <div class="row">
+            <div class="col-md-2 ml-1">
+              <!-- Fecha de Entrada -->
+              <div class="form-group">
+                <label><strong>Mes</strong></label><br>
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text" style="color: #f7b633; background-color: #1a3263"><fa-icon [icon]="faCar"></fa-icon></div>
+                  </div>
+                    <select class="form-control" id="inputfe" name="fechaent" [(ngModel)]="fechaent" #fechaents="ngModel">
+                      <option>Selecciona...</option>
+                        <option>Enero</option>
+                        <option>Febrero</option>
+                        <option>Marzo</option>
+                        <option>Abril</option>
+                        <option>Mayo</option>
+                        <option>Junio</option>
+                        <option>Julio</option>
+                        <option>Agosto</option>
+                        <option>Septiembre</option>
+                        <option>Octubre</option>
+                        <option>Noviembre</option>
+                        <option>Diciembre</option>
+                    </select>  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+            <!-- Fecha de Salida -->
+              <div class="form-group">
+                  <label><strong>Año</strong></label><br>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text" style="color: #f7b633; background-color: #1a3263"><fa-icon [icon]="faCar"></fa-icon></div>
+                    </div>
+                    <input type="number" min="2020" max="2050" class="form-control text-center" id="inputfs" placeholder="2020" name="fechasal" [(ngModel)]="fechasal" #fechasals="ngModel">
+                  </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <!-- Fecha de Salida -->
+                <div class="form-group">
+                    <div class="input-group mb-2">
+                      <div class="input-group-prepend">
+                      </div>
+                    </div>
+                </div>
+              </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" value="Guardar" (click)="myFunction()"><strong> Reporte</strong></button>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
+            </div>
+          </div>
+        </form>
+      <div class="card-body"><!-- LLenado de la tabla atravez de un for-->
+        <table  class="table table-sm table-bordered text-center" id="mytable5">
+          <thead>
+            <tr >
+              <th scope="col">FOLIO</th>
+              <th scope="col">FECHA</th>
+              <th scope="col">PREGUNTA 1</th>
+              <th scope="col">PREGUNTA 2</th>
+              <th scope="col">PREGUNTA 3</th>
+              <th scope="col">PREGUNTA 4</th>
+              <th scope="col">PREGUNTA 5</th>
+              <th scope="col">PREGUNTA 6</th>
+              <th scope="col">PREGUNTA 7</th>
+              <th scope="col">PREGUNTA 8</th>
+              <th scope="col">PREGUNTA 9</th>
+              <th scope="col">PREGUNTA 10</th>
+              <th scope="col">TOTAL</th>
+              <th scope="col">Contestada</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let controlService of listado | async">
+              <th  scope="row">{{controlService.id}}</th>
+              <td >{{controlService.fecha}}</td>
+              <td >{{controlService.pregunta1}}</td>
+              <td >{{controlService.pregunta2}}</td>
+              <td >{{controlService.pregunta3}}</td>
+              <td >{{controlService.pregunta4}}</td>
+              <td >{{controlService.pregunta5}}</td>
+              <td >{{controlService.pregunta6}}</td>
+              <td >{{controlService.pregunta7}}</td>
+              <td >{{controlService.pregunta8}}</td>
+              <td >{{controlService.pregunta9}}</td>
+              <td >{{controlService.pregunta10}}</td>
+              <td >{{controlService.total}}</td>
+              <td >{{controlService.contestada}}</td>
+            </tr>
+          </tbody>
+        <!--   <tfoot>
+            <tr>
+              <th scope="row">TOTAL</th>
+              <td>{{contadorreal}}</td>
+              <td>{{promere1}}</td>
+              <td>{{promere2}}</td>
+              <td>{{promere3}}</td>
+              <td>{{promere4}}</td>
+              <td>{{promere5}}</td>
+              <td>{{promere6}}</td>
+              <td>{{promere7}}</td>
+              <td>{{promere8}}</td>
+              <td>Conteo</td>
+              <td>Conteo</td> 
+              <td>{{prome}}</td>
+            </tr>
+            <tr>
+              <th scope="row">N/A</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td >{{cp9r}}</td>
+              <td >/</td>
+            
+            </tr>
+            <tr>
+              <th scope="row">SI</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td >{{cp9mb}}</td>
+              <td >{{cp10mb}}</td>
+             
+            </tr>
+            <tr>
+              <th scope="row">NO</th>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td >{{cp9mm}}</td>
+              <td >{{cp10mm}}</td>
+            
+            </tr>
+            <tr>
+              <th scope="row">Ponderación</th>
+              <td>{{das}}</td>
+              <td>20/10</td>
+              <td>50/10</td>
+              <td>20/10</td>
+              <td>20/10</td>
+              <td>20/10</td>
+              <td>20/10</td>
+              <td>20/10</td>
+              <td>20/10</td>
+            </tr>
+            <tr>
+              <th scope="row">20</th>
+              <td>-</td>
+              <td >{{cp1mm}}</td>
+              <td>-</td>
+              <td >{{cp3mm}}</td>
+              <td >{{cp4mm}}</td>             
+              <td >{{cp5mm}}</td>
+              <td >{{cp6mm}}</td>
+              <td >{{cp7mm}}</td>
+              <td >{{cp8mm}}</td>
+            </tr>
+            <tr>
+              <th scope="row">40</th>
+              <td>-</td>
+              <td >{{cp1m}}</td>
+              <td >-</td>
+              <td >{{cp3m}}</td>
+              <td >{{cp4m}}</td>             
+              <td >{{cp5m}}</td>
+              <td >{{cp6m}}</td>
+              <td >{{cp7m}}</td>
+              <td >{{cp8m}}</td>
+            </tr>
+            <tr>
+              <th scope="row">50</th>
+              <td>-</td>
+              <td>-</td>
+              <td >{{cp2mm}}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <th scope="row">60</th>
+              <td>-</td>
+              <td >{{cp1r}}</td>
+              <td>-</td>
+              <td >{{cp3r}}</td>
+              <td >{{cp4r}}</td>             
+              <td >{{cp5r}}</td>
+              <td >{{cp6r}}</td>
+              <td >{{cp7r}}</td>
+              <td >{{cp8r}}</td>
+            </tr>
+            <tr>
+              <th scope="row">80</th>
+              <td>-</td>
+              <td >{{cp1b}}</td>
+              <td>-</td>
+              <td >{{cp3b}}</td>
+              <td >{{cp4b}}</td>             
+              <td >{{cp5b}}</td>
+              <td >{{cp6b}}</td>
+              <td >{{cp7b}}</td>
+              <td >{{cp8b}}</td>
+            </tr>
+            <tr>
+              <th scope="row">100</th>
+              <td>-</td>
+              <td >{{cp1mb}}</td>
+              <td >{{cp2mb}}</td>
+              <td >{{cp3mb}}</td>
+              <td >{{cp4mb}}</td>             
+              <td >{{cp5mb}}</td>
+              <td >{{cp6mb}}</td>
+              <td >{{cp7mb}}</td>
+              <td >{{cp8mb}}</td>
+            </tr>
+          </tfoot> -->
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br><br><br>
+<!-- Footer -->
+<app-footer></app-footer>
