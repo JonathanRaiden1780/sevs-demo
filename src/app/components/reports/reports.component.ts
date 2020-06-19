@@ -62,8 +62,8 @@ export class ReportsComponent implements OnInit {
   ) {
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
-    //this.encuestaex.getcolections();
-    this.encuestaex.getitemcoll1mb().subscribe(id => this.listp1mb = id as Array<string>); 
+   this.encuestaex.getcolections();
+   this.encuestaex.getitemcoll1mb().subscribe(id => this.listp1mb = id as Array<string>); 
    this.encuestaex.getitemcoll1b().subscribe(id =>  this.listp1b = id as Array<string>);
    this.encuestaex.getitemcoll1r().subscribe(id =>  this.listp1r = id as Array<string>);
    this.encuestaex.getitemcoll1m().subscribe(id =>  this.listp1m = id as Array<string>);

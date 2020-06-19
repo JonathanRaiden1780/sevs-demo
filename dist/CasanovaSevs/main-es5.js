@@ -1333,19 +1333,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.faThumbsDown = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faThumbsDown"];
         this.faCar = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faCar"];
         this.faCarCrash = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faCarCrash"];
+        this.isLoginSuadmin = false;
         this.mod = {};
         this.meses = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
-        this.isLoginSuadmin = false;
         var today = new Date();
         this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
         this.mod.mesnumero = today.getMonth() + 1;
-        this.mod.año = today.getFullYear(); // this.encuestaex.getitem().subscribe(id => this.list = id as Array<string>);
-        //get rep
-        // this.encuestaex.getAllEncuestaexvig(true).subscribe(id => this.listrep = id as Array<string>);
-        //this.encuestaex.getitemcoll1mb().subscribe(id => this.listp1mb = id as Array<string>);
-
-        this.suma = 0;
-        this.sumareps = 0;
+        this.mod.año = today.getFullYear();
+        this.sumas = 0;
         this.sumarep1 = 0;
         this.sumarep2 = 0;
         this.sumarep3 = 0;
@@ -1356,7 +1351,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.sumarep8 = 0;
         this.insre = 0;
         this.contadorreal = 0;
-        this.contadorreperacion = 0;
         this.insre2 = 0;
       }
 
@@ -1383,162 +1377,136 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "cont2",
         value: function cont2(x) {
           this.contadorreal = x.contador;
-          console.log(this.contadorrep);
         }
       }, {
         key: "cont3",
         value: function cont3(x) {
           this.contadorrep = x.contador;
-          console.log(this.contadorrep);
         }
       }, {
         key: "arras",
         value: function arras() {
-          for (var i = 0; i < this.contador; i++) {
-            this.ens = this.list[i]; //sobra 
-            //   this.afs.collection('type').doc(this.ens).valueChanges().pipe(take(1)).subscribe(res => {this.arrass(res); } );
-          }
+          if (this.contadorreal >= 1) {
+            if (this.contadorreal > 1) {
+              this.insre = this.rows1[0].total;
+              this.insre2 = this.rows1[0].total;
 
-          for (var _i = 0; _i < this.contadorrep; _i++) {
-            this.ens2 = this.listrep[_i]; //  this.afs.collection('Encuestareps').doc(this.ens2).valueChanges().pipe(take(1)).subscribe(res => {this.arrass2(res); } );
-          }
-        } // Metodo para acumular sumatoria de todas las encuestas
+              for (var i = 0; i < this.contadorreal; i++) {
+                this.ens = this.rows1[i].total;
+                this.list[i] = this.rows1[i].total;
+                this.sumas = this.ens + this.sumas;
 
-      }, {
-        key: "arrass",
-        value: function arrass(x) {
-          if (x.contestada == true) {
-            this.sumas = x.total;
-            this.suma = this.sumas + this.suma;
-            this.list3 = this.getcomparadortot(this.sumas);
-            var contadortemp = 1;
-            this.contadorreal = contadortemp + this.contadorreal;
-            this.prome = (this.suma / this.contadorreal).toFixed(2);
-          }
+                if (this.insre <= this.list[i]) {
+                  this.insre = this.list[i];
+                }
 
-          return this.suma;
-        }
-      }, {
-        key: "getcomparadortot",
-        value: function getcomparadortot(x) {
-          var _this3 = this;
+                if (this.insre2 >= this.list[i]) {
+                  this.insre2 = this.list[i];
+                }
+              }
+            } else {
+              this.sumas = this.rows1[0].total;
+              this.insre = this.sumas;
+              this.insre2 = this.insre;
+            }
 
-          this.mejorpreg = 0;
-          this.pr8 = parseFloat(this.promere1);
-          this.pr9 = parseFloat(this.promere2);
-          this.pr10 = parseFloat(this.promere3);
-          this.pr11 = parseFloat(this.promere4);
-          this.pr12 = parseFloat(this.promere5);
-          this.pr13 = parseFloat(this.promere6);
-          this.pr14 = parseFloat(this.promere7);
-          this.pr15 = parseFloat(this.promere8);
-
-          function comparar(a, b) {
-            return a - b;
-          }
-
-          var prt = [this.pr8, this.pr9, this.pr10, this.pr11, this.pr12, this.pr13, this.pr14, this.pr15];
-          prt.sort(comparar);
-          this.peorpreg = prt[0];
-          this.mejorpreg = prt[7];
-          this.typeCollection = this.afs.collection('type'); // se va a comparar con la nueva fora de organizacion de la table
-
-          var querys = this.typeCollection.ref.where('total', '==', this.mejorpreg).get().then(function (snapshot) {
-            snapshot.forEach(function (doc) {
-              _this3.casd = doc.id;
-            });
-          });
-        } // ----------------------------------------------------------------------------------------------------------------
-
-      }, {
-        key: "arrass2",
-        value: function arrass2(x) {
-          if (x.contestada == true) {
-            this.sumare1 = x.pregunta1;
-            this.sumarep1 = this.sumare1 + this.sumarep1;
-            this.sumare2 = x.pregunta2;
-            this.sumarep2 = this.sumare2 + this.sumarep2;
-            this.sumare3 = x.pregunta3;
-            this.sumarep3 = this.sumare3 + this.sumarep3;
-            this.sumare4 = x.pregunta4;
-            this.sumarep4 = this.sumare4 + this.sumarep4;
-            this.sumare5 = x.pregunta5;
-            this.sumarep5 = this.sumare5 + this.sumarep5;
-            this.sumare6 = x.pregunta6;
-            this.sumarep6 = this.sumare6 + this.sumarep6;
-            this.sumare7 = x.pregunta7;
-            this.sumarep7 = this.sumare7 + this.sumarep7;
-            this.sumare8 = x.pregunta8;
-            this.sumarep8 = this.sumare8 + this.sumarep8;
-            this.sumarep = x.total;
-            this.sumareps = this.sumarep + this.sumareps;
-            var tem = 1;
-            this.contadorreperacion = tem + this.contadorreperacion;
-            this.prom2(this.sumareps);
-            this.getcomparador2(this.sumarep);
-            return this.sumarep1, this.sumarep2, this.sumarep3, this.sumarep4, this.sumarep5, this.sumarep6, this.sumarep7, this.sumarep8, this.sumareps;
-          }
-        }
-      }, {
-        key: "prom2",
-        value: function prom2(x) {
-          this.promere1 = (this.sumarep1 / this.contadorreperacion).toFixed(2);
-          this.promere2 = (this.sumarep2 / this.contadorreperacion).toFixed(2);
-          this.promere3 = (this.sumarep3 / this.contadorreperacion).toFixed(2);
-          this.promere4 = (this.sumarep4 / this.contadorreperacion).toFixed(2);
-          this.promere5 = (this.sumarep5 / this.contadorreperacion).toFixed(2);
-          this.promere6 = (this.sumarep6 / this.contadorreperacion).toFixed(2);
-          this.promere7 = (this.sumarep7 / this.contadorreperacion).toFixed(2);
-          this.promere8 = (this.sumarep8 / this.contadorreperacion).toFixed(2);
-          this.promerep = (this.sumareps / this.contadorreperacion).toFixed(2);
-          this.Promedio2 = this.sumareps / this.contadorreperacion;
-        } // Metodo par saber calificación mas alta o baja de servicio
-
-      }, {
-        key: "getcomparador2",
-        value: function getcomparador2(x) {
-          if (this.insre >= x) {
-            this.insre2 = x;
-            return this.insre, this.insre2;
+            this.prome = (this.sumas / this.contadorreal).toFixed(2);
           } else {
-            this.insre = x;
-            return this.insre, this.insre2;
+            this.insre = 0;
+            this.insre2 = this.insre;
+            this.prome = this.insre.toFixed(2);
+          }
+
+          this.arras2();
+        }
+      }, {
+        key: "arras2",
+        value: function arras2() {
+          if (this.contadorreal >= 1) {
+            if (this.contadorreal > 1) {
+              for (var i = 0; i < this.contadorreal; i++) {
+                var p1, p2, p3, p4, p5, p6, p7, p8;
+                p1 = this.rows1[i].pregunta1;
+                this.listpregunta1 = this.listpregunta1 + p1;
+                p2 = this.rows1[i].pregunta2;
+                this.listpregunta2 = this.listpregunta2 + p2;
+                p3 = this.rows1[i].pregunta3;
+                this.listpregunta3 = this.listpregunta3 + p3;
+                p4 = this.rows1[i].pregunta4;
+                this.listpregunta4 = this.listpregunta4 + p4;
+                p5 = this.rows1[i].pregunta5;
+                this.listpregunta5 = this.listpregunta5 + p5;
+                p6 = this.rows1[i].pregunta6;
+                this.listpregunta6 = this.listpregunta6 + p6;
+                p7 = this.rows1[i].pregunta7;
+                this.listpregunta7 = this.listpregunta7 + p7;
+                p8 = this.rows1[i].pregunta8;
+                this.listpregunta8 = this.listpregunta8 + p8;
+              }
+            } else {
+              this.listpregunta1 = this.rows1[0].pregunta1;
+              this.listpregunta2 = this.rows1[0].pregunta2;
+              this.listpregunta3 = this.rows1[0].pregunta3;
+              this.listpregunta4 = this.rows1[0].pregunta4;
+              this.listpregunta5 = this.rows1[0].pregunta5;
+              this.listpregunta6 = this.rows1[0].pregunta6;
+              this.listpregunta7 = this.rows1[0].pregunta7;
+              this.listpregunta8 = this.rows1[0].pregunta8;
+            }
+
+            this.promere1 = (this.listpregunta1 / this.contadorreal).toFixed(2);
+            this.promere2 = (this.listpregunta2 / this.contadorreal).toFixed(2);
+            this.promere3 = (this.listpregunta3 / this.contadorreal).toFixed(2);
+            this.promere4 = (this.listpregunta4 / this.contadorreal).toFixed(2);
+            this.promere5 = (this.listpregunta5 / this.contadorreal).toFixed(2);
+            this.promere6 = (this.listpregunta6 / this.contadorreal).toFixed(2);
+            this.promere7 = (this.listpregunta7 / this.contadorreal).toFixed(2);
+            this.promere8 = (this.listpregunta8 / this.contadorreal).toFixed(2);
+          } else {
+            this.promere1 = "0";
+            this.promere2 = "0";
+            this.promere3 = "0";
+            this.promere4 = "0";
+            this.promere5 = "0";
+            this.promere6 = "0";
+            this.promere7 = "0";
+            this.promere8 = "0";
           }
         }
       }, {
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this4 = this;
+          var _this3 = this;
 
           this.cont();
           this.getData1();
           this.authservice.getAuth().subscribe(function (user) {
             if (user) {
-              _this4.isLogin = true;
+              _this3.isLogin = true;
 
-              _this4.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this3.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 if (info.suadmin === true) {
-                  _this4.isLoginSuadmin = true;
+                  _this3.isLoginSuadmin = true;
                 } else {
-                  _this4.isLoginSuadmin = false;
+                  _this3.isLoginSuadmin = false;
                 }
               });
 
-              _this4.emailUsuario = user.email;
+              _this3.emailUsuario = user.email;
 
-              _this4.nombreusuaro(_this4.emailUsuario);
+              _this3.nombreusuaro(_this3.emailUsuario);
             } else {
-              _this4.isLogin = false;
+              _this3.isLogin = false;
             }
           });
         }
       }, {
         key: "nombreusuaro",
         value: function nombreusuaro(x) {
-          var _this5 = this;
+          var _this4 = this;
 
           this.afs.collection('Registro').doc(x).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-            _this5.arrayss(res);
+            _this4.arrayss(res);
           });
         }
       }, {
@@ -1550,10 +1518,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getData1",
         value: function getData1() {
-          var _this6 = this;
+          var _this5 = this;
 
-          return this.encuestaex.getAllEncuestaexvig(true).subscribe(function (x) {
-            _this6.rows1 = x;
+          return this.encuestaex.getAllEncuestaexvig(this.fechareporte).subscribe(function (x) {
+            _this5.rows1 = x;
+
+            _this5.arras();
+
             return;
           });
         }
@@ -1574,8 +1545,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     AdminComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
       type: AdminComponent,
       selectors: [["app-admin"]],
-      decls: 197,
-      vars: 29,
+      decls: 194,
+      vars: 30,
       consts: [[1, "card", "col-md-3", "mt-3", "text-white", 2, "background-color", "#2a206f"], [3, "click", 4, "ngIf"], [1, "card", "border-success", "mt-3", "mr-3", "ml-3"], [1, "card-header", "text-center", "text-white", 2, "background-color", "#2a206f"], [1, "row"], [1, "col-sm-6"], [1, "card", "border-primary", "mt-3", "ml-3"], [1, "card-header", "text-center"], [1, "h5-responsive"], [1, "card-body", "text-center"], [1, "material", 3, "headerHeight", "columnMode", "rowHeight", "footerHeight", "count", "limit", "rows"], ["ngx-datatable-header-template", ""], ["ngx-datatable-cell-template", ""], ["name", "cliente"], [1, "card", "mt-3"], [1, "card"], ["id", "square", 1, "card-header", "text-white", "text-center", 2, "background-color", "#5AC041"], [1, "card-body", "text-center", "faicon"], [1, "fa-layers", "fa-fw", "fa-6x"], [3, "icon"], [1, "fa-layers-counter", 2, "background", "#fd5f00", "font-size-adjust", "inherit"], [1, "card-header", "bg-info", "text-white", "text-center"], [1, "card", "mt-3", "ml-3", "mr-3"], [1, "card-header", "bg-warning", "text-white", "text-center"], [2, "color", "#B7963D", 3, "icon"], [1, "fa-layers-counter", "text-center", 2, "background", "#92BA3E", "font-size-adjust", "inherit"], [1, "card-header", "text-white", "text-center", 2, "background-color", "#5AC041"], [1, "fa-layers-counter", "text-center", 2, "background", "green", "font-size-adjust", "inherit"], [1, "card-footer", "text-muted", "text-right"], [1, "card", "border-success", "mt-3", "mr-3", "ml-3", "mb-5"], [1, "col-sm-9"], [1, "card", "mt-3", "mb-3", "ml-3"], [1, "card-body"], [1, "table", "table-hover", "table-bordered", "table-sm"], [1, "thead-dark"], [1, "text-center", "text-white"], ["scope", "col"], ["scope", "col", "title", "El tiempo que transcurri\xF3 para que lo atendieran fue:"], ["scope", "col", "title", "Durante la recepci\xF3n \xBFNuestro asesor le pregunt\xF3 si su veh\xEDculo requer\xEDa de alg\xFAn servicio adicional a lo previamente solicitado?"], ["scope", "col", "title", "\xBFSe cumpli\xF3 con la fecha promesa de entrega?"], ["scope", "col", "title", "\xBFC\xF3mo calificar\xEDa la imagen de nuestras instalaciones?"], ["scope", "col", "title", "La atenci\xF3n que recibi\xF3 de nuestro asesor de servicio fue\u2026."], ["scope", "col", "title", "Considera que la imagen de nuestro asesor de servicio es\u2026"], ["scope", "col", "title", "Le entregaron su veh\xEDculo..."], ["scope", "col", "title", "La experiencia en general de su visita a Casanova fue\u2026"], [1, "table-warning", "text-center"], [1, "col-sm-3"], [1, "card", "text-center"], [1, "card-header", "text-center", "text-white", 2, "background-color", "#2a206f", "font-size", "1rem"], [1, "card-header", "text-white", 2, "background-color", "#2e5a1c"], [2, "font-size", "1rem", "font-size-adjust", "initial"], [1, "card-header", "text-center", "faicon", 2, "background-color", "#edf0c7"], [1, "fa-layers", "fa-fw", "fa-5x"], [2, "color", "#4e9525", 3, "icon"], [1, "fa-layers-counter", 2, "background", "#1a3263", "font-size-adjust", "inherit"], [1, "card-header", "text-white", 2, "background-color", "#f05a28"], [2, "color", "#f7931e", 3, "icon"], [3, "click"]],
       template: function AdminComponent_Template(rf, ctx) {
         if (rf & 1) {
@@ -1915,7 +1886,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](101, "div", 28);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](102, "Ultima Actualizaci\xF3n");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](102);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -2019,73 +1990,65 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](137, "th", 36);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](138, "Calif");
-
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](137, "tbody");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](139, "tbody");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](138, "tr", 45);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](140, "tr", 45);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](139, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](141, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](142, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](143);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](140, "Promedios");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](144, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](141, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](145);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](146, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](147);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](142);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](148, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](143, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](149);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](150, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](151);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](144);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](152, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](145, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](153);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](154, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](155);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](146);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](156, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](147, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](157);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](148);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](158, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](149, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](159);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](150);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](151, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](152);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](153, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](154);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](155, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](156);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -2101,55 +2064,49 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](160, "div", 46);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](157, "div", 46);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](161, "div", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](158, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](162, "div", 4);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](159, "div", 4);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](163, "div", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](160, "div", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](164, "div", 47);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](161, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](165, "div", 48);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](162, "div", 48);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](166, "strong");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](163, "strong");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](167, "Calificaci\xF3n m\xE1s alta");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](168, "div", 47);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](169, "div", 49);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](170, "strong", 50);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](171, "Reparaciones");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](164, "Calificaci\xF3n m\xE1s alta");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](172, "div", 51);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](165, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](173, "span", 52);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](166, "div", 49);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](174, "fa-icon", 53);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](167, "strong", 50);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](175, "span", 54);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](176, "strong");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](177);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](168, "Reparaciones");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](169, "div", 51);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](170, "span", 52);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](171, "fa-icon", 53);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](172, "span", 54);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](173, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](174);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -2159,43 +2116,49 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](178, "div", 5);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](179, "div", 15);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](180, "div", 48);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](181, "strong");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](182, "Calificaci\xF3n m\xE1s baja");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](183, "div", 47);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](175, "div", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](184, "div", 55);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](176, "div", 15);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](185, "strong", 50);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](177, "div", 48);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](186, "Reparaciones");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](178, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](179, "Calificaci\xF3n m\xE1s baja");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](187, "div", 51);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](180, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](188, "span", 52);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](181, "div", 55);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](189, "fa-icon", 56);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](182, "strong", 50);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](190, "span", 54);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](183, "Reparaciones");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](191, "strong");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](192);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](184, "div", 51);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](185, "span", 52);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](186, "fa-icon", 56);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](187, "span", 54);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](188, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](189);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -2219,17 +2182,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](193, "div", 28);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](190, "div", 28);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](194, "Ultima Actualizaci\xF3n");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](191);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](195, "div", 15);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](196, "app-footer");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](192, "div", 15);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](193, "app-footer");
         }
 
         if (rf & 2) {
@@ -2273,7 +2236,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("icon", ctx.faTrophy);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](45);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Ultima Actualizaci\xF3n ", ctx.mod.fecha, "");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](40);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promere1);
 
@@ -2305,10 +2272,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promere8);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promerep);
-
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("icon", ctx.faThumbsUp);
@@ -2324,6 +2287,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.insre2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Ultima Actualizaci\xF3n ", ctx.mod.fecha, "");
         }
       },
       directives: [_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__["NavbarComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgForm"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DatatableComponent"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnHeaderDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnCellDirective"], _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__["FaIconComponent"], _shared_footer_footer_component__WEBPACK_IMPORTED_MODULE_13__["FooterComponent"]],
@@ -2461,13 +2428,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony import */
 
 
-    var _reports_c_reports_c_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
-    /*! ../reports-c/reports-c.component */
-    "./src/app/components/reports-c/reports-c.component.ts");
-    /* harmony import */
-
-
-    var _shared_footer_footer_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(
+    var _shared_footer_footer_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(
     /*! ../shared/footer/footer.component */
     "./src/app/components/shared/footer/footer.component.ts");
 
@@ -2577,8 +2538,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var AdmincComponent = /*#__PURE__*/function () {
       function AdmincComponent(encuestaex, afs, authservice, router, lvlaccess) {
-        var _this7 = this;
-
         _classCallCheck(this, AdmincComponent);
 
         this.encuestaex = encuestaex;
@@ -2596,18 +2555,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.faCar = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faCar"];
         this.faCarCrash = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_2__["faCarCrash"];
         this.isLoginSuadmin = false;
-        this.encuestaex.getitemc().subscribe(function (id) {
-          return _this7.list = id;
-        }); //get rep
-
-        this.encuestaex.getitemrepc().subscribe(function (id) {
-          return _this7.listrep = id;
-        });
-        this.encuestaex.getitemcoll1mb().subscribe(function (id) {
-          return _this7.listp1mb = id;
-        });
-        this.suma = 0;
-        this.sumareps = 0;
+        this.mod = {};
+        this.meses = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        var today = new Date();
+        this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        this.mod.mesnumero = today.getMonth() + 1;
+        this.mod.año = today.getFullYear();
+        this.sumas = 0;
         this.sumarep1 = 0;
         this.sumarep2 = 0;
         this.sumarep3 = 0;
@@ -2618,179 +2572,162 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.sumarep8 = 0;
         this.insre = 0;
         this.contadorreal = 0;
-        this.contadorreperacion = 0;
         this.insre2 = 0;
       }
 
       _createClass(AdmincComponent, [{
         key: "cont",
         value: function cont() {
-          var _this8 = this;
+          var _this6 = this;
 
-          this.afs.collection('EncuestarepsC').valueChanges().subscribe(function (values) {
-            return _this8.contadorrep = values.length;
+          for (var mc = 1; mc <= 12; mc++) {
+            if (this.mod.mesnumero == mc) {
+              this.mod.mes = this.meses[mc];
+            }
+          }
+
+          this.fechareporte = this.mod.mes + this.mod.año;
+          this.afs.collection('type').doc('Centenario').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
+            _this6.cont2(res);
           });
-          this.afs.collection('typeC').valueChanges().subscribe(function (values) {
-            return _this8.contador = values.length;
+          this.afs.collection('type').doc('Centenario').collection(this.fechareporte).doc('registro').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
+            _this6.cont3(res);
           });
-          this.afs.collection('typeC').doc('VI0001').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-            _this8.arras(res);
-          });
+        }
+      }, {
+        key: "cont2",
+        value: function cont2(x) {
+          this.contadorreal = x.contador;
+        }
+      }, {
+        key: "cont3",
+        value: function cont3(x) {
+          this.contadorrep = x.contador;
         }
       }, {
         key: "arras",
-        value: function arras(x) {
-          var _this9 = this;
+        value: function arras() {
+          if (this.contadorreal >= 1) {
+            if (this.contadorreal > 1) {
+              this.insre = this.rows1[0].total;
+              this.insre2 = this.rows1[0].total;
 
-          for (var i = 0; i < this.contador; i++) {
-            this.ens = this.list[i];
-            this.afs.collection('typeC').doc(this.ens).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-              _this9.arrass(res);
-            });
-          }
+              for (var i = 0; i < this.contadorreal; i++) {
+                this.ens = this.rows1[i].total;
+                this.list[i] = this.rows1[i].total;
+                this.sumas = this.ens + this.sumas;
 
-          for (var _i2 = 0; _i2 < this.contadorrep; _i2++) {
-            this.ens2 = this.listrep[_i2];
-            this.afs.collection('EncuestarepsC').doc(this.ens2).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-              _this9.arrass2(res);
-            });
-          }
-        } // Metodo para acumular sumatoria de todas las encuestas
+                if (this.insre <= this.list[i]) {
+                  this.insre = this.list[i];
+                }
 
-      }, {
-        key: "arrass",
-        value: function arrass(x) {
-          if (x.contestada == true) {
-            this.sumas = x.total;
-            this.suma = this.sumas + this.suma;
-            this.list3 = this.getcomparadortot(this.sumas);
-            var contadortemp = 1;
-            this.contadorreal = contadortemp + this.contadorreal;
-            this.prome = (this.suma / this.contadorreal).toFixed(2);
-          }
+                if (this.insre2 >= this.list[i]) {
+                  this.insre2 = this.list[i];
+                }
+              }
+            } else {
+              this.sumas = this.rows1[0].total;
+              this.insre = this.sumas;
+              this.insre2 = this.insre;
+            }
 
-          return this.suma;
-        }
-      }, {
-        key: "getcomparadortot",
-        value: function getcomparadortot(x) {
-          var _this10 = this;
-
-          this.mejorpreg = 0;
-          this.pr8 = parseFloat(this.promere1);
-          this.pr9 = parseFloat(this.promere2);
-          this.pr10 = parseFloat(this.promere3);
-          this.pr11 = parseFloat(this.promere4);
-          this.pr12 = parseFloat(this.promere5);
-          this.pr13 = parseFloat(this.promere6);
-          this.pr14 = parseFloat(this.promere7);
-          this.pr15 = parseFloat(this.promere8);
-
-          function comparar(a, b) {
-            return a - b;
-          }
-
-          var prt = [this.pr8, this.pr9, this.pr10, this.pr11, this.pr12, this.pr13, this.pr14, this.pr15];
-          prt.sort(comparar);
-          this.peorpreg = prt[0];
-          this.mejorpreg = prt[7];
-          this.typeCollection = this.afs.collection('typeC');
-          var querys = this.typeCollection.ref.where('total', '==', this.mejorpreg).get().then(function (snapshot) {
-            snapshot.forEach(function (doc) {
-              _this10.casd = doc.id;
-            });
-          });
-        } // ----------------------------------------------------------------------------------------------------------------
-
-      }, {
-        key: "arrass2",
-        value: function arrass2(x) {
-          if (x.contestada == true) {
-            this.sumare1 = x.pregunta1;
-            this.sumarep1 = this.sumare1 + this.sumarep1;
-            this.sumare2 = x.pregunta2;
-            this.sumarep2 = this.sumare2 + this.sumarep2;
-            this.sumare3 = x.pregunta3;
-            this.sumarep3 = this.sumare3 + this.sumarep3;
-            this.sumare4 = x.pregunta4;
-            this.sumarep4 = this.sumare4 + this.sumarep4;
-            this.sumare5 = x.pregunta5;
-            this.sumarep5 = this.sumare5 + this.sumarep5;
-            this.sumare6 = x.pregunta6;
-            this.sumarep6 = this.sumare6 + this.sumarep6;
-            this.sumare7 = x.pregunta7;
-            this.sumarep7 = this.sumare7 + this.sumarep7;
-            this.sumare8 = x.pregunta8;
-            this.sumarep8 = this.sumare8 + this.sumarep8;
-            this.sumarep = x.total;
-            this.sumareps = this.sumarep + this.sumareps;
-            var tem = 1;
-            this.contadorreperacion = tem + this.contadorreperacion;
-            this.prom2(this.sumareps);
-            this.getcomparador2(this.sumarep);
-            return this.sumarep1, this.sumarep2, this.sumarep3, this.sumarep4, this.sumarep5, this.sumarep6, this.sumarep7, this.sumarep8, this.sumareps;
-          }
-        }
-      }, {
-        key: "prom2",
-        value: function prom2(x) {
-          this.promere1 = (this.sumarep1 / this.contadorreperacion).toFixed(2);
-          this.promere2 = (this.sumarep2 / this.contadorreperacion).toFixed(2);
-          this.promere3 = (this.sumarep3 / this.contadorreperacion).toFixed(2);
-          this.promere4 = (this.sumarep4 / this.contadorreperacion).toFixed(2);
-          this.promere5 = (this.sumarep5 / this.contadorreperacion).toFixed(2);
-          this.promere6 = (this.sumarep6 / this.contadorreperacion).toFixed(2);
-          this.promere7 = (this.sumarep7 / this.contadorreperacion).toFixed(2);
-          this.promere8 = (this.sumarep8 / this.contadorreperacion).toFixed(2);
-          this.promerep = (this.sumareps / this.contadorreperacion).toFixed(2);
-          this.Promedio2 = this.sumareps / this.contadorreperacion;
-        } // Metodo par saber calificación mas alta o baja de servicio
-
-      }, {
-        key: "getcomparador2",
-        value: function getcomparador2(x) {
-          if (this.insre >= x) {
-            this.insre2 = x;
-            return this.insre, this.insre2;
+            this.prome = (this.sumas / this.contadorreal).toFixed(2);
           } else {
-            this.insre = x;
-            return this.insre, this.insre2;
+            this.insre = 0;
+            this.insre2 = this.insre;
+            this.prome = this.insre.toFixed(2);
+          }
+
+          this.arras2();
+        }
+      }, {
+        key: "arras2",
+        value: function arras2() {
+          if (this.contadorreal >= 1) {
+            if (this.contadorreal > 1) {
+              for (var i = 0; i < this.contadorreal; i++) {
+                var p1, p2, p3, p4, p5, p6, p7, p8;
+                p1 = this.rows1[i].pregunta1;
+                this.listpregunta1 = this.listpregunta1 + p1;
+                p2 = this.rows1[i].pregunta2;
+                this.listpregunta2 = this.listpregunta2 + p2;
+                p3 = this.rows1[i].pregunta3;
+                this.listpregunta3 = this.listpregunta3 + p3;
+                p4 = this.rows1[i].pregunta4;
+                this.listpregunta4 = this.listpregunta4 + p4;
+                p5 = this.rows1[i].pregunta5;
+                this.listpregunta5 = this.listpregunta5 + p5;
+                p6 = this.rows1[i].pregunta6;
+                this.listpregunta6 = this.listpregunta6 + p6;
+                p7 = this.rows1[i].pregunta7;
+                this.listpregunta7 = this.listpregunta7 + p7;
+                p8 = this.rows1[i].pregunta8;
+                this.listpregunta8 = this.listpregunta8 + p8;
+              }
+            } else {
+              this.listpregunta1 = this.rows1[0].pregunta1;
+              this.listpregunta2 = this.rows1[0].pregunta2;
+              this.listpregunta3 = this.rows1[0].pregunta3;
+              this.listpregunta4 = this.rows1[0].pregunta4;
+              this.listpregunta5 = this.rows1[0].pregunta5;
+              this.listpregunta6 = this.rows1[0].pregunta6;
+              this.listpregunta7 = this.rows1[0].pregunta7;
+              this.listpregunta8 = this.rows1[0].pregunta8;
+            }
+
+            this.promere1 = (this.listpregunta1 / this.contadorreal).toFixed(2);
+            this.promere2 = (this.listpregunta2 / this.contadorreal).toFixed(2);
+            this.promere3 = (this.listpregunta3 / this.contadorreal).toFixed(2);
+            this.promere4 = (this.listpregunta4 / this.contadorreal).toFixed(2);
+            this.promere5 = (this.listpregunta5 / this.contadorreal).toFixed(2);
+            this.promere6 = (this.listpregunta6 / this.contadorreal).toFixed(2);
+            this.promere7 = (this.listpregunta7 / this.contadorreal).toFixed(2);
+            this.promere8 = (this.listpregunta8 / this.contadorreal).toFixed(2);
+          } else {
+            this.promere1 = "0";
+            this.promere2 = "0";
+            this.promere3 = "0";
+            this.promere4 = "0";
+            this.promere5 = "0";
+            this.promere6 = "0";
+            this.promere7 = "0";
+            this.promere8 = "0";
           }
         }
       }, {
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this11 = this;
+          var _this7 = this;
 
           this.cont();
           this.getData1();
           this.authservice.getAuth().subscribe(function (user) {
             if (user) {
-              _this11.isLogin = true;
+              _this7.isLogin = true;
 
-              _this11.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this7.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 if (info.suadmin === true) {
-                  _this11.isLoginSuadmin = true;
+                  _this7.isLoginSuadmin = true;
                 } else {
-                  _this11.isLoginSuadmin = false;
+                  _this7.isLoginSuadmin = false;
                 }
               });
 
-              _this11.emailUsuario = user.email;
+              _this7.emailUsuario = user.email;
 
-              _this11.nombreusuaro(_this11.emailUsuario);
+              _this7.nombreusuaro(_this7.emailUsuario);
             } else {
-              _this11.isLogin = false;
+              _this7.isLogin = false;
             }
           });
         }
       }, {
         key: "nombreusuaro",
         value: function nombreusuaro(x) {
-          var _this12 = this;
+          var _this8 = this;
 
           this.afs.collection('Registro').doc(x).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-            _this12.arrayss(res);
+            _this8.arrayss(res);
           });
         }
       }, {
@@ -2800,17 +2737,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           return this.nomUsuario;
         }
       }, {
-        key: "otroget",
-        value: function otroget() {
-          this.rows1 = this.vas;
-        }
-      }, {
         key: "getData1",
         value: function getData1() {
-          var _this13 = this;
+          var _this9 = this;
 
-          return this.encuestaex.getAllEncuestaexCen(true).subscribe(function (x) {
-            _this13.rows1 = x;
+          return this.encuestaex.getAllEncuestaexCen(this.fechareporte).subscribe(function (x) {
+            _this9.rows1 = x;
+
+            _this9.arras();
+
             return;
           });
         }
@@ -2831,8 +2766,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     AdmincComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
       type: AdmincComponent,
       selectors: [["app-adminc"]],
-      decls: 198,
-      vars: 29,
+      decls: 194,
+      vars: 30,
       consts: [[1, "card", "col-md-3", "mt-3", "text-white", 2, "background-color", "#2a206f"], [3, "click", 4, "ngIf"], [1, "card", "border-success", "mt-3", "mr-3", "ml-3"], [1, "card-header", "text-center", "text-white", 2, "background-color", "#2a206f"], [1, "row"], [1, "col-sm-6"], [1, "card", "border-primary", "mt-3", "ml-3"], [1, "card-header", "text-center"], [1, "h5-responsive"], [1, "card-body", "text-center"], [1, "material", 3, "headerHeight", "columnMode", "rowHeight", "footerHeight", "count", "limit", "rows"], ["ngx-datatable-header-template", ""], ["ngx-datatable-cell-template", ""], ["name", "cliente"], [1, "card", "mt-3"], [1, "card"], ["id", "square", 1, "card-header", "text-white", "text-center", 2, "background-color", "#5AC041"], [1, "card-body", "text-center", "faicon"], [1, "fa-layers", "fa-fw", "fa-6x"], [3, "icon"], [1, "fa-layers-counter", 2, "background", "#fd5f00", "font-size-adjust", "inherit"], [1, "card-header", "bg-info", "text-white", "text-center"], [1, "card", "mt-3", "ml-3", "mr-3"], [1, "card-header", "bg-warning", "text-white", "text-center"], [2, "color", "#B7963D", 3, "icon"], [1, "fa-layers-counter", "text-center", 2, "background", "#92BA3E", "font-size-adjust", "inherit"], [1, "card-header", "text-white", "text-center", 2, "background-color", "#5AC041"], [1, "fa-layers-counter", "text-center", 2, "background", "green", "font-size-adjust", "inherit"], [1, "card-footer", "text-muted", "text-right"], [1, "card", "border-success", "mt-3", "mr-3", "ml-3", "mb-5"], [1, "col-sm-9"], [1, "card", "mt-3", "mb-3", "ml-3"], [1, "card-body"], [1, "table", "table-hover", "table-bordered", "table-sm"], [1, "thead-dark"], [1, "text-center", "text-white"], ["scope", "col"], ["scope", "col", "title", "El tiempo que transcurri\xF3 para que lo atendieran fue:"], ["scope", "col", "title", "Durante la recepci\xF3n \xBFNuestro asesor le pregunt\xF3 si su veh\xEDculo requer\xEDa de alg\xFAn servicio adicional a lo previamente solicitado?"], ["scope", "col", "title", "\xBFSe cumpli\xF3 con la fecha promesa de entrega?"], ["scope", "col", "title", "\xBFC\xF3mo calificar\xEDa la imagen de nuestras instalaciones?"], ["scope", "col", "title", "La atenci\xF3n que recibi\xF3 de nuestro asesor de servicio fue\u2026."], ["scope", "col", "title", "Considera que la imagen de nuestro asesor de servicio es\u2026"], ["scope", "col", "title", "Le entregaron su veh\xEDculo..."], ["scope", "col", "title", "La experiencia en general de su visita a Casanova fue\u2026"], [1, "table-warning", "text-center"], [1, "col-sm-3"], [1, "card", "text-center"], [1, "card-header", "text-center", "text-white", 2, "background-color", "#2a206f", "font-size", "1rem"], [1, "card-header", "text-white", 2, "background-color", "#2e5a1c"], [2, "font-size", "1rem", "font-size-adjust", "initial"], [1, "card-header", "text-center", "faicon", 2, "background-color", "#edf0c7"], [1, "fa-layers", "fa-fw", "fa-5x"], [2, "color", "#4e9525", 3, "icon"], [1, "fa-layers-counter", 2, "background", "#1a3263", "font-size-adjust", "inherit"], [1, "card-header", "text-white", 2, "background-color", "#f05a28"], [2, "color", "#f7931e", 3, "icon"], [3, "click"]],
       template: function AdmincComponent_Template(rf, ctx) {
         if (rf & 1) {
@@ -3088,7 +3023,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](81, "br");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](82, "Actual");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](82, " Actual");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3130,7 +3065,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](94, "br");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](95, "Actual");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](95, " Actual");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3172,7 +3107,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](101, "div", 28);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](102, "Ultima Actualizaci\xF3n");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](102);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3276,73 +3211,65 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](137, "th", 36);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](138, "Calif");
-
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](137, "tbody");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](139, "tbody");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](138, "tr", 45);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](140, "tr", 45);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](139, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](141, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](142, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](143);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](140, "Promedios");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](144, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](141, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](145);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](146, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](147);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](142);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](148, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](143, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](149);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](150, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](151);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](144);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](152, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](145, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](153);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](154, "td");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](155);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](146);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](156, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](147, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](157);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](148);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](158, "td");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](149, "td");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](159);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](150);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](151, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](152);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](153, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](154);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](155, "td");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](156);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3358,55 +3285,49 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](160, "div", 46);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](157, "div", 46);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](161, "div", 14);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](158, "div", 14);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](162, "div", 4);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](159, "div", 4);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](163, "div", 5);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](160, "div", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](164, "div", 47);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](161, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](165, "div", 48);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](162, "div", 48);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](166, "strong");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](163, "strong");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](167, "Calificaci\xF3n m\xE1s alta");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](168, "div", 47);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](169, "div", 49);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](170, "strong", 50);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](171, "Reparaciones");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](164, "Calificaci\xF3n m\xE1s alta");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](172, "div", 51);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](165, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](173, "span", 52);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](166, "div", 49);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](174, "fa-icon", 53);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](167, "strong", 50);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](175, "span", 54);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](176, "strong");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](177);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](168, "Reparaciones");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](169, "div", 51);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](170, "span", 52);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](171, "fa-icon", 53);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](172, "span", 54);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](173, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](174);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3416,43 +3337,49 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](178, "div", 5);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](179, "div", 15);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](180, "div", 48);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](181, "strong");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](182, "Calificaci\xF3n m\xE1s baja");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](183, "div", 47);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](175, "div", 5);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](184, "div", 55);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](176, "div", 15);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](185, "strong", 50);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](177, "div", 48);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](186, "Reparaciones");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](178, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](179, "Calificaci\xF3n m\xE1s baja");
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](187, "div", 51);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](180, "div", 47);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](188, "span", 52);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](181, "div", 55);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](189, "fa-icon", 56);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](182, "strong", 50);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](190, "span", 54);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](183, "Reparaciones");
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](191, "strong");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](192);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](184, "div", 51);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](185, "span", 52);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](186, "fa-icon", 56);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](187, "span", 54);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](188, "strong");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](189);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
@@ -3476,21 +3403,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](193, "div", 28);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](190, "div", 28);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](194, "Ultima Actualizaci\xF3n");
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](191);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](195, "div", 15);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](196, "app-reports-c");
-
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](197, "app-footer");
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](192, "div", 15);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](193, "app-footer");
         }
 
         if (rf & 2) {
@@ -3534,7 +3457,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("icon", ctx.faTrophy);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](45);
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](4);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Ultima Actualizaci\xF3n ", ctx.mod.fecha, "");
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](40);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promere1);
 
@@ -3566,10 +3493,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promere8);
 
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
-
-          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.promerep);
-
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](15);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("icon", ctx.faThumbsUp);
@@ -3585,9 +3508,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
 
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](ctx.insre2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+
+          _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"]("Ultima Actualizaci\xF3n ", ctx.mod.fecha, "");
         }
       },
-      directives: [_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__["NavbarComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgForm"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DatatableComponent"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnHeaderDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnCellDirective"], _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__["FaIconComponent"], _reports_c_reports_c_component__WEBPACK_IMPORTED_MODULE_13__["ReportsCComponent"], _shared_footer_footer_component__WEBPACK_IMPORTED_MODULE_14__["FooterComponent"]],
+      directives: [_navbar_navbar_component__WEBPACK_IMPORTED_MODULE_8__["NavbarComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["NgIf"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_10__["NgForm"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DatatableComponent"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnHeaderDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_11__["DataTableColumnCellDirective"], _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_12__["FaIconComponent"], _shared_footer_footer_component__WEBPACK_IMPORTED_MODULE_13__["FooterComponent"]],
       styles: ["#scrolltable[_ngcontent-%COMP%] { margin-top: 20px; height: 200px; overflow: auto; }\n#scrolltable[_ngcontent-%COMP%]   table[_ngcontent-%COMP%] { border-collapse: collapse; }\n#scrolltable[_ngcontent-%COMP%]   tr[_ngcontent-%COMP%]:nth-child(even) { background: #EEE; }\n#scrolltable[_ngcontent-%COMP%]   th[_ngcontent-%COMP%]   div[_ngcontent-%COMP%] { position: absolute; margin-top: -20px; }\n\n.elastic-fai-xl[_ngcontent-%COMP%]{\n    font-size:80px;\n}\n.elastic-fai-lg[_ngcontent-%COMP%]{\n    font-size:50px;\n}\n.elastic-fai-md[_ngcontent-%COMP%]{\n    font-size:40px;\n}\n.elastic-fai-sm[_ngcontent-%COMP%]{\n    font-size:30px;\n}\n.elastic-fai-xs[_ngcontent-%COMP%]{\n    font-size:20px;\n}\n\n@media(max-width:544px){\n    .elastic-fai-group[_ngcontent-%COMP%]    > .elastic-fai[_ngcontent-%COMP%], .elastic-fai-xs[_ngcontent-%COMP%]{\n        font-size:20px;\n    }\n}\n\n@media(min-width:544px){\n    .elastic-fai-group[_ngcontent-%COMP%]    > .elastic-fai[_ngcontent-%COMP%], .elastic-fai-sm[_ngcontent-%COMP%]{\n        font-size:30px;\n    }\n}\n\n@media(min-width:768px){\n    .elastic-fai-group[_ngcontent-%COMP%]    > .elastic-fai[_ngcontent-%COMP%], .elastic-fai-md[_ngcontent-%COMP%]{\n        font-size:40px;\n    }\n}\n\n@media(min-width:992px){\n    .elastic-fai-group[_ngcontent-%COMP%]    > .elastic-fai[_ngcontent-%COMP%], .elastic-fai-lg[_ngcontent-%COMP%]{\n        font-size:50px;\n    }\n}\n\n@media(min-width:1200px){\n    .elastic-fai-group[_ngcontent-%COMP%]    > .elastic-fai[_ngcontent-%COMP%], .elastic-fai-xl[_ngcontent-%COMP%]{\n        font-size:80px;\n    }\n}\ndiv.faicon[_ngcontent-%COMP%] {\n    \n    font-size: 0.8vw;\n}\n@media screen and (max-width: 600px) {\n    table[_ngcontent-%COMP%] {\n        width:100%;\n    }\n    thead[_ngcontent-%COMP%] {\n        display: none;\n    }\n    tr[_ngcontent-%COMP%]:nth-of-type(2n) {\n        background-color: inherit;\n    }\n    tr[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:first-child {\n        background: #f0f0f0;\n        font-weight:bold;\n        font-size:1.3em;\n    }\n    tbody[_ngcontent-%COMP%]   td[_ngcontent-%COMP%] {\n        display: block;\n        text-align:center;\n    }\n    tbody[_ngcontent-%COMP%]   td[_ngcontent-%COMP%]:before {\n        content: attr(data-th);\n        display: block;\n        text-align:center;\n    }\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9hZG1pbmMvYWRtaW5jLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsZUFBZSxnQkFBZ0IsRUFBRSxhQUFhLEVBQUUsY0FBYyxFQUFFO0FBQ2hFLHFCQUFxQix5QkFBeUIsRUFBRTtBQUNoRCxrQ0FBa0MsZ0JBQWdCLEVBQUU7QUFDcEQsc0JBQXNCLGtCQUFrQixFQUFFLGlCQUFpQixFQUFFO0FBRTdELDRCQUE0QjtBQUM1QjtJQUNJLGNBQWM7QUFDbEI7QUFDQTtJQUNJLGNBQWM7QUFDbEI7QUFDQTtJQUNJLGNBQWM7QUFDbEI7QUFDQTtJQUNJLGNBQWM7QUFDbEI7QUFDQTtJQUNJLGNBQWM7QUFDbEI7QUFDQSx3QkFBd0I7QUFDeEI7SUFDSTtRQUNJLGNBQWM7SUFDbEI7QUFDSjtBQUNBLGtCQUFrQjtBQUNsQjtJQUNJO1FBQ0ksY0FBYztJQUNsQjtBQUNKO0FBQ0EsbUJBQW1CO0FBQ25CO0lBQ0k7UUFDSSxjQUFjO0lBQ2xCO0FBQ0o7QUFDQSxrQkFBa0I7QUFDbEI7SUFDSTtRQUNJLGNBQWM7SUFDbEI7QUFDSjtBQUNBLHdCQUF3QjtBQUN4QjtJQUNJO1FBQ0ksY0FBYztJQUNsQjtBQUNKO0FBRUE7O0lBRUksZ0JBQWdCO0FBQ3BCO0FBQ0E7SUFDSTtRQUNJLFVBQVU7SUFDZDtJQUNBO1FBQ0ksYUFBYTtJQUNqQjtJQUNBO1FBQ0kseUJBQXlCO0lBQzdCO0lBQ0E7UUFDSSxtQkFBbUI7UUFDbkIsZ0JBQWdCO1FBQ2hCLGVBQWU7SUFDbkI7SUFDQTtRQUNJLGNBQWM7UUFDZCxpQkFBaUI7SUFDckI7SUFDQTtRQUNJLHNCQUFzQjtRQUN0QixjQUFjO1FBQ2QsaUJBQWlCO0lBQ3JCO0FBQ0oiLCJmaWxlIjoic3JjL2FwcC9jb21wb25lbnRzL2FkbWluYy9hZG1pbmMuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIiNzY3JvbGx0YWJsZSB7IG1hcmdpbi10b3A6IDIwcHg7IGhlaWdodDogMjAwcHg7IG92ZXJmbG93OiBhdXRvOyB9XG4jc2Nyb2xsdGFibGUgdGFibGUgeyBib3JkZXItY29sbGFwc2U6IGNvbGxhcHNlOyB9XG4jc2Nyb2xsdGFibGUgdHI6bnRoLWNoaWxkKGV2ZW4pIHsgYmFja2dyb3VuZDogI0VFRTsgfVxuI3Njcm9sbHRhYmxlIHRoIGRpdiB7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgbWFyZ2luLXRvcDogLTIwcHg7IH1cblxuLyogRm9udCBpY28gKEZvbnQtQXdlc29tZSkgKi9cbi5lbGFzdGljLWZhaS14bHtcbiAgICBmb250LXNpemU6ODBweDtcbn1cbi5lbGFzdGljLWZhaS1sZ3tcbiAgICBmb250LXNpemU6NTBweDtcbn1cbi5lbGFzdGljLWZhaS1tZHtcbiAgICBmb250LXNpemU6NDBweDtcbn1cbi5lbGFzdGljLWZhaS1zbXtcbiAgICBmb250LXNpemU6MzBweDtcbn1cbi5lbGFzdGljLWZhaS14c3tcbiAgICBmb250LXNpemU6MjBweDtcbn1cbi8qIEV4dHJhIHNtYWxsIGRldmljZXMgKi9cbkBtZWRpYShtYXgtd2lkdGg6NTQ0cHgpe1xuICAgIC5lbGFzdGljLWZhaS1ncm91cCA+IC5lbGFzdGljLWZhaSwgLmVsYXN0aWMtZmFpLXhze1xuICAgICAgICBmb250LXNpemU6MjBweDtcbiAgICB9XG59XG4vKiBTbWFsbCBkZXZpY2VzICovXG5AbWVkaWEobWluLXdpZHRoOjU0NHB4KXtcbiAgICAuZWxhc3RpYy1mYWktZ3JvdXAgPiAuZWxhc3RpYy1mYWksIC5lbGFzdGljLWZhaS1zbXtcbiAgICAgICAgZm9udC1zaXplOjMwcHg7XG4gICAgfVxufVxuLyogTWVkaXVtIGRldmljZXMgKi9cbkBtZWRpYShtaW4td2lkdGg6NzY4cHgpe1xuICAgIC5lbGFzdGljLWZhaS1ncm91cCA+IC5lbGFzdGljLWZhaSwgLmVsYXN0aWMtZmFpLW1ke1xuICAgICAgICBmb250LXNpemU6NDBweDtcbiAgICB9XG59XG4vKiBMYXJnZSBkZXZpY2VzICovXG5AbWVkaWEobWluLXdpZHRoOjk5MnB4KXtcbiAgICAuZWxhc3RpYy1mYWktZ3JvdXAgPiAuZWxhc3RpYy1mYWksIC5lbGFzdGljLWZhaS1sZ3tcbiAgICAgICAgZm9udC1zaXplOjUwcHg7XG4gICAgfVxufVxuLyogRXhydGEgTGFyZ2UgZGV2aWNlcyAqL1xuQG1lZGlhKG1pbi13aWR0aDoxMjAwcHgpe1xuICAgIC5lbGFzdGljLWZhaS1ncm91cCA+IC5lbGFzdGljLWZhaSwgLmVsYXN0aWMtZmFpLXhse1xuICAgICAgICBmb250LXNpemU6ODBweDtcbiAgICB9XG59XG5cbmRpdi5mYWljb24ge1xuICAgIFxuICAgIGZvbnQtc2l6ZTogMC44dnc7XG59XG5AbWVkaWEgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA2MDBweCkge1xuICAgIHRhYmxlIHtcbiAgICAgICAgd2lkdGg6MTAwJTtcbiAgICB9XG4gICAgdGhlYWQge1xuICAgICAgICBkaXNwbGF5OiBub25lO1xuICAgIH1cbiAgICB0cjpudGgtb2YtdHlwZSgybikge1xuICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiBpbmhlcml0O1xuICAgIH1cbiAgICB0ciB0ZDpmaXJzdC1jaGlsZCB7XG4gICAgICAgIGJhY2tncm91bmQ6ICNmMGYwZjA7XG4gICAgICAgIGZvbnQtd2VpZ2h0OmJvbGQ7XG4gICAgICAgIGZvbnQtc2l6ZToxLjNlbTtcbiAgICB9XG4gICAgdGJvZHkgdGQge1xuICAgICAgICBkaXNwbGF5OiBibG9jaztcbiAgICAgICAgdGV4dC1hbGlnbjpjZW50ZXI7XG4gICAgfVxuICAgIHRib2R5IHRkOmJlZm9yZSB7XG4gICAgICAgIGNvbnRlbnQ6IGF0dHIoZGF0YS10aCk7XG4gICAgICAgIGRpc3BsYXk6IGJsb2NrO1xuICAgICAgICB0ZXh0LWFsaWduOmNlbnRlcjtcbiAgICB9XG59Il19 */"]
     });
     /*@__PURE__*/
@@ -4616,10 +4543,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(DashboardcallcenterComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this14 = this;
+          var _this10 = this;
 
           return this._dataService.getDocs().subscribe(function (res) {
-            return _this14.dataSource.data = res;
+            return _this10.dataSource.data = res;
           });
           this.getData1();
         }
@@ -4634,10 +4561,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getData1",
         value: function getData1() {
-          var _this15 = this;
+          var _this11 = this;
 
           this.afs.collection('typeALL').valueChanges().subscribe(function (encuesta) {
-            _this15.rows1 = encuesta;
+            _this11.rows1 = encuesta;
           });
           this.listado = this.rows1;
           this.list = this.rows1;
@@ -4682,11 +4609,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "myFunction",
         value: function myFunction() {
-          var _this16 = this;
+          var _this12 = this;
 
           // Declare variables
           this._dataService.getDocs().subscribe(function (res) {
-            return _this16.dataSource.data = res;
+            return _this12.dataSource.data = res;
           });
 
           var input, filter, table, tr, td, i, txtValue, input2, filter2;
@@ -5728,52 +5655,24 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(DashboardtallerComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this17 = this;
+          var _this13 = this;
 
           this.authService.getAuth().subscribe(function (user) {
             if (user) {
-              _this17.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this13.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 ////console.log('usuario desde lvl:', info);
                 if (info.ubicacion == 'Centenario') {
-                  _this17.ubi = 'Centenario';
-                  _this17.listado = _this17.controlService.getAllEncuestaexCen(true); //return this._dataService.getDocsC().subscribe(res => this.dataSource.data = res );
+                  _this13.ubi = 'Centenario';
+                  _this13.listado = _this13.controlService.getAllEncuestaexCen("true"); //return this._dataService.getDocsC().subscribe(res => this.dataSource.data = res );
                 } else if (info.ubicacion === 'Viga') {
-                  _this17.ubi = 'Viga';
-                  _this17.listado = _this17.controlService.getAllEncuestaexvig(true); // return this._dataService.getDocsV().subscribe(res => this.dataSource.data = res );
+                  _this13.ubi = 'Viga'; //   this.listado = this.controlService.getAllEncuestaexvig(true);
+                  // return this._dataService.getDocsV().subscribe(res => this.dataSource.data = res );
                 } else {// //console.log('Error de sistema: Usuario sin Permisos')
                   }
               });
             }
           });
         }
-        /*
-        getData1() {
-        if(this.ubi == 'Centenario'){
-        this.afs.collection('typeC').valueChanges().subscribe((encuesta) => {
-          this.rows1 = encuesta;
-        });
-        this.listado = this.rows1;
-        this.list = this.rows1;
-        this.list2 = this.rows1;
-        this.afs.collection('typeC').valueChanges().subscribe(values => this.contador = values.length);
-        this.afs.collection('type').doc('VI0001').valueChanges().pipe(take(1)).subscribe(res => {this.arras(res); } );
-        console.log('cente')
-        }
-        else if(this.ubi == 'Viga'){
-        this.afs.collection('type').valueChanges().subscribe((encuesta) => {
-          this.rows1 = encuesta;
-        });
-        this.listado = this.rows1;
-        this.list = this.rows1;
-        this.list2 = this.rows1;
-        this.afs.collection('type').valueChanges().subscribe(values => this.contadorv = values.length);
-        this.afs.collection('type').doc('VI0001').valueChanges().pipe(take(1)).subscribe(res => {this.arrasv(res); } );
-        //console.log('viga')
-        }
-          
-        }
-        */
-
       }, {
         key: "onPage",
         value: function onPage(event) {
@@ -5795,6 +5694,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "myFunction",
         value: function myFunction() {
+          ////get day
           // Declare variables
           var input, filter, table, tr, td, i, txtValue, input2, filter2;
           input = document.getElementById('inputfe');
@@ -5805,9 +5705,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           console.log(table);
 
           if (this.ubi == 'Centenario') {
-            this.listado = this.controlService.getAllEncuestaexCenfil(true, filter);
+            this.listado = this.controlService.getAllEncuestaexCen(filter);
           } else if (this.ubi === 'Viga') {
-            this.listado = this.controlService.getAllEncuestaexvigfil(true, filter);
+            this.listado = this.controlService.getAllEncuestaexvig(filter);
           }
         }
         /* myFunction2() {
@@ -6440,26 +6340,26 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this18 = this;
+          var _this14 = this;
 
           this.authService.getAuth().subscribe(function (auth) {
             if (auth) {
-              _this18.isLogin = true;
+              _this14.isLogin = true;
 
-              _this18.lvlaccess.getUserData(auth.email).subscribe(function (info) {
+              _this14.lvlaccess.getUserData(auth.email).subscribe(function (info) {
                 ////console.log('usuario desde lvl:', info);
                 if (info.ubicacion == 'Centenario') {
-                  _this18.ubi = 'Centenario';
+                  _this14.ubi = 'Centenario';
                 } else if (info.ubicacion == 'Viga') {
-                  _this18.ubi = 'Viga';
+                  _this14.ubi = 'Viga';
                 } else {//console.log('Error de sistema: Usuario sin Permisos')
                 }
               });
 
-              _this18.nombreUsuario = auth.displayName;
-              _this18.emailUsuario = auth.email;
+              _this14.nombreUsuario = auth.displayName;
+              _this14.emailUsuario = auth.email;
             } else {
-              _this18.isLogin = false;
+              _this14.isLogin = false;
             }
           });
         }
@@ -6654,20 +6554,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(HomeComponent, [{
         key: "onEncuesta",
         value: function onEncuesta(_ref2) {
-          var _this19 = this;
+          var _this15 = this;
 
           var value = _ref2.value;
           this.name = this.idenc.toUpperCase();
           this.afs.firestore.doc('Encuestareps/' + this.name).get().then(function (docSnapshot) {
             if (docSnapshot.exists == true) {
-              _this19.afs.collection('Encuestareps').doc(_this19.name).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["take"])(1)).subscribe(function (res) {
-                _this19.arrass(res);
+              _this15.afs.collection('Encuestareps').doc(_this15.name).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["take"])(1)).subscribe(function (res) {
+                _this15.arrass(res);
               });
             } else {
-              _this19.afs.firestore.doc('EncuestarepsC/' + _this19.name).get().then(function (docSnapshot) {
+              _this15.afs.firestore.doc('EncuestarepsC/' + _this15.name).get().then(function (docSnapshot) {
                 if (docSnapshot.exists == true) {
-                  _this19.afs.collection('EncuestarepsC').doc(_this19.name).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["take"])(1)).subscribe(function (res) {
-                    _this19.arrass(res);
+                  _this15.afs.collection('EncuestarepsC').doc(_this15.name).valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["take"])(1)).subscribe(function (res) {
+                    _this15.arrass(res);
                   });
                 }
               });
@@ -6947,73 +6847,74 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "onSubmitLogin",
         value: function onSubmitLogin() {
-          var _this20 = this;
+          var _this16 = this;
 
           this.authService.loginEmail(this.email, this.password).then(function (res) {
-            _this20.flashMensaje.show('Bienvenido a SEVS', {
+            _this16.flashMensaje.show('Bienvenido a SEVS', {
               cssClass: 'alert-success',
               timeout: 4000
             });
 
-            _this20.onLoginRedirect(_this20.email);
+            _this16.onLoginRedirect(_this16.email);
           })["catch"](function (err) {
-            _this20.flashMensaje.show(err.message, {
+            _this16.flashMensaje.show(err.message, {
               cssClass: 'alert-danger',
               timeout: 4000
             });
 
-            _this20.router.navigate(['/login']);
+            _this16.router.navigate(['/login']);
           });
         }
       }, {
         key: "onLoginRedirect",
         value: function onLoginRedirect(email) {
-          var _this21 = this;
+          var _this17 = this;
 
           this.authService.getAuth().subscribe(function (user) {
             if (user) {
-              _this21.isLogin = true;
+              _this17.isLogin = true;
+              console.log(user.email);
 
-              _this21.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this17.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 ////console.log('usuario desde lvl:', info);
                 if (info.suadmin === true) {
-                  _this21.isLoginSuadmin = true;
-                  _this21.isLoginAdmin = false;
-                  _this21.isLoginCallcenter = false;
-                  _this21.isLoginTaller = false;
+                  _this17.isLoginSuadmin = true;
+                  _this17.isLoginAdmin = false;
+                  _this17.isLoginCallcenter = false;
+                  _this17.isLoginTaller = false;
 
-                  _this21.router.navigate(['/admin']);
+                  _this17.router.navigate(['/admin']);
                 } else if (info.admin === true) {
-                  _this21.isLoginAdmin = true;
-                  _this21.isLoginSuadmin = false;
-                  _this21.isLoginCallcenter = false;
-                  _this21.isLoginTaller = false;
+                  _this17.isLoginAdmin = true;
+                  _this17.isLoginSuadmin = false;
+                  _this17.isLoginCallcenter = false;
+                  _this17.isLoginTaller = false;
 
                   if (info.ubicacion == 'Centenario') {
-                    _this21.router.navigate(['/adminc']);
+                    _this17.router.navigate(['/adminc']);
                   } else {
-                    _this21.router.navigate(['/admin']);
+                    _this17.router.navigate(['/admin']);
                   }
                 } else if (info.tipo === 'CallCenter') {
-                  _this21.isLoginCallcenter = true;
-                  _this21.isLoginAdmin = false;
-                  _this21.isLoginTaller = false;
-                  _this21.isLoginSuadmin = false;
+                  _this17.isLoginCallcenter = true;
+                  _this17.isLoginAdmin = false;
+                  _this17.isLoginTaller = false;
+                  _this17.isLoginSuadmin = false;
 
-                  _this21.router.navigate(['/dashboardcall']);
+                  _this17.router.navigate(['/dashboardcall']);
                 } else if (info.tipo === 'Taller') {
-                  _this21.isLoginTaller = true;
-                  _this21.isLoginCallcenter = false;
-                  _this21.isLoginAdmin = false;
-                  _this21.isLoginSuadmin = false;
+                  _this17.isLoginTaller = true;
+                  _this17.isLoginCallcenter = false;
+                  _this17.isLoginAdmin = false;
+                  _this17.isLoginSuadmin = false;
 
-                  _this21.router.navigate(['/taller']);
+                  _this17.router.navigate(['/taller']);
                 } else {
                   console.log('Error de sistema: Usuario sin Permisos');
                 }
               });
             } else {
-              _this21.isLogin = false;
+              _this17.isLogin = false;
             }
           });
         }
@@ -8075,47 +7976,47 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(NavbarComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this22 = this;
+          var _this18 = this;
 
           this.authService.getAuth().subscribe(function (user) {
             if (user) {
-              _this22.isLogin = true;
+              _this18.isLogin = true;
 
-              _this22.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this18.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 ////console.log('usuario desde lvl:', info);
                 if (info.suadmin === true) {
-                  _this22.isLoginSuadmin = true;
-                  _this22.isLoginAdmin = false;
-                  _this22.isLoginCallcenter = false;
-                  _this22.isLoginTaller = false;
+                  _this18.isLoginSuadmin = true;
+                  _this18.isLoginAdmin = false;
+                  _this18.isLoginCallcenter = false;
+                  _this18.isLoginTaller = false;
                 } else if (info.admin === true) {
                   if (info.ubicacion == 'Centenario') {
-                    _this22.isLoginAdminC = true;
-                    _this22.isLoginSuadmin = false;
-                    _this22.isLoginCallcenter = false;
-                    _this22.isLoginTaller = false;
+                    _this18.isLoginAdminC = true;
+                    _this18.isLoginSuadmin = false;
+                    _this18.isLoginCallcenter = false;
+                    _this18.isLoginTaller = false;
                   } else {
-                    _this22.isLoginAdmin = true;
-                    _this22.isLoginSuadmin = false;
-                    _this22.isLoginCallcenter = false;
-                    _this22.isLoginTaller = false;
+                    _this18.isLoginAdmin = true;
+                    _this18.isLoginSuadmin = false;
+                    _this18.isLoginCallcenter = false;
+                    _this18.isLoginTaller = false;
                   }
                 } else if (info.tipo === 'CallCenter') {
-                  _this22.isLoginCallcenter = true;
-                  _this22.isLoginAdmin = false;
-                  _this22.isLoginTaller = false;
-                  _this22.isLoginSuadmin = false;
+                  _this18.isLoginCallcenter = true;
+                  _this18.isLoginAdmin = false;
+                  _this18.isLoginTaller = false;
+                  _this18.isLoginSuadmin = false;
                 } else if (info.tipo === 'Taller') {
-                  _this22.isLoginTaller = true;
-                  _this22.isLoginCallcenter = false;
-                  _this22.isLoginAdmin = false;
-                  _this22.isLoginSuadmin = false;
+                  _this18.isLoginTaller = true;
+                  _this18.isLoginCallcenter = false;
+                  _this18.isLoginAdmin = false;
+                  _this18.isLoginSuadmin = false;
                 } else {
                   console.log('Error de sistema: Usuario sin Permisos');
                 }
               });
             } else {
-              _this22.isLogin = false;
+              _this18.isLogin = false;
             }
           });
         }
@@ -8548,10 +8449,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "addnewuser",
         value: function addnewuser() {
-          var _this23 = this;
+          var _this19 = this;
 
           this.authservice.registeruser(this.email, this.pass).then(function (res) {
-            _this23.router.navigate(['/login']);
+            _this19.router.navigate(['/login']);
           })["catch"](function (err) {
             return console.log('err', err.message);
           });
@@ -10709,35 +10610,29 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony import */
 
 
-    var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
-    /*! rxjs/operators */
-    "./node_modules/rxjs/_esm2015/operators/index.js");
-    /* harmony import */
-
-
-    var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
     /*! angularfire2/firestore */
     "./node_modules/angularfire2/firestore/index.js");
     /* harmony import */
 
 
-    var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__);
+    var angularfire2_firestore__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(angularfire2_firestore__WEBPACK_IMPORTED_MODULE_3__);
     /* harmony import */
 
 
-    var src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    var src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! src/app/services/encuesta.service */
     "./src/app/services/encuesta.service.ts");
     /* harmony import */
 
 
-    var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
+    var _fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
     /*! @fortawesome/angular-fontawesome */
     "./node_modules/@fortawesome/angular-fontawesome/__ivy_ngcc__/fesm2015/angular-fontawesome.js");
     /* harmony import */
 
 
-    var _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(
+    var _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(
     /*! @swimlane/ngx-datatable */
     "./node_modules/@swimlane/ngx-datatable/__ivy_ngcc__/fesm2015/swimlane-ngx-datatable.js");
 
@@ -10893,8 +10788,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ReportsCComponent = /*#__PURE__*/function () {
       function ReportsCComponent(afs, encuestaex) {
-        var _this24 = this;
-
         _classCallCheck(this, ReportsCComponent);
 
         this.afs = afs;
@@ -10918,7 +10811,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         this.pieChartDataP4 = [21, 6, 1.5, .75, .75]; // P5 La atención que recibió de nuestro asesor de servicio fue….
 
-        this.pieChartDataP5 = [21, 6, 1.5, .75, .75]; // P6 Considera que la imagen de nuestro asesor de servicio es...
+        this.pieChartDataP5 = [21, 6, 1.5, .75, .75]; // P6 Considera que la imagen de nuestro asesor de servicio es..
 
         this.pieChartDataP6 = [12, 9, 6, 1.5, 1.5]; // P7 La limpieza de su vehículo fue:
 
@@ -10937,157 +10830,155 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.faChartLine = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faChartLine"];
         Object(ng2_charts__WEBPACK_IMPORTED_MODULE_2__["monkeyPatchChartJsTooltip"])();
         Object(ng2_charts__WEBPACK_IMPORTED_MODULE_2__["monkeyPatchChartJsLegend"])();
-        this.encuestaex.getitemcoll1mbc().subscribe(function (id) {
-          return _this24.listp1mb = id;
-        });
-        this.encuestaex.getitemcoll1bc().subscribe(function (id) {
-          return _this24.listp1b = id;
-        });
-        this.encuestaex.getitemcoll1rc().subscribe(function (id) {
-          return _this24.listp1r = id;
-        });
-        this.encuestaex.getitemcoll1mc().subscribe(function (id) {
-          return _this24.listp1m = id;
-        });
-        this.encuestaex.getitemcoll1mmc().subscribe(function (id) {
-          return _this24.listp1mm = id;
-        });
-        this.encuestaex.getitemcoll2mbc().subscribe(function (id) {
-          return _this24.listp2mb = id;
-        });
-        this.encuestaex.getitemcoll2bc().subscribe(function (id) {
-          return _this24.listp2b = id;
-        });
-        this.encuestaex.getitemcoll2rc().subscribe(function (id) {
-          return _this24.listp2r = id;
-        });
-        this.encuestaex.getitemcoll2mc().subscribe(function (id) {
-          return _this24.listp2m = id;
-        });
-        this.encuestaex.getitemcoll2mmc().subscribe(function (id) {
-          return _this24.listp2mm = id;
-        });
-        this.encuestaex.getitemcoll3mbc().subscribe(function (id) {
-          return _this24.listp3mb = id;
-        });
-        this.encuestaex.getitemcoll3bc().subscribe(function (id) {
-          return _this24.listp3b = id;
-        });
-        this.encuestaex.getitemcoll3rc().subscribe(function (id) {
-          return _this24.listp3r = id;
-        });
-        this.encuestaex.getitemcoll3mc().subscribe(function (id) {
-          return _this24.listp3m = id;
-        });
-        this.encuestaex.getitemcoll3mmc().subscribe(function (id) {
-          return _this24.listp3mm = id;
-        });
-        this.encuestaex.getitemcoll4mbc().subscribe(function (id) {
-          return _this24.listp4mb = id;
-        });
-        this.encuestaex.getitemcoll4bc().subscribe(function (id) {
-          return _this24.listp4b = id;
-        });
-        this.encuestaex.getitemcoll4rc().subscribe(function (id) {
-          return _this24.listp4r = id;
-        });
-        this.encuestaex.getitemcoll4mc().subscribe(function (id) {
-          return _this24.listp4m = id;
-        });
-        this.encuestaex.getitemcoll4mmc().subscribe(function (id) {
-          return _this24.listp4mm = id;
-        });
-        this.encuestaex.getitemcoll5mbc().subscribe(function (id) {
-          return _this24.listp5mb = id;
-        });
-        this.encuestaex.getitemcoll5bc().subscribe(function (id) {
-          return _this24.listp5b = id;
-        });
-        this.encuestaex.getitemcoll5rc().subscribe(function (id) {
-          return _this24.listp5r = id;
-        });
-        this.encuestaex.getitemcoll5mc().subscribe(function (id) {
-          return _this24.listp5m = id;
-        });
-        this.encuestaex.getitemcoll5mmc().subscribe(function (id) {
-          return _this24.listp5mm = id;
-        });
-        this.encuestaex.getitemcoll6mbc().subscribe(function (id) {
-          return _this24.listp6mb = id;
-        });
-        this.encuestaex.getitemcoll6bc().subscribe(function (id) {
-          return _this24.listp6b = id;
-        });
-        this.encuestaex.getitemcoll6rc().subscribe(function (id) {
-          return _this24.listp6r = id;
-        });
-        this.encuestaex.getitemcoll6mc().subscribe(function (id) {
-          return _this24.listp6m = id;
-        });
-        this.encuestaex.getitemcoll6mmc().subscribe(function (id) {
-          return _this24.listp6mm = id;
-        });
-        this.encuestaex.getitemcoll7mbc().subscribe(function (id) {
-          return _this24.listp7mb = id;
-        });
-        this.encuestaex.getitemcoll7bc().subscribe(function (id) {
-          return _this24.listp7b = id;
-        });
-        this.encuestaex.getitemcoll7rc().subscribe(function (id) {
-          return _this24.listp7r = id;
-        });
-        this.encuestaex.getitemcoll7mc().subscribe(function (id) {
-          return _this24.listp7m = id;
-        });
-        this.encuestaex.getitemcoll7mmc().subscribe(function (id) {
-          return _this24.listp7mm = id;
-        });
-        this.encuestaex.getitemcoll8mbc().subscribe(function (id) {
-          return _this24.listp8mb = id;
-        });
-        this.encuestaex.getitemcoll8bc().subscribe(function (id) {
-          return _this24.listp8b = id;
-        });
-        this.encuestaex.getitemcoll8rc().subscribe(function (id) {
-          return _this24.listp8r = id;
-        });
-        this.encuestaex.getitemcoll8mc().subscribe(function (id) {
-          return _this24.listp8m = id;
-        });
-        this.encuestaex.getitemcoll8mmc().subscribe(function (id) {
-          return _this24.listp8mm = id;
-        });
-        this.encuestaex.getitemcoll9mbc().subscribe(function (id) {
-          return _this24.listp9mb = id;
-        });
-        this.encuestaex.getitemcoll9rc().subscribe(function (id) {
-          return _this24.listp9r = id;
-        });
-        this.encuestaex.getitemcoll9mmc().subscribe(function (id) {
-          return _this24.listp9mm = id;
-        });
-        this.encuestaex.getitemcoll10mbc().subscribe(function (id) {
-          return _this24.listp10mb = id;
-        });
-        this.encuestaex.getitemcoll10mmc().subscribe(function (id) {
-          return _this24.listp10mm = id;
-        });
+        this.encuestaex.getcolections();
+        this.cont();
       }
 
       _createClass(ReportsCComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
           this.getData2();
-          this.cont();
         }
       }, {
         key: "cont",
         value: function cont() {
-          var _this25 = this;
+          var _this20 = this;
 
-          this.afs.collection('typeC').doc('VI0001').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1)).subscribe(function (res) {
-            _this25.arras(res);
-          }); // se tomara de otra base
+          this.encuestaex.getitemcoll1mbc().subscribe(function (id) {
+            _this20.listp1mb = id;
+          });
+          this.encuestaex.getitemcoll1bc().subscribe(function (id) {
+            _this20.listp1b = id;
+          });
+          this.encuestaex.getitemcoll1rc().subscribe(function (id) {
+            _this20.listp1r = id;
+          });
+          this.encuestaex.getitemcoll1mc().subscribe(function (id) {
+            _this20.listp1m = id;
+          });
+          this.encuestaex.getitemcoll1mmc().subscribe(function (id) {
+            _this20.listp1mm = id;
+          });
+          this.encuestaex.getitemcoll2mbc().subscribe(function (id) {
+            _this20.listp2mb = id;
+          });
+          this.encuestaex.getitemcoll2bc().subscribe(function (id) {
+            _this20.listp2b = id;
+          });
+          this.encuestaex.getitemcoll2rc().subscribe(function (id) {
+            _this20.listp2r = id;
+          });
+          this.encuestaex.getitemcoll2mc().subscribe(function (id) {
+            _this20.listp2m = id;
+          });
+          this.encuestaex.getitemcoll2mmc().subscribe(function (id) {
+            _this20.listp2mm = id;
+          });
+          this.encuestaex.getitemcoll3mbc().subscribe(function (id) {
+            _this20.listp3mb = id;
+          });
+          this.encuestaex.getitemcoll3bc().subscribe(function (id) {
+            _this20.listp3b = id;
+          });
+          this.encuestaex.getitemcoll3rc().subscribe(function (id) {
+            _this20.listp3r = id;
+          });
+          this.encuestaex.getitemcoll3mc().subscribe(function (id) {
+            _this20.listp3m = id;
+          });
+          this.encuestaex.getitemcoll3mmc().subscribe(function (id) {
+            _this20.listp3mm = id;
+          });
+          this.encuestaex.getitemcoll4mbc().subscribe(function (id) {
+            _this20.listp4mb = id;
+          });
+          this.encuestaex.getitemcoll4bc().subscribe(function (id) {
+            _this20.listp4b = id;
+          });
+          this.encuestaex.getitemcoll4rc().subscribe(function (id) {
+            _this20.listp4r = id;
+          });
+          this.encuestaex.getitemcoll4mc().subscribe(function (id) {
+            _this20.listp4m = id;
+          });
+          this.encuestaex.getitemcoll4mmc().subscribe(function (id) {
+            _this20.listp4mm = id;
+          });
+          this.encuestaex.getitemcoll5mbc().subscribe(function (id) {
+            _this20.listp5mb = id;
+          });
+          this.encuestaex.getitemcoll5bc().subscribe(function (id) {
+            _this20.listp5b = id;
+          });
+          this.encuestaex.getitemcoll5rc().subscribe(function (id) {
+            _this20.listp5r = id;
+          });
+          this.encuestaex.getitemcoll5mc().subscribe(function (id) {
+            _this20.listp5m = id;
+          });
+          this.encuestaex.getitemcoll5mmc().subscribe(function (id) {
+            _this20.listp5mm = id;
+          });
+          this.encuestaex.getitemcoll6mbc().subscribe(function (id) {
+            _this20.listp6mb = id;
+          });
+          this.encuestaex.getitemcoll6bc().subscribe(function (id) {
+            _this20.listp6b = id;
+          });
+          this.encuestaex.getitemcoll6rc().subscribe(function (id) {
+            _this20.listp6r = id;
+          });
+          this.encuestaex.getitemcoll6mc().subscribe(function (id) {
+            _this20.listp6m = id;
+          });
+          this.encuestaex.getitemcoll6mmc().subscribe(function (id) {
+            _this20.listp6mm = id;
+          });
+          this.encuestaex.getitemcoll7mbc().subscribe(function (id) {
+            _this20.listp7mb = id;
+          });
+          this.encuestaex.getitemcoll7bc().subscribe(function (id) {
+            _this20.listp7b = id;
+          });
+          this.encuestaex.getitemcoll7rc().subscribe(function (id) {
+            _this20.listp7r = id;
+          });
+          this.encuestaex.getitemcoll7mc().subscribe(function (id) {
+            _this20.listp7m = id;
+          });
+          this.encuestaex.getitemcoll7mmc().subscribe(function (id) {
+            _this20.listp7mm = id;
+          });
+          this.encuestaex.getitemcoll8mbc().subscribe(function (id) {
+            _this20.listp8mb = id;
+          });
+          this.encuestaex.getitemcoll8bc().subscribe(function (id) {
+            _this20.listp8b = id;
+          });
+          this.encuestaex.getitemcoll8rc().subscribe(function (id) {
+            _this20.listp8r = id;
+          });
+          this.encuestaex.getitemcoll8mc().subscribe(function (id) {
+            _this20.listp8m = id;
+          });
+          this.encuestaex.getitemcoll8mmc().subscribe(function (id) {
+            _this20.listp8mm = id;
+          });
+          this.encuestaex.getitemcoll9mbc().subscribe(function (id) {
+            _this20.listp9mb = id;
+          });
+          this.encuestaex.getitemcoll9rc().subscribe(function (id) {
+            _this20.listp9r = id;
+          });
+          this.encuestaex.getitemcoll9mmc().subscribe(function (id) {
+            _this20.listp9mm = id;
+          });
+          this.encuestaex.getitemcoll10mbc().subscribe(function (id) {
+            _this20.listp10mb = id;
+          });
+          this.encuestaex.getitemcoll10mmc().subscribe(function (id) {
+            _this20.listp10mm = id;
+          });
         }
       }, {
         key: "arras",
@@ -11097,6 +10988,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.cp1r = this.listp1r.length;
           this.cp1m = this.listp1m.length;
           this.cp1mm = this.listp1mm.length;
+          console.log(this.listp1mb.length);
           this.cp2mb = this.listp2mb.length;
           this.cp2b = this.listp2b.length;
           this.cp2r = this.listp2r.length;
@@ -11151,10 +11043,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getData2",
         value: function getData2() {
-          var _this26 = this;
+          var _this21 = this;
 
           this.afs.collection('EncuestarepsC').valueChanges().subscribe(function (encuesta) {
-            _this26.rows2 = encuesta;
+            _this21.rows2 = encuesta;
           });
         } // events
 
@@ -11178,7 +11070,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }();
 
     ReportsCComponent.ɵfac = function ReportsCComponent_Factory(t) {
-      return new (t || ReportsCComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__["AngularFirestore"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_5__["EncuestaService"]));
+      return new (t || ReportsCComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](angularfire2_firestore__WEBPACK_IMPORTED_MODULE_3__["AngularFirestore"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_4__["EncuestaService"]));
     };
 
     ReportsCComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({
@@ -11778,7 +11670,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("headerHeight", 35)("columnMode", "force")("rowHeight", "auto")("footerHeight", 30)("count", true)("limit", 5)("rows", ctx.rows2);
         }
       },
-      directives: [_fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_6__["FaIconComponent"], ng2_charts__WEBPACK_IMPORTED_MODULE_2__["BaseChartDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_7__["DatatableComponent"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_7__["DataTableColumnDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_7__["DataTableColumnCellDirective"]],
+      directives: [_fortawesome_angular_fontawesome__WEBPACK_IMPORTED_MODULE_5__["FaIconComponent"], ng2_charts__WEBPACK_IMPORTED_MODULE_2__["BaseChartDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_6__["DatatableComponent"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_6__["DataTableColumnDirective"], _swimlane_ngx_datatable__WEBPACK_IMPORTED_MODULE_6__["DataTableColumnCellDirective"]],
       styles: ["div.card-header[_ngcontent-%COMP%]{\n    font-size: 0.8vw;\n\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvY29tcG9uZW50cy9yZXBvcnRzLWMvcmVwb3J0cy1jLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSxnQkFBZ0I7O0FBRXBCIiwiZmlsZSI6InNyYy9hcHAvY29tcG9uZW50cy9yZXBvcnRzLWMvcmVwb3J0cy1jLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJkaXYuY2FyZC1oZWFkZXJ7XG4gICAgZm9udC1zaXplOiAwLjh2dztcblxufSJdfQ== */"]
     });
     /*@__PURE__*/
@@ -11793,9 +11685,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         }]
       }], function () {
         return [{
-          type: angularfire2_firestore__WEBPACK_IMPORTED_MODULE_4__["AngularFirestore"]
+          type: angularfire2_firestore__WEBPACK_IMPORTED_MODULE_3__["AngularFirestore"]
         }, {
-          type: src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_5__["EncuestaService"]
+          type: src_app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_4__["EncuestaService"]
         }];
       }, null);
     })();
@@ -12027,7 +11919,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
     var ReportsComponent = /*#__PURE__*/function () {
       function ReportsComponent(afs, encuestaex) {
-        var _this27 = this;
+        var _this22 = this;
 
         _classCallCheck(this, ReportsComponent);
 
@@ -12071,140 +11963,141 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.faChartLine = _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_1__["faChartLine"];
         Object(ng2_charts__WEBPACK_IMPORTED_MODULE_2__["monkeyPatchChartJsTooltip"])();
         Object(ng2_charts__WEBPACK_IMPORTED_MODULE_2__["monkeyPatchChartJsLegend"])();
+        this.encuestaex.getcolections();
         this.encuestaex.getitemcoll1mb().subscribe(function (id) {
-          return _this27.listp1mb = id;
+          return _this22.listp1mb = id;
         });
         this.encuestaex.getitemcoll1b().subscribe(function (id) {
-          return _this27.listp1b = id;
+          return _this22.listp1b = id;
         });
         this.encuestaex.getitemcoll1r().subscribe(function (id) {
-          return _this27.listp1r = id;
+          return _this22.listp1r = id;
         });
         this.encuestaex.getitemcoll1m().subscribe(function (id) {
-          return _this27.listp1m = id;
+          return _this22.listp1m = id;
         });
         this.encuestaex.getitemcoll1mm().subscribe(function (id) {
-          return _this27.listp1mm = id;
+          return _this22.listp1mm = id;
         });
         this.encuestaex.getitemcoll2mb().subscribe(function (id) {
-          return _this27.listp2mb = id;
+          return _this22.listp2mb = id;
         });
         this.encuestaex.getitemcoll2b().subscribe(function (id) {
-          return _this27.listp2b = id;
+          return _this22.listp2b = id;
         });
         this.encuestaex.getitemcoll2r().subscribe(function (id) {
-          return _this27.listp2r = id;
+          return _this22.listp2r = id;
         });
         this.encuestaex.getitemcoll2m().subscribe(function (id) {
-          return _this27.listp2m = id;
+          return _this22.listp2m = id;
         });
         this.encuestaex.getitemcoll2mm().subscribe(function (id) {
-          return _this27.listp2mm = id;
+          return _this22.listp2mm = id;
         });
         this.encuestaex.getitemcoll3mb().subscribe(function (id) {
-          return _this27.listp3mb = id;
+          return _this22.listp3mb = id;
         });
         this.encuestaex.getitemcoll3b().subscribe(function (id) {
-          return _this27.listp3b = id;
+          return _this22.listp3b = id;
         });
         this.encuestaex.getitemcoll3r().subscribe(function (id) {
-          return _this27.listp3r = id;
+          return _this22.listp3r = id;
         });
         this.encuestaex.getitemcoll3m().subscribe(function (id) {
-          return _this27.listp3m = id;
+          return _this22.listp3m = id;
         });
         this.encuestaex.getitemcoll3mm().subscribe(function (id) {
-          return _this27.listp3mm = id;
+          return _this22.listp3mm = id;
         });
         this.encuestaex.getitemcoll4mb().subscribe(function (id) {
-          return _this27.listp4mb = id;
+          return _this22.listp4mb = id;
         });
         this.encuestaex.getitemcoll4b().subscribe(function (id) {
-          return _this27.listp4b = id;
+          return _this22.listp4b = id;
         });
         this.encuestaex.getitemcoll4r().subscribe(function (id) {
-          return _this27.listp4r = id;
+          return _this22.listp4r = id;
         });
         this.encuestaex.getitemcoll4m().subscribe(function (id) {
-          return _this27.listp4m = id;
+          return _this22.listp4m = id;
         });
         this.encuestaex.getitemcoll4mm().subscribe(function (id) {
-          return _this27.listp4mm = id;
+          return _this22.listp4mm = id;
         });
         this.encuestaex.getitemcoll5mb().subscribe(function (id) {
-          return _this27.listp5mb = id;
+          return _this22.listp5mb = id;
         });
         this.encuestaex.getitemcoll5b().subscribe(function (id) {
-          return _this27.listp5b = id;
+          return _this22.listp5b = id;
         });
         this.encuestaex.getitemcoll5r().subscribe(function (id) {
-          return _this27.listp5r = id;
+          return _this22.listp5r = id;
         });
         this.encuestaex.getitemcoll5m().subscribe(function (id) {
-          return _this27.listp5m = id;
+          return _this22.listp5m = id;
         });
         this.encuestaex.getitemcoll5mm().subscribe(function (id) {
-          return _this27.listp5mm = id;
+          return _this22.listp5mm = id;
         });
         this.encuestaex.getitemcoll6mb().subscribe(function (id) {
-          return _this27.listp6mb = id;
+          return _this22.listp6mb = id;
         });
         this.encuestaex.getitemcoll6b().subscribe(function (id) {
-          return _this27.listp6b = id;
+          return _this22.listp6b = id;
         });
         this.encuestaex.getitemcoll6r().subscribe(function (id) {
-          return _this27.listp6r = id;
+          return _this22.listp6r = id;
         });
         this.encuestaex.getitemcoll6m().subscribe(function (id) {
-          return _this27.listp6m = id;
+          return _this22.listp6m = id;
         });
         this.encuestaex.getitemcoll6mm().subscribe(function (id) {
-          return _this27.listp6mm = id;
+          return _this22.listp6mm = id;
         });
         this.encuestaex.getitemcoll7mb().subscribe(function (id) {
-          return _this27.listp7mb = id;
+          return _this22.listp7mb = id;
         });
         this.encuestaex.getitemcoll7b().subscribe(function (id) {
-          return _this27.listp7b = id;
+          return _this22.listp7b = id;
         });
         this.encuestaex.getitemcoll7r().subscribe(function (id) {
-          return _this27.listp7r = id;
+          return _this22.listp7r = id;
         });
         this.encuestaex.getitemcoll7m().subscribe(function (id) {
-          return _this27.listp7m = id;
+          return _this22.listp7m = id;
         });
         this.encuestaex.getitemcoll7mm().subscribe(function (id) {
-          return _this27.listp7mm = id;
+          return _this22.listp7mm = id;
         });
         this.encuestaex.getitemcoll8mb().subscribe(function (id) {
-          return _this27.listp8mb = id;
+          return _this22.listp8mb = id;
         });
         this.encuestaex.getitemcoll8b().subscribe(function (id) {
-          return _this27.listp8b = id;
+          return _this22.listp8b = id;
         });
         this.encuestaex.getitemcoll8r().subscribe(function (id) {
-          return _this27.listp8r = id;
+          return _this22.listp8r = id;
         });
         this.encuestaex.getitemcoll8m().subscribe(function (id) {
-          return _this27.listp8m = id;
+          return _this22.listp8m = id;
         });
         this.encuestaex.getitemcoll8mm().subscribe(function (id) {
-          return _this27.listp8mm = id;
+          return _this22.listp8mm = id;
         });
         this.encuestaex.getitemcoll9mb().subscribe(function (id) {
-          return _this27.listp9mb = id;
+          return _this22.listp9mb = id;
         });
         this.encuestaex.getitemcoll9r().subscribe(function (id) {
-          return _this27.listp9r = id;
+          return _this22.listp9r = id;
         });
         this.encuestaex.getitemcoll9mm().subscribe(function (id) {
-          return _this27.listp9mm = id;
+          return _this22.listp9mm = id;
         });
         this.encuestaex.getitemcoll10mb().subscribe(function (id) {
-          return _this27.listp10mb = id;
+          return _this22.listp10mb = id;
         });
         this.encuestaex.getitemcoll10mm().subscribe(function (id) {
-          return _this27.listp10mm = id;
+          return _this22.listp10mm = id;
         });
       }
 
@@ -12217,10 +12110,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "cont",
         value: function cont() {
-          var _this28 = this;
+          var _this23 = this;
 
           this.afs.collection('type').doc('VI0001').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_3__["take"])(1)).subscribe(function (res) {
-            _this28.arras(res);
+            _this23.arras(res);
           }); // se tomara de otra base
         }
       }, {
@@ -12285,10 +12178,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getData2",
         value: function getData2() {
-          var _this29 = this;
+          var _this24 = this;
 
           this.afs.collection('Encuestareps').valueChanges().subscribe(function (encuesta) {
-            _this29.rows2 = encuesta;
+            _this24.rows2 = encuesta;
           });
         } // events
 
@@ -13146,43 +13039,43 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(TallerComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          var _this30 = this;
+          var _this25 = this;
 
           this.authService.getAuth().subscribe(function (user) {
             if (user) {
-              _this30.isLogin = true;
+              _this25.isLogin = true;
 
-              _this30.lvlaccess.getUserData(user.email).subscribe(function (info) {
+              _this25.lvlaccess.getUserData(user.email).subscribe(function (info) {
                 if (info.suadmin === true) {
-                  _this30.ubi = info.ubicacion;
-                  _this30.isLoginSuadmin = true;
-                  _this30.isLoginAdmin = false;
-                  _this30.isLoginCallcenter = false;
-                  _this30.isLoginTaller = false;
+                  _this25.ubi = info.ubicacion;
+                  _this25.isLoginSuadmin = true;
+                  _this25.isLoginAdmin = false;
+                  _this25.isLoginCallcenter = false;
+                  _this25.isLoginTaller = false;
                 } else if (info.admin === true) {
-                  _this30.ubi = info.ubicacion;
-                  _this30.isLoginAdmin = true;
-                  _this30.isLoginSuadmin = false;
-                  _this30.isLoginCallcenter = false;
-                  _this30.isLoginTaller = false;
+                  _this25.ubi = info.ubicacion;
+                  _this25.isLoginAdmin = true;
+                  _this25.isLoginSuadmin = false;
+                  _this25.isLoginCallcenter = false;
+                  _this25.isLoginTaller = false;
                 } else if (info.tipo === 'CallCenter') {
-                  _this30.ubi = info.ubicacion;
-                  _this30.isLoginCallcenter = true;
-                  _this30.isLoginAdmin = false;
-                  _this30.isLoginTaller = false;
-                  _this30.isLoginSuadmin = false;
+                  _this25.ubi = info.ubicacion;
+                  _this25.isLoginCallcenter = true;
+                  _this25.isLoginAdmin = false;
+                  _this25.isLoginTaller = false;
+                  _this25.isLoginSuadmin = false;
                 } else if (info.tipo === 'Taller') {
-                  _this30.ubi = info.ubicacion;
-                  _this30.isLoginTaller = true;
-                  _this30.isLoginCallcenter = false;
-                  _this30.isLoginAdmin = false;
-                  _this30.isLoginSuadmin = false;
+                  _this25.ubi = info.ubicacion;
+                  _this25.isLoginTaller = true;
+                  _this25.isLoginCallcenter = false;
+                  _this25.isLoginAdmin = false;
+                  _this25.isLoginSuadmin = false;
                 } else {
                   console.log('Error de sistema: Usuario sin Permisos');
                 }
               });
             } else {
-              _this30.isLogin = false;
+              _this25.isLogin = false;
             }
           });
 
@@ -13197,7 +13090,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "onEncuesta",
         value: function onEncuesta(_ref9) {
-          var _this31 = this;
+          var _this26 = this;
 
           var value = _ref9.value;
           this.name = this.idenc.toUpperCase();
@@ -13213,32 +13106,32 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           this.afs.firestore.doc('Encuestareps/' + this.name).get().then(function (docSnapshot) {
             if (docSnapshot.exists === true) {
-              confirm('Ya existe el registro ' + _this31.name);
+              confirm('Ya existe el registro ' + _this26.name);
             } else {
-              _this31.afs.firestore.doc('EncuestarepsC/' + _this31.name).get().then(function (docSnapshot) {
+              _this26.afs.firestore.doc('EncuestarepsC/' + _this26.name).get().then(function (docSnapshot) {
                 if (docSnapshot.exists === true) {
-                  confirm('Ya existe el registro ' + _this31.name);
+                  confirm('Ya existe el registro ' + _this26.name);
                 } else {
-                  if (_this31.name.includes('VI') == true) {
+                  if (_this26.name.includes('VI') == true) {
                     var x = "Viga";
 
-                    _this31.encuestase.requestupdateType(x, _this31.fechareporte);
+                    _this26.encuestase.requestupdateType(x, _this26.fechareporte);
 
-                    _this31.encuestase.addEncuestare(value);
+                    _this26.encuestase.addEncuestare(value);
 
-                    _this31.encuestase.addTypeAll(value);
+                    _this26.encuestase.addTypeAll(value);
 
-                    confirm('Registro ' + _this31.name + ' guardado');
-                  } else if (_this31.name.includes('CE') == true) {
+                    confirm('Registro ' + _this26.name + ' guardado');
+                  } else if (_this26.name.includes('CE') == true) {
                     var x = "Centenario";
 
-                    _this31.encuestase.requestupdateType(x, _this31.fechareporte);
+                    _this26.encuestase.requestupdateType(x, _this26.fechareporte);
 
-                    _this31.encuestase.addEncuestareC(value);
+                    _this26.encuestase.addEncuestareC(value);
 
-                    _this31.encuestase.addTypeAll(value);
+                    _this26.encuestase.addTypeAll(value);
 
-                    confirm('Registro ' + _this31.name + ' guardado');
+                    confirm('Registro ' + _this26.name + ' guardado');
                   }
                 }
               });
@@ -13787,7 +13680,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "nuevoAdminFlota",
         value: function nuevoAdminFlota(form) {
-          var _this32 = this;
+          var _this27 = this;
 
           this.leng1 = this.len2 + 1;
 
@@ -13800,7 +13693,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             this._apolo.addadministrador(data).then(function () {
               //console.log('Administrador Flota creado con éxito!');
-              _this32.iniciaraf();
+              _this27.iniciaraf();
             }, function (error) {//console.log('ERROR: ', error);
             });
           } else {//console.log('UPDATE status')
@@ -13816,7 +13709,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "nuevomecanico",
         value: function nuevomecanico(form) {
-          var _this33 = this;
+          var _this28 = this;
 
           this.leng2 = this.len3 + 1;
 
@@ -13829,7 +13722,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             this._apolo.addmecanico(data).then(function () {
               //console.log('Mecanico creado con éxito!');
-              _this33.inciarmecanico();
+              _this28.inciarmecanico();
             }, function (error) {//console.log('ERROR: ', error);
             });
           } else {//console.log('UPDATE status');
@@ -13845,7 +13738,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "nuevoasesor",
         value: function nuevoasesor(form) {
-          var _this34 = this;
+          var _this29 = this;
 
           this.leng3 = this.len4 + 1;
 
@@ -13858,7 +13751,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             this._apolo.addasesor(data).then(function () {
               //console.log('Asesor creado con éxito!');
-              _this34.inciarasesor();
+              _this29.inciarasesor();
             }, function (error) {//console.log('ERROR: ', error);
             });
           } else {//console.log('UPDATE status');
@@ -13867,7 +13760,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "nuevocliente",
         value: function nuevocliente(form) {
-          var _this35 = this;
+          var _this30 = this;
 
           this.leng4 = this.len1 + 1;
 
@@ -13880,7 +13773,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             this._apolo.addcliente(data).then(function () {
               //console.log('Cliente creado con éxito!');
-              _this35.iniciarcliente();
+              _this30.iniciarcliente();
             }, function (error) {//console.log('ERROR: ', error);
             });
           } else {//console.log('UPDATE status');
@@ -13916,53 +13809,53 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getData1",
         value: function getData1() {
-          var _this36 = this;
+          var _this31 = this;
 
           //get coll
           this.afs.collection('Clientes').valueChanges().subscribe(function (encuesta) {
-            _this36.rows1 = encuesta;
+            _this31.rows1 = encuesta;
           });
           this.afs.collection('Clientes').valueChanges().subscribe(function (encuesta) {
-            _this36.len1 = encuesta.length;
+            _this31.len1 = encuesta.length;
           });
         }
       }, {
         key: "getData2",
         value: function getData2() {
-          var _this37 = this;
+          var _this32 = this;
 
           //get coll
           this.afs.collection('AdministradoresFlota').valueChanges().subscribe(function (encuesta) {
-            _this37.rows2 = encuesta;
+            _this32.rows2 = encuesta;
           });
           this.afs.collection('AdministradoresFlota').valueChanges().subscribe(function (encuesta) {
-            _this37.len2 = encuesta.length;
+            _this32.len2 = encuesta.length;
           });
         }
       }, {
         key: "getData3",
         value: function getData3() {
-          var _this38 = this;
+          var _this33 = this;
 
           //get coll
           this.afs.collection('Mecanicos').valueChanges().subscribe(function (encuesta) {
-            _this38.rows3 = encuesta;
+            _this33.rows3 = encuesta;
           });
           this.afs.collection('Mecanicos').valueChanges().subscribe(function (encuesta) {
-            _this38.len3 = encuesta.length;
+            _this33.len3 = encuesta.length;
           });
         }
       }, {
         key: "getData4",
         value: function getData4() {
-          var _this39 = this;
+          var _this34 = this;
 
           //get coll
           this.afs.collection('Asesor').valueChanges().subscribe(function (encuesta) {
-            _this39.rows4 = encuesta;
+            _this34.rows4 = encuesta;
           });
           this.afs.collection('Asesor').valueChanges().subscribe(function (encuesta) {
-            _this39.len4 = encuesta.length;
+            _this34.len4 = encuesta.length;
           });
         }
       }]);
@@ -14516,13 +14409,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(AuthGuard, [{
         key: "canActivate",
         value: function canActivate(next, state) {
-          var _this40 = this;
+          var _this35 = this;
 
           return this.authService.afAuth.authState.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (authState) {
             return !!authState;
           })).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["tap"])(function (authenticated) {
             if (!authenticated) {
-              _this40.router.navigate(['/login']);
+              _this35.router.navigate(['/login']);
             }
           }));
         }
@@ -14789,10 +14682,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(AuthService, [{
         key: "registeruser",
         value: function registeruser(email, pass) {
-          var _this41 = this;
+          var _this36 = this;
 
           return new Promise(function (resolve, reject) {
-            _this41.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(function (userData) {
+            _this36.afAuth.auth.createUserWithEmailAndPassword(email, pass).then(function (userData) {
               return resolve(userData);
             }, function (err) {
               return reject(err);
@@ -14820,10 +14713,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "loginEmail",
         value: function loginEmail(email, pass) {
-          var _this42 = this;
+          var _this37 = this;
 
           return new Promise(function (resolve, reject) {
-            _this42.afAuth.auth.signInWithEmailAndPassword(email, pass).then(function (userData) {
+            _this37.afAuth.auth.signInWithEmailAndPassword(email, pass).then(function (userData) {
               return resolve(userData);
             }, function (err) {
               return reject(err);
@@ -14840,13 +14733,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getid",
         value: function getid() {
-          var _this43 = this;
+          var _this38 = this;
 
           // return this.afAuth.authState.pipe(map( auth => auth.uid ));
           firebase_app__WEBPACK_IMPORTED_MODULE_1__["auth"]().onAuthStateChanged(function (user) {
             if (user) {
               // return user.uid;
-              return _this43.id = user.email;
+              return _this38.id = user.email;
             }
           });
           return this.id;
@@ -14951,16 +14844,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDocs() {
           return this.afs.collection('typeALL').valueChanges();
         }
-      }, {
-        key: "getDocsC",
-        value: function getDocsC() {
-          return this.afs.collection('typeC').valueChanges();
-        }
-      }, {
-        key: "getDocsV",
-        value: function getDocsV() {
-          return this.afs.collection('type').valueChanges(); // se tomara de otra base
-        }
       }]);
 
       return DatatableService;
@@ -15040,301 +14923,27 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         _classCallCheck(this, EncuestaService);
 
         this.afs = afs;
-        this.EncuestaexCollection = this.afs.collection('Encuestaexes', function (ref) {
-          return ref;
-        });
+        this.meses = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+        this.mod = {};
+        var today = new Date();
+        this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+        this.mod.mesnumero = today.getMonth() + 1;
+        this.mod.año = today.getFullYear();
+
+        for (var mc = 1; mc <= 12; mc++) {
+          if (this.mod.mesnumero == mc) {
+            this.mod.mes = this.meses[mc];
+          }
+        }
+
+        this.fechareporte = this.mod.mes + this.mod.año;
         this.EncuestareCollection = this.afs.collection('Encuestareps', function (ref) {
-          return ref;
-        });
-        this.EncuestatrCollection = this.afs.collection('Encuestatram', function (ref) {
-          return ref;
-        });
-        this.typeCollection = this.afs.collection('type', function (ref) {
-          return ref;
-        });
-        this.EncuestaexCollectionC = this.afs.collection('EncuestaexesC', function (ref) {
           return ref;
         });
         this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', function (ref) {
           return ref;
         });
-        this.EncuestatrCollectionC = this.afs.collection('EncuestatramC', function (ref) {
-          return ref;
-        });
-        this.typeCollectionC = this.afs.collection('typeC', function (ref) {
-          return ref;
-        });
         this.typeCollectionALL = this.afs.collection('typeALL', function (ref) {
-          return ref;
-        });
-        this.ccp1mb = this.afs.collection('Contadores').doc('Pregunta1').collection('MuyBueno/', function (ref) {
-          return ref;
-        });
-        this.ccp1b = this.afs.collection('Contadores').doc('Pregunta1').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp1r = this.afs.collection('Contadores').doc('Pregunta1').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp1m = this.afs.collection('Contadores').doc('Pregunta1').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp1mm = this.afs.collection('Contadores').doc('Pregunta1').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp1mb = this.afs.collection('Contadores').doc('Pregunta1C').collection('MuyBueno/', function (ref) {
-          return ref;
-        });
-        this.cccp1b = this.afs.collection('Contadores').doc('Pregunta1C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp1r = this.afs.collection('Contadores').doc('Pregunta1C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp1m = this.afs.collection('Contadores').doc('Pregunta1C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp1mm = this.afs.collection('Contadores').doc('Pregunta1C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp2mb = this.afs.collection('Contadores').doc('Pregunta2').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp2b = this.afs.collection('Contadores').doc('Pregunta2').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp2r = this.afs.collection('Contadores').doc('Pregunta2').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp2m = this.afs.collection('Contadores').doc('Pregunta2').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp2mm = this.afs.collection('Contadores').doc('Pregunta2').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp2mb = this.afs.collection('Contadores').doc('Pregunta2C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp2b = this.afs.collection('Contadores').doc('Pregunta2C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp2r = this.afs.collection('Contadores').doc('Pregunta2C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp2m = this.afs.collection('Contadores').doc('Pregunta2C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp2mm = this.afs.collection('Contadores').doc('Pregunta2C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp3mb = this.afs.collection('Contadores').doc('Pregunta3').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp3b = this.afs.collection('Contadores').doc('Pregunta3').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp3r = this.afs.collection('Contadores').doc('Pregunta3').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp3m = this.afs.collection('Contadores').doc('Pregunta3').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp3mm = this.afs.collection('Contadores').doc('Pregunta3').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp3mb = this.afs.collection('Contadores').doc('Pregunta3C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp3b = this.afs.collection('Contadores').doc('Pregunta3C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp3r = this.afs.collection('Contadores').doc('Pregunta3C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp3m = this.afs.collection('Contadores').doc('Pregunta3C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp3mm = this.afs.collection('Contadores').doc('Pregunta3C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp4mb = this.afs.collection('Contadores').doc('Pregunta4').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp4b = this.afs.collection('Contadores').doc('Pregunta4').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp4r = this.afs.collection('Contadores').doc('Pregunta4').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp4m = this.afs.collection('Contadores').doc('Pregunta4').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp4mm = this.afs.collection('Contadores').doc('Pregunta4').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp4mb = this.afs.collection('Contadores').doc('Pregunta4C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp4b = this.afs.collection('Contadores').doc('Pregunta4C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp4r = this.afs.collection('Contadores').doc('Pregunta4C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp4m = this.afs.collection('Contadores').doc('Pregunta4C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp4mm = this.afs.collection('Contadores').doc('Pregunta4C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp5mb = this.afs.collection('Contadores').doc('Pregunta5').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp5b = this.afs.collection('Contadores').doc('Pregunta5').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp5r = this.afs.collection('Contadores').doc('Pregunta5').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp5m = this.afs.collection('Contadores').doc('Pregunta5').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp5mm = this.afs.collection('Contadores').doc('Pregunta5').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp5mb = this.afs.collection('Contadores').doc('Pregunta5C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp5b = this.afs.collection('Contadores').doc('Pregunta5C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp5r = this.afs.collection('Contadores').doc('Pregunta5C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp5m = this.afs.collection('Contadores').doc('Pregunta5C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp5mm = this.afs.collection('Contadores').doc('Pregunta5C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp6mb = this.afs.collection('Contadores').doc('Pregunta6').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp6b = this.afs.collection('Contadores').doc('Pregunta6').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp6r = this.afs.collection('Contadores').doc('Pregunta6').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp6m = this.afs.collection('Contadores').doc('Pregunta6').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp6mm = this.afs.collection('Contadores').doc('Pregunta6').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp6mb = this.afs.collection('Contadores').doc('Pregunta6C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp6b = this.afs.collection('Contadores').doc('Pregunta6C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp6r = this.afs.collection('Contadores').doc('Pregunta6C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp6m = this.afs.collection('Contadores').doc('Pregunta6C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp6mm = this.afs.collection('Contadores').doc('Pregunta6C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp7mb = this.afs.collection('Contadores').doc('Pregunta7').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp7b = this.afs.collection('Contadores').doc('Pregunta7').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp7r = this.afs.collection('Contadores').doc('Pregunta7').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp7m = this.afs.collection('Contadores').doc('Pregunta7').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp7mm = this.afs.collection('Contadores').doc('Pregunta7').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp7mb = this.afs.collection('Contadores').doc('Pregunta7C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp7b = this.afs.collection('Contadores').doc('Pregunta7C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp7r = this.afs.collection('Contadores').doc('Pregunta7C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp7m = this.afs.collection('Contadores').doc('Pregunta7C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp7mm = this.afs.collection('Contadores').doc('Pregunta7C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp8mb = this.afs.collection('Contadores').doc('Pregunta8').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.ccp8b = this.afs.collection('Contadores').doc('Pregunta8').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.ccp8r = this.afs.collection('Contadores').doc('Pregunta8').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.ccp8m = this.afs.collection('Contadores').doc('Pregunta8').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.ccp8mm = this.afs.collection('Contadores').doc('Pregunta8').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.cccp8mb = this.afs.collection('Contadores').doc('Pregunta8C').collection('MuyBueno', function (ref) {
-          return ref;
-        });
-        this.cccp8b = this.afs.collection('Contadores').doc('Pregunta8C').collection('Bueno', function (ref) {
-          return ref;
-        });
-        this.cccp8r = this.afs.collection('Contadores').doc('Pregunta8C').collection('Regular', function (ref) {
-          return ref;
-        });
-        this.cccp8m = this.afs.collection('Contadores').doc('Pregunta8C').collection('Malo', function (ref) {
-          return ref;
-        });
-        this.cccp8mm = this.afs.collection('Contadores').doc('Pregunta8C').collection('MuyMalo', function (ref) {
-          return ref;
-        });
-        this.ccp9mb = this.afs.collection('Contadores').doc('Pregunta9').collection('Si', function (ref) {
-          return ref;
-        });
-        this.ccp9mm = this.afs.collection('Contadores').doc('Pregunta9').collection('N-A', function (ref) {
-          return ref;
-        });
-        this.ccp9r = this.afs.collection('Contadores').doc('Pregunta9').collection('No', function (ref) {
-          return ref;
-        });
-        this.cccp9mb = this.afs.collection('Contadores').doc('Pregunta9C').collection('Si', function (ref) {
-          return ref;
-        });
-        this.cccp9r = this.afs.collection('Contadores').doc('Pregunta9C').collection('N-A', function (ref) {
-          return ref;
-        });
-        this.cccp9mm = this.afs.collection('Contadores').doc('Pregunta9C').collection('No', function (ref) {
-          return ref;
-        });
-        this.ccp10mb = this.afs.collection('Contadores').doc('Pregunta10').collection('Si', function (ref) {
-          return ref;
-        });
-        this.ccp10mm = this.afs.collection('Contadores').doc('Pregunta10').collection('No', function (ref) {
-          return ref;
-        });
-        this.cccp10mb = this.afs.collection('Contadores').doc('Pregunta10C').collection('Si', function (ref) {
-          return ref;
-        });
-        this.cccp10mm = this.afs.collection('Contadores').doc('Pregunta10C').collection('No', function (ref) {
           return ref;
         });
       } //___________________________________________________________________ Delete Encuesta
@@ -15387,23 +14996,26 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getcontador",
         value: function getcontador(x, y) {
-          var _this44 = this;
+          var _this39 = this;
 
           this.afs.firestore.collection('type').doc(x).collection(y).get().then(function (doc) {
             if (doc.docs.length > 0) {
-              _this44.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-                _this44.arrayss(res);
+              _this39.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
+                _this39.arrayss(res);
               });
             } else {
-              _this44.add(x, y); //  this.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.arrayss(res); } );
+              _this39.add(x, y);
 
+              _this39.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
+                _this39.arrayss(res);
+              });
             }
           });
         }
       }, {
         key: "add",
         value: function add(x, y) {
-          var _this45 = this;
+          var _this40 = this;
 
           this.afs.collection('type').doc(x).collection(y).doc('contestadas').set({
             contador: 0
@@ -15412,7 +15024,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             contador: 0
           });
           this.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-            _this45.arrayss(res);
+            _this40.arrayss(res);
           });
         }
       }, {
@@ -15432,10 +15044,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getcontador2",
         value: function getcontador2(x, y) {
-          var _this46 = this;
+          var _this41 = this;
 
           this.afs.collection('type').doc(x).collection(y).doc('contestadas').valueChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["take"])(1)).subscribe(function (res) {
-            _this46.arrayss(res);
+            _this41.arrayss(res);
           });
         } //___________________________________________________________________ Add Encuesta
 
@@ -15456,21 +15068,289 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function addEncuestareC(Encuestaex) {
           // this.EncuestaexCollection.add(Encuestaex);
           this.EncuestareCollectionC.doc(Encuestaex.id).set(Encuestaex);
-        }
-      }, {
-        key: "addEncuestatrC",
-        value: function addEncuestatrC(Encuestaex) {
-          // this.EncuestaexCollection.add(Encuestaex);
-          this.EncuestatrCollectionC.doc(Encuestaex.id).set(Encuestaex);
         } //___________________________________________________________________
         //Get collections
         //___________________________________________________________________
 
       }, {
+        key: "getcolections",
+        value: function getcolections() {
+          this.ccp1mb = this.afs.collection('Contadores').doc('Pregunta1').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp1b = this.afs.collection('Contadores').doc('Pregunta1').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp1r = this.afs.collection('Contadores').doc('Pregunta1').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp1m = this.afs.collection('Contadores').doc('Pregunta1').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp1mm = this.afs.collection('Contadores').doc('Pregunta1').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp1mb = this.afs.collection('Contadores').doc('Pregunta1C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp1b = this.afs.collection('Contadores').doc('Pregunta1C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp1r = this.afs.collection('Contadores').doc('Pregunta1C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp1m = this.afs.collection('Contadores').doc('Pregunta1C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp1mm = this.afs.collection('Contadores').doc('Pregunta1C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp2mb = this.afs.collection('Contadores').doc('Pregunta2').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp2b = this.afs.collection('Contadores').doc('Pregunta2').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp2r = this.afs.collection('Contadores').doc('Pregunta2').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp2m = this.afs.collection('Contadores').doc('Pregunta2').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp2mm = this.afs.collection('Contadores').doc('Pregunta2').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp2mb = this.afs.collection('Contadores').doc('Pregunta2C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp2b = this.afs.collection('Contadores').doc('Pregunta2C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp2r = this.afs.collection('Contadores').doc('Pregunta2C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp2m = this.afs.collection('Contadores').doc('Pregunta2C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp2mm = this.afs.collection('Contadores').doc('Pregunta2C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp3mb = this.afs.collection('Contadores').doc('Pregunta3').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp3b = this.afs.collection('Contadores').doc('Pregunta3').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp3r = this.afs.collection('Contadores').doc('Pregunta3').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp3m = this.afs.collection('Contadores').doc('Pregunta3').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp3mm = this.afs.collection('Contadores').doc('Pregunta3').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp3mb = this.afs.collection('Contadores').doc('Pregunta3C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp3b = this.afs.collection('Contadores').doc('Pregunta3C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp3r = this.afs.collection('Contadores').doc('Pregunta3C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp3m = this.afs.collection('Contadores').doc('Pregunta3C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp3mm = this.afs.collection('Contadores').doc('Pregunta3C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp4mb = this.afs.collection('Contadores').doc('Pregunta4').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp4b = this.afs.collection('Contadores').doc('Pregunta4').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp4r = this.afs.collection('Contadores').doc('Pregunta4').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp4m = this.afs.collection('Contadores').doc('Pregunta4').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp4mm = this.afs.collection('Contadores').doc('Pregunta4').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp4mb = this.afs.collection('Contadores').doc('Pregunta4C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp4b = this.afs.collection('Contadores').doc('Pregunta4C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp4r = this.afs.collection('Contadores').doc('Pregunta4C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp4m = this.afs.collection('Contadores').doc('Pregunta4C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp4mm = this.afs.collection('Contadores').doc('Pregunta4C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp5mb = this.afs.collection('Contadores').doc('Pregunta5').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp5b = this.afs.collection('Contadores').doc('Pregunta5').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp5r = this.afs.collection('Contadores').doc('Pregunta5').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp5m = this.afs.collection('Contadores').doc('Pregunta5').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp5mm = this.afs.collection('Contadores').doc('Pregunta5').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp5mb = this.afs.collection('Contadores').doc('Pregunta5C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp5b = this.afs.collection('Contadores').doc('Pregunta5C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp5r = this.afs.collection('Contadores').doc('Pregunta5C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp5m = this.afs.collection('Contadores').doc('Pregunta5C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp5mm = this.afs.collection('Contadores').doc('Pregunta5C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp6mb = this.afs.collection('Contadores').doc('Pregunta6').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp6b = this.afs.collection('Contadores').doc('Pregunta6').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp6r = this.afs.collection('Contadores').doc('Pregunta6').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp6m = this.afs.collection('Contadores').doc('Pregunta6').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp6mm = this.afs.collection('Contadores').doc('Pregunta6').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp6mb = this.afs.collection('Contadores').doc('Pregunta6C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp6b = this.afs.collection('Contadores').doc('Pregunta6C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp6r = this.afs.collection('Contadores').doc('Pregunta6C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp6m = this.afs.collection('Contadores').doc('Pregunta6C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp6mm = this.afs.collection('Contadores').doc('Pregunta6C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp7mb = this.afs.collection('Contadores').doc('Pregunta7').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp7b = this.afs.collection('Contadores').doc('Pregunta7').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp7r = this.afs.collection('Contadores').doc('Pregunta7').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp7m = this.afs.collection('Contadores').doc('Pregunta7').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp7mm = this.afs.collection('Contadores').doc('Pregunta7').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp7mb = this.afs.collection('Contadores').doc('Pregunta7C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp7b = this.afs.collection('Contadores').doc('Pregunta7C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp7r = this.afs.collection('Contadores').doc('Pregunta7C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp7m = this.afs.collection('Contadores').doc('Pregunta7C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp7mm = this.afs.collection('Contadores').doc('Pregunta7C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp8mb = this.afs.collection('Contadores').doc('Pregunta8').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp8b = this.afs.collection('Contadores').doc('Pregunta8').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp8r = this.afs.collection('Contadores').doc('Pregunta8').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp8m = this.afs.collection('Contadores').doc('Pregunta8').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp8mm = this.afs.collection('Contadores').doc('Pregunta8').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp8mb = this.afs.collection('Contadores').doc('Pregunta8C').collection('MuyBueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp8b = this.afs.collection('Contadores').doc('Pregunta8C').collection('Bueno').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp8r = this.afs.collection('Contadores').doc('Pregunta8C').collection('Regular').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp8m = this.afs.collection('Contadores').doc('Pregunta8C').collection('Malo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp8mm = this.afs.collection('Contadores').doc('Pregunta8C').collection('MuyMalo').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp9mb = this.afs.collection('Contadores').doc('Pregunta9').collection('Si').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp9mm = this.afs.collection('Contadores').doc('Pregunta9').collection('N-A').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp9r = this.afs.collection('Contadores').doc('Pregunta9').collection('No').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp9mb = this.afs.collection('Contadores').doc('Pregunta9C').collection('Si').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp9r = this.afs.collection('Contadores').doc('Pregunta9C').collection('N-A').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp9mm = this.afs.collection('Contadores').doc('Pregunta9C').collection('No').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp10mb = this.afs.collection('Contadores').doc('Pregunta10').collection('Si').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.ccp10mm = this.afs.collection('Contadores').doc('Pregunta10').collection('No').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp10mb = this.afs.collection('Contadores').doc('Pregunta10C').collection('Si').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+          this.cccp10mm = this.afs.collection('Contadores').doc('Pregunta10C').collection('No').doc(this.fechareporte).collection('contador', function (ref) {
+            return ref;
+          });
+        }
+      }, {
         key: "getAllEncuestaexCen",
         value: function getAllEncuestaexCen(x) {
-          this.typeCollections = this.afs.collection('typeC', function (ref) {
-            return ref.where("contestada", "==", x);
+          this.typeCollections = this.afs.collection('EncuestarepsC', function (ref) {
+            return ref.where("fechareporte", "==", x);
           });
           this.Encuestaexes = this.typeCollections.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
             return changes.map(function (action) {
@@ -15484,8 +15364,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getAllEncuestaexvig",
         value: function getAllEncuestaexvig(x) {
-          this.typeCollections = this.afs.collection('type', function (ref) {
-            return ref.where("contestada", "==", x);
+          this.typeCollections = this.afs.collection('Encuestareps', function (ref) {
+            return ref.where("fechareporte", "==", x);
           });
           this.Encuestaexes = this.typeCollections.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
             return changes.map(function (action) {
@@ -15495,183 +15375,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             });
           }));
           return this.Encuestaexes;
-        }
-      }, {
-        key: "getAllEncuestaexvigfil",
-        value: function getAllEncuestaexvigfil(x, y) {
-          this.typeCollections = this.afs.collection('type', function (ref) {
-            return ref.where("contestada", "==", x) && ref.where("fechareporte", "==", y);
-          });
-          this.Encuestaexes = this.typeCollections.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.data();
-              data.id = action.payload.doc.id;
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getAllEncuestaexCenfil",
-        value: function getAllEncuestaexCenfil(x, y) {
-          this.typeCollections = this.afs.collection('typeC', function (ref) {
-            return ref.where("contestada", "==", x) && ref.where("fechareporte", "==", y);
-          });
-          this.Encuestaexes = this.typeCollections.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.data();
-              data.id = action.payload.doc.id;
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitem",
-        value: function getitem() {
-          this.Encuestaexes = this.typeCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemallC",
-        value: function getitemallC() {
-          this.Encuestaexes = this.typeCollectionC.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.data(); // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemallV",
-        value: function getitemallV() {
-          this.Encuestaexes = this.typeCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.data(); // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemc",
-        value: function getitemc() {
-          this.Encuestaexes = this.typeCollectionC.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemv",
-        value: function getitemv() {
-          this.Encuestaexes = this.typeCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemtram",
-        value: function getitemtram() {
-          this.Encuestaexes = this.EncuestatrCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemrep",
-        value: function getitemrep() {
-          this.Encuestaexes = this.EncuestareCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemex",
-        value: function getitemex() {
-          this.Encuestaexes = this.EncuestaexCollection.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemtramc",
-        value: function getitemtramc() {
-          this.Encuestaexes = this.EncuestatrCollectionC.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemrepc",
-        value: function getitemrepc() {
-          this.Encuestaexes = this.EncuestareCollectionC.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getitemexc",
-        value: function getitemexc() {
-          this.Encuestaexes = this.EncuestaexCollectionC.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (changes) {
-            return changes.map(function (action) {
-              var data = action.payload.doc.id; // data.id = action.payload.doc.id;
-
-              return data;
-            });
-          }));
-          return this.Encuestaexes;
-        }
-      }, {
-        key: "getiEncuestaex",
-        value: function getiEncuestaex(id) {
-          this.EncuestaexDoc = this.afs.doc('type/${id}');
-          this.Encuestaex = this.EncuestaexDoc.snapshotChanges().pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(function (action) {
-            if (action.payload.exists === false) {
-              return null;
-            } else {
-              var data = action.payload.data().total;
-              data.id = action.payload.id;
-              return data;
-            }
-          }));
-          return this.Encuestaex;
         } //___________________________________________________________________ Collection Contadores VIGA
 
       }, {

@@ -113,7 +113,7 @@ export class EncuestaService {
   EncuestaexDoc: AngularFirestoreDocument<EncuestaexInterface>;
   EncuestaexDoc1: AngularFirestoreDocument<ContadorInterface>;
  Encuestaexes: Observable<EncuestaexInterface[]>;
-
+ meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
 contadores:number;
 mod: any = {};
 fechareporte: string;
@@ -123,8 +123,12 @@ constructor(
   this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
   this.mod.mesnumero =  today.getMonth()+1;
   this.mod.año =  today.getFullYear();
+  for(var mc=1; mc<=12; mc++){
+    if(this.mod.mesnumero == mc){
+      this.mod.mes = this.meses[mc];
+    }
+  }
   this.fechareporte = this.mod.mes+this.mod.año;
-
    this.EncuestareCollection = this.afs.collection('Encuestareps', ref => ref);
    this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', ref => ref);
    this.typeCollectionALL = this.afs.collection('typeALL', ref => ref);

@@ -33,8 +33,8 @@ public pieChartDataP3: SingleDataSet = [18, 6, 1.5, 1.5, 3];
 public pieChartDataP4: SingleDataSet = [21, 6, 1.5, .75, .75];
 // P5 La atención que recibió de nuestro asesor de servicio fue….
 public pieChartDataP5: SingleDataSet = [21, 6, 1.5, .75, .75];
-// P6 Considera que la imagen de nuestro asesor de servicio es...
-public pieChartDataP6: SingleDataSet = [12, 9, 6, 1.5, 1.5];
+// P6 Considera que la imagen de nuestro asesor de servicio es..
+public pieChartDataP6: SingleDataSet = [12, 9, 6, 1.5, 1.5]; 
 // P7 La limpieza de su vehículo fue:
 public pieChartDataP7: SingleDataSet = [12, 9, 6, 1.5, 1.5];
 // P8 La experiencia en general de su visita a Casanova fue…
@@ -62,61 +62,9 @@ constructor(
 ) {
   monkeyPatchChartJsTooltip();
   monkeyPatchChartJsLegend();
-  this.encuestaex.getitemcoll1mbc().subscribe(id => this.listp1mb = id as Array<string>);
- this.encuestaex.getitemcoll1bc().subscribe(id =>  this.listp1b = id as Array<string>);
- this.encuestaex.getitemcoll1rc().subscribe(id =>  this.listp1r = id as Array<string>);
- this.encuestaex.getitemcoll1mc().subscribe(id =>  this.listp1m = id as Array<string>);
- this.encuestaex.getitemcoll1mmc().subscribe(id => this.listp1mm = id as Array<string>);
-
- this.encuestaex.getitemcoll2mbc().subscribe(id => this.listp2mb = id as Array<string>);
- this.encuestaex.getitemcoll2bc().subscribe(id =>  this.listp2b = id as Array<string>);
- this.encuestaex.getitemcoll2rc().subscribe(id =>  this.listp2r = id as Array<string>);
- this.encuestaex.getitemcoll2mc().subscribe(id =>  this.listp2m = id as Array<string>);
- this.encuestaex.getitemcoll2mmc().subscribe(id => this.listp2mm = id as Array<string>);
+  this.encuestaex.getcolections();
+  this.cont();
  
- this.encuestaex.getitemcoll3mbc().subscribe(id => this.listp3mb = id as Array<string>);
- this.encuestaex.getitemcoll3bc().subscribe(id =>  this.listp3b = id as Array<string>);
- this.encuestaex.getitemcoll3rc().subscribe(id =>  this.listp3r = id as Array<string>);
- this.encuestaex.getitemcoll3mc().subscribe(id =>  this.listp3m = id as Array<string>);
- this.encuestaex.getitemcoll3mmc().subscribe(id => this.listp3mm = id as Array<string>);
-
- this.encuestaex.getitemcoll4mbc().subscribe(id => this.listp4mb = id as Array<string>);
- this.encuestaex.getitemcoll4bc().subscribe(id =>  this.listp4b = id as Array<string>);
- this.encuestaex.getitemcoll4rc().subscribe(id =>  this.listp4r = id as Array<string>);
- this.encuestaex.getitemcoll4mc().subscribe(id =>  this.listp4m = id as Array<string>);
- this.encuestaex.getitemcoll4mmc().subscribe(id => this.listp4mm = id as Array<string>);
-
- this.encuestaex.getitemcoll5mbc().subscribe(id => this.listp5mb = id as Array<string>);
- this.encuestaex.getitemcoll5bc().subscribe(id =>  this.listp5b = id as Array<string>);
- this.encuestaex.getitemcoll5rc().subscribe(id =>  this.listp5r = id as Array<string>);
- this.encuestaex.getitemcoll5mc().subscribe(id =>  this.listp5m = id as Array<string>);
- this.encuestaex.getitemcoll5mmc().subscribe(id => this.listp5mm = id as Array<string>);
-
- this.encuestaex.getitemcoll6mbc().subscribe(id => this.listp6mb = id as Array<string>);
- this.encuestaex.getitemcoll6bc().subscribe(id =>  this.listp6b = id as Array<string>);
- this.encuestaex.getitemcoll6rc().subscribe(id =>  this.listp6r = id as Array<string>);
- this.encuestaex.getitemcoll6mc().subscribe(id =>  this.listp6m = id as Array<string>);
- this.encuestaex.getitemcoll6mmc().subscribe(id => this.listp6mm = id as Array<string>);
-
- this.encuestaex.getitemcoll7mbc().subscribe(id => this.listp7mb = id as Array<string>);
- this.encuestaex.getitemcoll7bc().subscribe(id =>  this.listp7b = id as Array<string>);
- this.encuestaex.getitemcoll7rc().subscribe(id =>  this.listp7r = id as Array<string>);
- this.encuestaex.getitemcoll7mc().subscribe(id =>  this.listp7m = id as Array<string>);
- this.encuestaex.getitemcoll7mmc().subscribe(id => this.listp7mm = id as Array<string>);
-
- this.encuestaex.getitemcoll8mbc().subscribe(id => this.listp8mb = id as Array<string>);
- this.encuestaex.getitemcoll8bc().subscribe(id =>  this.listp8b = id as Array<string>);
- this.encuestaex.getitemcoll8rc().subscribe(id =>  this.listp8r = id as Array<string>);
- this.encuestaex.getitemcoll8mc().subscribe(id =>  this.listp8m = id as Array<string>);
- this.encuestaex.getitemcoll8mmc().subscribe(id => this.listp8mm = id as Array<string>);
-
- this.encuestaex.getitemcoll9mbc().subscribe(id => this.listp9mb = id as Array<string>);
- this.encuestaex.getitemcoll9rc().subscribe(id => this.listp9r = id as Array<string>);
- this.encuestaex.getitemcoll9mmc().subscribe(id =>  this.listp9mm = id as Array<string>);
-
- this.encuestaex.getitemcoll10mbc().subscribe(id => this.listp10mb = id as Array<string>);
- this.encuestaex.getitemcoll10mmc().subscribe(id =>  this.listp10mm = id as Array<string>);
-
  }
  cp1mb: number; cp1b: number; cp1r: number; cp1m: number; cp1mm: number;
  cp2mb: number; cp2b: number; cp2r: number; cp2m: number; cp2mm: number;
@@ -128,17 +76,150 @@ constructor(
  cp8mb: number; cp8b: number; cp8r: number; cp8m: number; cp8mm: number;
  cp9mb: number;  cp9r:number; cp9mm: number; cp10mb: number; cp10mm: number;
 
- listp1mb: string[]; listp2mb: string[]; listp3mb: string[]; listp4mb: string[]; listp5mb: string[]; listp6mb: string[]; listp7mb: string[]; listp8mb: string[]; listp9mb: string[]; listp10mb: string[];
- listp1b: string[]; listp2b: string[]; listp3b: string[]; listp4b: string[]; listp5b: string[]; listp6b: string[]; listp7b: string[]; listp8b: string[]; 
- listp1r: string[]; listp2r: string[]; listp3r: string[]; listp4r: string[]; listp5r: string[]; listp6r: string[]; listp7r: string[]; listp8r: string[]; listp9r:string[];
- listp1m: string[]; listp2m: string[]; listp3m: string[]; listp4m: string[]; listp5m: string[]; listp6m: string[]; listp7m: string[]; listp8m: string[]; 
- listp1mm: string[]; listp2mm: string[]; listp3mm: string[]; listp4mm: string[]; listp5mm: string[]; listp6mm: string[]; listp7mm: string[]; listp8mm: string[]; listp9mm: string[]; listp10mm: string[];
+ listp1mb:any[]; listp2mb:any[]; listp3mb:any[]; listp4mb:any[]; listp5mb:any[]; listp6mb:any[]; listp7mb:any[]; listp8mb:any[]; listp9mb:any[]; listp10mb:any[];
+ listp1b:any[]; listp2b:any[]; listp3b:any[]; listp4b:any[]; listp5b:any[]; listp6b:any[]; listp7b:any[]; listp8b:any[]; 
+ listp1r:any[]; listp2r:any[]; listp3r:any[]; listp4r:any[]; listp5r:any[]; listp6r:any[]; listp7r:any[]; listp8r:any[]; listp9r:any[];
+ listp1m:any[]; listp2m:any[]; listp3m:any[]; listp4m:any[]; listp5m:any[]; listp6m:any[]; listp7m:any[]; listp8m:any[]; 
+ listp1mm:any[]; listp2mm:any[]; listp3mm:any[]; listp4mm:any[]; listp5mm:any[]; listp6mm:any[]; listp7mm:any[]; listp8mm:any[]; listp9mm:any[]; listp10mm:any[];
 
 ngOnInit() {
   this.getData2();  
-  this.cont()
 }
-cont() {
+cont():any {
+  this.encuestaex.getitemcoll1mbc().subscribe(id => { 
+  this.listp1mb = id;
+  });
+  this.encuestaex.getitemcoll1bc().subscribe(id => { 
+  this.listp1b = id;
+  });
+  this.encuestaex.getitemcoll1rc().subscribe(id => { 
+  this.listp1r = id;
+  });
+  this.encuestaex.getitemcoll1mc().subscribe(id => { 
+  this.listp1m = id;
+  });
+  this.encuestaex.getitemcoll1mmc().subscribe(id => { 
+  this.listp1mm = id;
+  });
+  this.encuestaex.getitemcoll2mbc().subscribe(id => { 
+  this.listp2mb = id;
+  });
+  this.encuestaex.getitemcoll2bc().subscribe(id => { 
+  this.listp2b = id;
+  });
+  this.encuestaex.getitemcoll2rc().subscribe(id => { 
+  this.listp2r = id;
+  });
+  this.encuestaex.getitemcoll2mc().subscribe(id => { 
+  this.listp2m = id;
+  });
+  this.encuestaex.getitemcoll2mmc().subscribe(id => { 
+  this.listp2mm = id;
+  });
+  this.encuestaex.getitemcoll3mbc().subscribe(id => { 
+  this.listp3mb = id;
+  });
+  this.encuestaex.getitemcoll3bc().subscribe(id => { 
+  this.listp3b = id;
+  });
+  this.encuestaex.getitemcoll3rc().subscribe(id => { 
+  this.listp3r = id;
+  });
+  this.encuestaex.getitemcoll3mc().subscribe(id => { 
+  this.listp3m = id;
+  });
+  this.encuestaex.getitemcoll3mmc().subscribe(id => { 
+  this.listp3mm = id;
+  });
+  this.encuestaex.getitemcoll4mbc().subscribe(id => { 
+  this.listp4mb = id;
+  });
+  this.encuestaex.getitemcoll4bc().subscribe(id => { 
+  this.listp4b = id;
+  });
+  this.encuestaex.getitemcoll4rc().subscribe(id => { 
+  this.listp4r = id;
+  });
+  this.encuestaex.getitemcoll4mc().subscribe(id => { 
+  this.listp4m = id;
+  });
+  this.encuestaex.getitemcoll4mmc().subscribe(id => { 
+  this.listp4mm = id;
+  });
+  this.encuestaex.getitemcoll5mbc().subscribe(id => { 
+  this.listp5mb = id;
+  });
+  this.encuestaex.getitemcoll5bc().subscribe(id => { 
+  this.listp5b = id;
+  });
+  this.encuestaex.getitemcoll5rc().subscribe(id => { 
+  this.listp5r = id;
+  });
+  this.encuestaex.getitemcoll5mc().subscribe(id => { 
+  this.listp5m = id;
+  });
+  this.encuestaex.getitemcoll5mmc().subscribe(id => { 
+  this.listp5mm = id;
+  });
+  this.encuestaex.getitemcoll6mbc().subscribe(id => { 
+  this.listp6mb = id;
+  });
+  this.encuestaex.getitemcoll6bc().subscribe(id => { 
+  this.listp6b = id;
+  });
+  this.encuestaex.getitemcoll6rc().subscribe(id => { 
+  this.listp6r = id;
+  });
+  this.encuestaex.getitemcoll6mc().subscribe(id => { 
+  this.listp6m = id;
+  });
+  this.encuestaex.getitemcoll6mmc().subscribe(id => { 
+  this.listp6mm = id;
+  });
+  this.encuestaex.getitemcoll7mbc().subscribe(id => { 
+  this.listp7mb = id;
+  });
+  this.encuestaex.getitemcoll7bc().subscribe(id => { 
+  this.listp7b = id;
+  });
+  this.encuestaex.getitemcoll7rc().subscribe(id => { 
+  this.listp7r = id;
+  });
+  this.encuestaex.getitemcoll7mc().subscribe(id => { 
+  this.listp7m = id;
+  });
+  this.encuestaex.getitemcoll7mmc().subscribe(id => { 
+  this.listp7mm = id;
+  });
+  this.encuestaex.getitemcoll8mbc().subscribe(id => { 
+  this.listp8mb = id;
+  });
+  this.encuestaex.getitemcoll8bc().subscribe(id => { 
+  this.listp8b = id;
+  });
+  this.encuestaex.getitemcoll8rc().subscribe(id => { 
+  this.listp8r = id;
+  });
+  this.encuestaex.getitemcoll8mc().subscribe(id => { 
+  this.listp8m = id;
+  });
+  this.encuestaex.getitemcoll8mmc().subscribe(id => { 
+  this.listp8mm = id;
+  });
+  this.encuestaex.getitemcoll9mbc().subscribe(id => { 
+  this.listp9mb = id;
+  });
+  this.encuestaex.getitemcoll9rc().subscribe(id => { 
+   this.listp9r = id;  });
+  this.encuestaex.getitemcoll9mmc().subscribe(id => { 
+  this.listp9mm = id;
+  });
+  this.encuestaex.getitemcoll10mbc().subscribe(id => { 
+  this.listp10mb = id;
+  });
+  this.encuestaex.getitemcoll10mmc().subscribe(id => { 
+  this.listp10mm = id;
+  });
 }
 arras( x: EncuestaexInterface) {
 this.cp1mb = this.listp1mb.length;
@@ -146,6 +227,7 @@ this.cp1b =  this.listp1b.length;
   this.cp1r =  this.listp1r.length;
   this.cp1m =  this.listp1m.length;
   this.cp1mm = this.listp1mm.length;
+  console.log(this.listp1mb.length)
 
   this.cp2mb = this.listp2mb.length;
   this.cp2b =  this.listp2b.length;
