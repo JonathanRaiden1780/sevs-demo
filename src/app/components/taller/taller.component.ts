@@ -8,6 +8,7 @@ import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
 import { Router } from '@angular/router';
+import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-taller',
@@ -47,7 +48,6 @@ public ubi :string;
     this.mod.mesnumero =  today.getMonth()+1;
     this.mod.año =  today.getFullYear();
     }
-
   ngOnInit() {
     this.authService.getAuth().subscribe( user => {
       if (user) {

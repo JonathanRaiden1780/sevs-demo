@@ -8,8 +8,8 @@ import {  Router, ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
-import { Http, Headers, Response, URLSearchParams, RequestOptions, HttpModule } from '@angular/http';
-
+import { Http } from '@angular/http';
+import * as firebase from 'firebase';
 @Component({
   selector: 'app-reparacion',
   templateUrl: './reparacion.component.html',
@@ -170,240 +170,410 @@ export class ReparacionComponent implements OnInit {
     this.totalnot = value.total;
   
     if(this.ident.includes('VI') == true){
+      if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
+        value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
+          confirm("Comunicarse con Soporte... Problema de Registro");
+        }
+        else{
       this.encuestaService.updateTypeALL(value);
       this.encuestaService.requestupdateTypee('Viga',this.fechareporte)
       this.encuestaService.updateEncuestarep(value);
-      this.contador(value);
       this.sendemail(value.total);
+      this.valcontadores("vi");
     }
-  else if(this.ident.includes('CE') == true){
+  }
+    else if(this.ident.includes('CE') == true){
+      if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
+        value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
+          confirm("Comunicarse con Soporte... Problema de Registro");
+        }
+        else{
     this.encuestaService.updateTypeALL(value);
     this.encuestaService.updateEncuestarepC(value);
     this.encuestaService.requestupdateTypee('Centenario',this.fechareporte)
-    this.contadorC(value);
     this.sendemail(value.total);
+    this.valcontadores("ce");
+
   }
+}
     this.router.navigate(['/home']);
   }
-  contadorC(x:any){
-    
+  valcontadores(x:string){
+    var p1= "Pregunta1", mb = 'MuyBueno',
+          p2= "Pregunta2", b = 'Bueno', 
+          p3= "Pregunta3", r = 'Regular',
+          p4= "Pregunta4", m = 'Malo',
+          p5= "Pregunta5", mm = 'MuyMalo',
+          p6= "Pregunta6", s = 'Si',
+          p7= "Pregunta7", n = 'No',
+          p8= "Pregunta8", na = 'N-A',
+          p9= "Pregunta9",
+          p10= "Pregunta10"
+    if(x=="vi"){
+      this.afs.firestore.collection('Contadores').doc(this.fechareporte).get().then(doc => {
+        if(doc.exists == true){
+          this.contador();
+        }
+        else{
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).set({contador: 0})
+          this.contador();
+
+        }
+      })
+    }
+    else{
+      this.afs.firestore.collection('Contadores').doc(this.fechareporte).get().then(doc => {
+        if(doc.exists == true){
+          this.contadorC();
+        }
+        else{
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).set({contador: 0})
+          
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(m).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).set({contador: 0})
+
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).set({contador: 0})
+
+          this.contadorC();
+
+        }
+      })
+
+    }
+
+  }
+
+  contadorC(){
+    var p1= "Pregunta1", mb = 'MuyBueno',
+    p2= "Pregunta2", b = 'Bueno', 
+    p3= "Pregunta3", r = 'Regular',
+    p4= "Pregunta4", m = 'Malo',
+    p5= "Pregunta5", mm = 'MuyMalo',
+    p6= "Pregunta6", s = 'Si',
+    p7= "Pregunta7", n = 'No',
+    p8= "Pregunta8", na = 'N-A',
+    p9= "Pregunta9",
+    p10= "Pregunta10"
     //P1
-        if (this.model2.p1 == 100){
-          this.EncuestaexCollection.doc('Pregunta1C/').collection('MuyBueno').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p1 == 80){
-          this.EncuestaexCollection.doc('Pregunta1C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p1 == 60){
-          this.EncuestaexCollection.doc('Pregunta1C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p1 == 40){
-          this.EncuestaexCollection.doc('Pregunta1C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p1 == 20){
-          this.EncuestaexCollection.doc('Pregunta1C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P2
-        if (this.model2.p2 == 100){
-          this.EncuestaexCollection.doc('Pregunta2C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p2 == 50){
-          this.EncuestaexCollection.doc('Pregunta2C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P3
-        if (this.model2.p3 == 100){
-          this.EncuestaexCollection.doc('Pregunta3C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p3 == 80){
-          this.EncuestaexCollection.doc('Pregunta3C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p3 == 60){
-          this.EncuestaexCollection.doc('Pregunta3C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p3 == 40){
-          this.EncuestaexCollection.doc('Pregunta3C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p3 == 20){
-          this.EncuestaexCollection.doc('Pregunta3C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-        
-    //P4
-        if (this.model2.p4 == 100){
-          this.EncuestaexCollection.doc('Pregunta4C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p4 == 80){
-          this.EncuestaexCollection.doc('Pregunta4C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p4 == 60){
-          this.EncuestaexCollection.doc('Pregunta4C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p4 == 40){
-          this.EncuestaexCollection.doc('Pregunta4C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p4 == 20){
-          this.EncuestaexCollection.doc('Pregunta4C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P5
-        if (this.model2.p5 == 100){
-          this.EncuestaexCollection.doc('Pregunta5C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p5 == 80){
-          this.EncuestaexCollection.doc('Pregunta5C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p5 == 60){
-          this.EncuestaexCollection.doc('Pregunta5C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p5 == 40){
-          this.EncuestaexCollection.doc('Pregunta5C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p5 == 20){
-          this.EncuestaexCollection.doc('Pregunta5C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P6
-        if (this.model2.p6 == 100){
-          this.EncuestaexCollection.doc('Pregunta6C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p6 == 80){
-          this.EncuestaexCollection.doc('Pregunta6C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p6 == 60){
-          this.EncuestaexCollection.doc('Pregunta6C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p6 == 40){
-          this.EncuestaexCollection.doc('Pregunta6C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p6 == 20){
-          this.EncuestaexCollection.doc('Pregunta6C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P7
-        if (this.model2.p7 == 100){
-          this.EncuestaexCollection.doc('Pregunta7C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p7 == 80){
-          this.EncuestaexCollection.doc('Pregunta7C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p7 == 60){
-          this.EncuestaexCollection.doc('Pregunta7C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p7 == 40){
-          this.EncuestaexCollection.doc('Pregunta7C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p7 == 20){
-          this.EncuestaexCollection.doc('Pregunta7C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P8
-        if (this.model2.p8 == 100){
-          this.EncuestaexCollection.doc('Pregunta8C/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p8 == 80){
-          this.EncuestaexCollection.doc('Pregunta8C/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p8 == 60){
-          this.EncuestaexCollection.doc('Pregunta8C/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p8 == 40){
-          this.EncuestaexCollection.doc('Pregunta8C/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p8 == 20){
-          this.EncuestaexCollection.doc('Pregunta8C/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P9
-        if (this.model2.p9 == 1){
-          this.EncuestaexCollection.doc('Pregunta9C/').collection('Si/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p9 == 0){
-          this.EncuestaexCollection.doc('Pregunta9C/').collection('No/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p9 == 2){
-          this.EncuestaexCollection.doc('Pregunta9C/').collection('N-A/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-    //P10
-        if (this.model2.p10 == 1){
-          this.EncuestaexCollection.doc('Pregunta10C/').collection('Si/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }else if (this.model2.p10 == 0){
-          this.EncuestaexCollection.doc('Pregunta10C/').collection('No/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-        }
-      }
-  contador(x:any){
-    
-//P1
     if (this.model2.p1 == 100){
-      this.EncuestaexCollection.doc('Pregunta1/').collection('MuyBueno').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p1 == 80){
-      this.EncuestaexCollection.doc('Pregunta1/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p1 == 60){
-      this.EncuestaexCollection.doc('Pregunta1/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p1 == 40){
-      this.EncuestaexCollection.doc('Pregunta1/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p1 == 20){
-      this.EncuestaexCollection.doc('Pregunta1/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
 //P2
     if (this.model2.p2 == 100){
-      this.EncuestaexCollection.doc('Pregunta2/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p2 == 50){
-      this.EncuestaexCollection.doc('Pregunta2/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P3
+    if (this.model2.p3 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
     
- //P3
-    if (this.model2.p3 == 100){
-      this.EncuestaexCollection.doc('Pregunta3/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-    }else if (this.model2.p3 == 80){
-      this.EncuestaexCollection.doc('Pregunta3/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-    }else if (this.model2.p3 == 60){
-      this.EncuestaexCollection.doc('Pregunta3/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-    }else if (this.model2.p3 == 40){
-      this.EncuestaexCollection.doc('Pregunta3/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-    }else if (this.model2.p3 == 20){
-      this.EncuestaexCollection.doc('Pregunta3/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
-    }
-
-    //P4
+//P4
     if (this.model2.p4 == 100){
-      this.EncuestaexCollection.doc('Pregunta4/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p4 == 80){
-      this.EncuestaexCollection.doc('Pregunta4/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p4 == 60){
-      this.EncuestaexCollection.doc('Pregunta4/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p4 == 40){
-      this.EncuestaexCollection.doc('Pregunta4/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p4 == 20){
-      this.EncuestaexCollection.doc('Pregunta4/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P5
+//P5
     if (this.model2.p5 == 100){
-      this.EncuestaexCollection.doc('Pregunta5/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p5 == 80){
-      this.EncuestaexCollection.doc('Pregunta5/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p5 == 60){
-      this.EncuestaexCollection.doc('Pregunta5/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p5 == 40){
-      this.EncuestaexCollection.doc('Pregunta5/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p5 == 20){
-      this.EncuestaexCollection.doc('Pregunta5/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P6
+//P6
     if (this.model2.p6 == 100){
-      this.EncuestaexCollection.doc('Pregunta6/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p6 == 80){
-      this.EncuestaexCollection.doc('Pregunta6/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p6 == 60){
-      this.EncuestaexCollection.doc('Pregunta6/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p6 == 40){
-      this.EncuestaexCollection.doc('Pregunta6/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p6 == 20){
-      this.EncuestaexCollection.doc('Pregunta6/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P7
+//P7
     if (this.model2.p7 == 100){
-      this.EncuestaexCollection.doc('Pregunta7/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p7 == 80){
-      this.EncuestaexCollection.doc('Pregunta7/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p7 == 60){
-      this.EncuestaexCollection.doc('Pregunta7/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p7 == 40){
-      this.EncuestaexCollection.doc('Pregunta7/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p7 == 20){
-      this.EncuestaexCollection.doc('Pregunta7/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P8
+//P8
     if (this.model2.p8 == 100){
-      this.EncuestaexCollection.doc('Pregunta8/').collection('MuyBueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p8 == 80){
-      this.EncuestaexCollection.doc('Pregunta8/').collection('Bueno/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p8 == 60){
-      this.EncuestaexCollection.doc('Pregunta8/').collection('Regular/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p8 == 40){
-      this.EncuestaexCollection.doc('Pregunta8/').collection('Malo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p8 == 20){
-      this.EncuestaexCollection.doc('Pregunta8/').collection('MuyMalo/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P9
+//P9
     if (this.model2.p9 == 1){
-      this.EncuestaexCollection.doc('Pregunta9/').collection('Si/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p9 == 0){
-      this.EncuestaexCollection.doc('Pregunta9/').collection('No/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p9 == 2){
-      this.EncuestaexCollection.doc('Pregunta9/').collection('N-A/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
-    //P10
+//P10
     if (this.model2.p10 == 1){
-      this.EncuestaexCollection.doc('Pregunta10/').collection('Si/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p10 == 0){
-      this.EncuestaexCollection.doc('Pregunta10/').collection('No/').doc(this.fechareporte).collection('contador').doc(x.id).set(x);
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+      }
+  contador(){
+    var p1= "Pregunta1", mb = 'MuyBueno',
+    p2= "Pregunta2", b = 'Bueno', 
+    p3= "Pregunta3", r = 'Regular',
+    p4= "Pregunta4", m = 'Malo',
+    p5= "Pregunta5", mm = 'MuyMalo',
+    p6= "Pregunta6", s = 'Si',
+    p7= "Pregunta7", n = 'No',
+    p8= "Pregunta8", na = 'N-A',
+    p9= "Pregunta9",
+    p10= "Pregunta10"
+    //P1
+    if (this.model2.p1 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p1 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p1 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p1 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p1 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P2
+    if (this.model2.p2 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p2 == 50){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P3
+    if (this.model2.p3 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p3 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+    
+//P4
+    if (this.model2.p4 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p4 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p4 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p4 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p4 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P5
+    if (this.model2.p5 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p5 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p5 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p5 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p5 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P6
+    if (this.model2.p6 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p6 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p6 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p6 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p6 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P7
+    if (this.model2.p7 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p7 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p7 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p7 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p7 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P8
+    if (this.model2.p8 == 100){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p8 == 80){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p8 == 60){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p8 == 40){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p8 == 20){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P9
+    if (this.model2.p9 == 1){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p9 == 0){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p9 == 2){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }
+//P10
+    if (this.model2.p10 == 1){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
+    }else if (this.model2.p10 == 0){
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
   }
 
-  onChange() {
+onChange() {
 
     this.ident = this.route.snapshot.params['id'];
 }
@@ -420,16 +590,7 @@ sendemail(t:number) {
   this.af.list('/messages').push(formRequest);
   
   }
-  if (t >= 95){
-    const name = 'Jonathan Huerta';
-    const email = 'jonathan.huerta@casanovarentacar.mx';
-    const message = 'Felicidades el servicio fue el mejor';
-    const subject = 'La calificación del servicio fue: ' + this.totalnot;
-
-    let formRequest = { name, email, subject, message};
-    this.af.list('/messages').push(formRequest);
-    
-    }
+  
 
   /* let url = `https://us-central1-casanovaeva01.cloudfunctions.net/httpEmail`;
   let params: URLSearchParams = new URLSearchParams();
@@ -504,9 +665,6 @@ p10ex(x) {
     this.model.p10c = 0;
     this.model2.p10 = 0;
   }
-  //pregunta 10 y 2 son juntas
-  //pregunta 3 y 9 son juntas
-  // //console.log(x, this.model.p10);
 }
 p9ex(x) {
   if (x === false ) {

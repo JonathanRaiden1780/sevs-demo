@@ -41,6 +41,7 @@
     "datatables.net-dt": "^1.10.19",
     "eva-icons": "^1.1.2",
     "firebase": "^7.13.2",
+    "firebase-admin": "^8.12.1",
     "firestore": "^1.1.6",
     "font-awesome": "^4.7.0",
     "jquery": "^3.5.1",
