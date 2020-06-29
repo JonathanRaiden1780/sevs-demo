@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTired, faSadTear, faGrin, faSmileBeam, faCheckSquare, faTimesCircle, faMeh, faHourglassStart, faHourglassHalf, faHourglassEnd, faVoteYea, faCarSide, faTruck, faTruckPickup, faAmbulance } from '@fortawesome/free-solid-svg-icons';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { MAT_STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import { MAT_STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent} from '@angular/cdk/stepper';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { EncuestaService } from 'src/app/services/encuesta.service';
 import {  Router, ActivatedRoute } from '@angular/router';
@@ -10,6 +10,9 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Http } from '@angular/http';
 import * as firebase from 'firebase';
+import {MatStepper} from '@angular/material/stepper'
+import { viewClassName } from '@angular/compiler';
+
 @Component({
   selector: 'app-reparacion',
   templateUrl: './reparacion.component.html',
@@ -18,8 +21,11 @@ import * as firebase from 'firebase';
     provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
   }]
 })
+
 export class ReparacionComponent implements OnInit {
-  
+  @ViewChild('stepper') private myStepper: MatStepper;
+  totalStepsCount: number;
+
   totalnot: number;
   EncuestaexCollection: AngularFirestoreCollection<EncuestaexInterface>;
   constructor(
@@ -67,6 +73,10 @@ export class ReparacionComponent implements OnInit {
   fifthFormGroup: FormGroup;
   sixFormGroup: FormGroup;
   sevenFormGroup: FormGroup;
+  eightFormGroup: FormGroup;
+  nineFormGroup: FormGroup;
+  tenFormGroup: FormGroup;
+  finalFormGroup:FormGroup;
   y: number;
   ident: string;
   mod: any = {};
@@ -117,6 +127,7 @@ export class ReparacionComponent implements OnInit {
   proms: string;
 
   ngOnInit() {
+    
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -138,6 +149,19 @@ export class ReparacionComponent implements OnInit {
     this.sevenFormGroup = this._formBuilder.group({
       sevenFormGroup: ['', Validators.required]
     });
+    this.eightFormGroup = this._formBuilder.group({
+      eightFormGroup: ['', Validators.required]
+    });
+    this.nineFormGroup = this._formBuilder.group({
+      nineFormGroup: ['', Validators.required]
+    });
+    this.tenFormGroup = this._formBuilder.group({
+      tenFormGroup: ['', Validators.required]
+    });
+    this.finalFormGroup = this._formBuilder.group({
+      finalFormGroup: ['', Validators.required]
+    });
+    
     this.onChange();
     for(var mc=1; mc<=12; mc++){
       if(this.mod.mesnumero == mc){
@@ -168,17 +192,17 @@ export class ReparacionComponent implements OnInit {
     value.total = +this.proms;
     value.fechareporte = this.fechareporte;
     this.totalnot = value.total;
-  
     if(this.ident.includes('VI') == true){
       if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
         value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
           confirm("Comunicarse con Soporte... Problema de Registro");
         }
         else{
+          
       this.encuestaService.updateTypeALL(value);
       this.encuestaService.requestupdateTypee('Viga',this.fechareporte)
       this.encuestaService.updateEncuestarep(value);
-      this.sendemail(value.total);
+  //    this.sendemail(value.total);
       this.valcontadores("vi");
     }
   }
@@ -191,7 +215,7 @@ export class ReparacionComponent implements OnInit {
     this.encuestaService.updateTypeALL(value);
     this.encuestaService.updateEncuestarepC(value);
     this.encuestaService.requestupdateTypee('Centenario',this.fechareporte)
-    this.sendemail(value.total);
+   // this.sendemail(value.total);
     this.valcontadores("ce");
 
   }
@@ -210,124 +234,127 @@ export class ReparacionComponent implements OnInit {
           p9= "Pregunta9",
           p10= "Pregunta10"
     if(x=="vi"){
-      this.afs.firestore.collection('Contadores').doc(this.fechareporte).get().then(doc => {
+   var docref =   this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb);
+      docref.get().then( doc =>  {
         if(doc.exists == true){
           this.contador();
         }
         else{
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).set({contador: 0, calificacion: 'Si'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).set({contador: 0, calificacion: 'No'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).set({contador: 0, calificacion: 'N/A'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).set({contador: 0, calificacion: 'Si'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).set({contador: 0, calificacion: 'No'})
           this.contador();
 
         }
       })
     }
     else{
-      this.afs.firestore.collection('Contadores').doc(this.fechareporte).get().then(doc => {
+      var docref =   this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb);
+      docref.get().then( doc =>  {
         if(doc.exists == true){
+          console.log(doc.exists)
           this.contadorC();
         }
         else{
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
           
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(m).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).set({contador: 0, calificacion: 'mb'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).set({contador: 0, calificacion: 'mb'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).set({contador: 0, calificacion: 'mb'})
 
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).set({contador: 0})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).set({contador: 0})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).set({contador: 0, calificacion: 'mb'})
+          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).set({contador: 0, calificacion: 'mb'})
 
           this.contadorC();
 
@@ -337,7 +364,6 @@ export class ReparacionComponent implements OnInit {
     }
 
   }
-
   contadorC(){
     var p1= "Pregunta1", mb = 'MuyBueno',
     p2= "Pregunta2", b = 'Bueno', 
@@ -365,7 +391,7 @@ export class ReparacionComponent implements OnInit {
     if (this.model2.p2 == 100){
       this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p2 == 50){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
 //P3
     if (this.model2.p3 == 100){
@@ -482,7 +508,7 @@ export class ReparacionComponent implements OnInit {
     if (this.model2.p2 == 100){
       this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
     }else if (this.model2.p2 == 50){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
     }
 //P3
     if (this.model2.p3 == 100){
@@ -586,9 +612,6 @@ sendemail(t:number) {
   const message = 'ALERTA !!!!! HUBO UN PROBLEMA CON EL CLIENTE';
   const subject = 'Validar situación calificación de encuesta: ' + this.totalnot;
 
-  let formRequest = { name, email, subject, message};
-  this.af.list('/messages').push(formRequest);
-  
   }
   
 
@@ -614,14 +637,17 @@ sendemail(t:number) {
                    */
                 
 }
+@ViewChild('stepper') private myStep: MatStepper;
 
 p1ex(x) {
+    this.myStep.next();
   this.model.p1 = x;
-  this.model2.p1 = x;
+  this.model2.p1 = x;  
 }
 p2ex(x) {
+    this.myStep.next();
   this.model.p2 = x;
-  this.model2.p2 = x;
+  this.model2.p2 = x;  
 }
 p3ex(x) {
   this.model.p3 = x;
@@ -630,27 +656,40 @@ p3ex(x) {
     this.model.p9 = 'N/A';
     this.model.p9c = 1;
     this.model2.p9 = 2;
+    this.myStep.next();
+  }
+  else{
+    this.myStep.next();
   }
 }
 p4ex(x) {
+    this.myStep.next();
   this.model.p4 = x;
-  this.model2.p4 = x;
+  this.model2.p4 = x;  
 }
 p5ex(x) {
+    this.myStep.next();
   this.model.p5 = x;
-  this.model2.p5 = x;
+  this.model2.p5 = x;  
 }
 p6ex(x) {
+    this.myStep.next();
   this.model.p6 = x;
-  this.model2.p6 = x;
+  this.model2.p6 = x;  
 }
 p7ex(x) {
+    this.myStep.next();
   this.model.p7 = x;
   this.model2.p7 = x;
+
+
 }
 p8ex(x) {
+    this.myStep.next();
   this.model.p8 = x;
   this.model2.p8 = x;
+
+
 }
 
 p10ex(x) {
@@ -658,23 +697,30 @@ p10ex(x) {
     this.model.p10 = 'Si';
     this.model.p10c = 1;
     this.model2.p10 = 1;
+    this.myStepper.selectedIndex = 2
+    console.log(x, this.isYes , this.model.p2)
   } else {
     this.model.p10 = 'No';
     this.model.p2 = 100;
     this.model2.p2 = 100;
     this.model.p10c = 0;
     this.model2.p10 = 0;
+    this.myStepper.selectedIndex = 2
+    console.log(x, this.isYes , this.model.p2)
   }
 }
 p9ex(x) {
+    this.myStep.next();
   if (x === false ) {
     this.model.p9 = 'No';
     this.model.p9c = 0;
     this.model2.p9 = 0;
+  
   } else {
     this.model.p9 = 'Si';
     this.model.p9c = 1;
     this.model2.p9 = 1;
+  
   }
  
 }

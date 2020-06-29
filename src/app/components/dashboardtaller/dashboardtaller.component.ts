@@ -63,7 +63,9 @@ ubi:string;
   cols = [{name: 'Id'}, {name: 'Tipo'}, {name: 'fechaent'}];
   typeCollections: AngularFirestoreCollection<EncuestaexInterface>;
   Encuestaexes: Observable<EncuestaexInterface[]>;
-
+  meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+  mod: any = {};
+  fechareporte: string;
   constructor(
     private afs: AngularFirestore,
     private exportAsService: ExportAsService,
@@ -72,6 +74,16 @@ ubi:string;
     public authService: AuthService,
     private lvlaccess: LevelaccessService
   ) {
+    const today = new Date();
+    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    this.mod.mesnumero =  today.getMonth()+1;
+    this.mod.año =  today.getFullYear();
+    for(var mc=1; mc<=12; mc++){
+      if(this.mod.mesnumero == mc){
+        this.mod.mes = this.meses[mc];
+      }
+    }
+    this.fechareporte = this.mod.mes+this.mod.año;
    }
 
 
@@ -84,13 +96,11 @@ ubi:string;
 ////console.log('usuario desde lvl:', info);
             if(info.ubicacion == 'Centenario'){
               this.ubi = 'Centenario';
-             this.listado = this.controlService.getAllEncuestaexCen("true");
-              //return this._dataService.getDocsC().subscribe(res => this.dataSource.data = res );
+             this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
             }
             else if (info.ubicacion === 'Viga') {
               this.ubi = 'Viga';
-           //   this.listado = this.controlService.getAllEncuestaexvig(true);
-             // return this._dataService.getDocsV().subscribe(res => this.dataSource.data = res );
+              this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
           } else {
            // //console.log('Error de sistema: Usuario sin Permisos')
           }
@@ -111,49 +121,9 @@ ubi:string;
   }
 
   exportAs(type) {
-    console.log('funnciona el boton?')
     this.config.type = type;
-    this.exportAsService.save(this.config, 'myFile');
+    this.exportAsService.save(this.config, 'myFile').subscribe(()=>{});
   }
-
-  myFunction() {
-    ////get day
-    // Declare variables
-    let input, filter, table, tr, td, i, txtValue, input2, filter2;
-
-    input = document.getElementById('inputfe');
-    filter = input.value;
-    input2 = document.getElementById('inputfs');
-    filter2 = input2.value;
-    table = filter+filter2;
-    console.log(table)
-    if(this.ubi == 'Centenario'){
-     this.listado = this.controlService.getAllEncuestaexCen(filter);
-    }
-    else if (this.ubi  === 'Viga') {
-      this.listado = this.controlService.getAllEncuestaexvig(filter);
-  } 
-  }
-   /* myFunction2() {
-    // Declare variables
-    let input, filter, table, tr, td, i, txtValue;
-    input = "true";
-    filter = input;
-    
-    table = document.getElementById('mytable5');
-    tr = table.getElementsByTagName('tr');
-    for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName('td')[12];
-      if (td) {
-        txtValue = td.textContent || td.innerText;
-        if (txtValue.indexOf(filter) > -1 ) {
-          tr[i].style.display = '';
-        } else {
-          tr[i].style.display = 'none';
-        }
-      }
-    }
-  } */
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

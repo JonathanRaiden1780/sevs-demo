@@ -36,6 +36,14 @@ export class AdminComponent implements OnInit {
     this.sumarep6 = 0;
     this.sumarep7 = 0;
     this.sumarep8 = 0;
+    this.listpregunta1 = 0;
+    this.listpregunta2 = 0;
+    this.listpregunta3 = 0;
+    this.listpregunta4 = 0;
+    this.listpregunta5 = 0;
+    this.listpregunta6 = 0;
+    this.listpregunta7 = 0;
+    this.listpregunta8 = 0;
     this.insre = 0;
     this.contadorreal = 0;
     this.insre2 = 0;
@@ -54,7 +62,6 @@ export class AdminComponent implements OnInit {
  public isLoginSuadmin = false;
  // Variables
  ens: number;
- list: number[];
  listpregunta1: number;
  listpregunta2: number;
  listpregunta3: number;
@@ -129,13 +136,12 @@ arras() {
       this.insre2 = this.rows1[0].total;
       for (let i = 0 ; i < this.contadorreal ; i++ ) {
         this.ens = this.rows1[i].total as number;
-        this.list[i] = this.rows1[i].total as number;
         this.sumas = this.ens + this.sumas;
-        if(this.insre <= this.list[i]){
-          this.insre = this.list[i];
+        if(this.insre <= this.rows1[i].total){
+          this.insre = this.rows1[i].total;
         }
-        if(this.insre2 >= this.list[i]){
-          this.insre2 = this.list[i];
+        if(this.insre2 >= this.rows1[i].total){
+          this.insre2 = this.rows1[i].total;
         }
       }
     }
