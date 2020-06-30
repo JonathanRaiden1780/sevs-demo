@@ -72,7 +72,6 @@ export class ReportsComponent implements OnInit {
   }
     monkeyPatchChartJsTooltip();
     monkeyPatchChartJsLegend();
-  // this.encuestaex.getcolections();
    this.fechareporte = this.mod.mes+this.mod.año;
 }
    cp1mb: number; cp1b: number; cp1r: number; cp1m: number; cp1mm: number;

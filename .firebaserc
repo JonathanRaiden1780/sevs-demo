@@ -1,5 +1,6 @@
 {
   "projects": {
+    "404": "casanovaeva01",
     "default": "casanovasevs"
   },
   "targets": {
@@ -8,7 +9,7 @@
         "prod": [
           "casanovasevs"
         ],
-        "prim": [
+        "domfire": [
           "casanovaeva01"
         ]
       }

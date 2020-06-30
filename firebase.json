@@ -1,5 +1,6 @@
 {
-  "hosting": {
+  "hosting": [
+    {
     "target": "prod",
     "public": "dist/CasanovaSevs",
     "ignore": [
@@ -13,9 +14,21 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "targets":{
-    "target": "prim",
-    "public": "dist/CasanovaSevs/page404.component.html"
-  }
+    },
+    {
+      "target": "domfire",
+      "public": "dist/Page4040",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
 }
