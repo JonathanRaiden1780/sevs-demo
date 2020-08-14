@@ -80,7 +80,7 @@ ubi:string;
     this.mod.año =  today.getFullYear();
     for(var mc=1; mc<=12; mc++){
       if(this.mod.mesnumero == mc){
-        this.mod.mes = this.meses[mc];
+        this.mod.mes = this.meses[mc-1];
       }
     }
     this.fechareporte = this.mod.mes+this.mod.año;
