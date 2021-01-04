@@ -7,7 +7,7 @@ import {map, take} from 'rxjs/operators';
 import { RegistroCompletoInterface } from '../Models/Registrocompleto';
 import { firestore } from 'firebase';
 import { FirebaseFirestore } from 'angularfire2';
- 
+
 @Injectable({
  providedIn: 'root'
 })
@@ -42,7 +42,7 @@ constructor(
    this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', ref => ref);
    this.typeCollectionALL = this.afs.collection('typeALL', ref => ref);
 
-  
+
   }
  //___________________________________________________________________ Delete Encuesta
  deleteEncuestaex(Encuestaex: EncuestaexInterface) {
@@ -71,7 +71,7 @@ constructor(
   .catch(function(error) {
       // The document probably doesn't exist.
       confirm('No se pudo guardar correctamente '+ error );
-  });  
+  });
   }
   //todo este bloque realiza el conteo de registros y contestadas
   requestupdateType(y: string, x:string) {
@@ -105,7 +105,7 @@ constructor(
     this.getcontador2(y,x);
   }
   getcontador2(x: string, y:string) {
-    this.afs.collection('type').doc(x).collection(y).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.arrayss(res); } );      
+    this.afs.collection('type').doc(x).collection(y).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.arrayss(res); } );
   }
 //___________________________________________________________________ Add Encuesta
 

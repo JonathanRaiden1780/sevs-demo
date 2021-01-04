@@ -80,27 +80,42 @@ ubi:string;
     this.mod.año =  today.getFullYear();
     for(var mc=1; mc<=12; mc++){
       if(this.mod.mesnumero == mc){
-        this.mod.mes = this.meses[mc-1];
+        if(this.mod.mesnumero == 1){
+          this.mod.mes = this.meses[12];
+        }
+        else{
+          this.mod.mes = this.meses[mc-1];
+        }
       }
     }
-    this.fechareporte = this.mod.mes+this.mod.año;
+    if(this.mod.mes == 'Diciembre'){
+        this.fechareporte = this.mod.mes + (this.mod.año - 1);
+    }
+    else{
+        this.fechareporte = this.mod.mes + this.mod.año;
+    }
    }
 
 
    contadorreal: number;
-
+   button:boolean;
  ngOnInit() {
+  this.button = false;
   this.authService.getAuth().subscribe( user => {
     if (user) {
       this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
 ////console.log('usuario desde lvl:', info);
             if(info.ubicacion == 'Centenario'){
               this.ubi = 'Centenario';
-             this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
+              this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
             }
             else if (info.ubicacion === 'Viga') {
               this.ubi = 'Viga';
               this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
+          }
+           else if (info.ubicacion === 'ALL') {
+              this.button = true;
+
           } else {
            // //console.log('Error de sistema: Usuario sin Permisos')
           }
@@ -108,7 +123,16 @@ ubi:string;
     }
   });
   }
-
+  changesitio(sitio : string){
+    if(sitio == 'viga'){
+        this.ubi = 'Viga';
+        this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
+    }
+    if(sitio == 'cente'){
+       this.ubi = 'Centenario';
+       this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
+    }
+  }
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {

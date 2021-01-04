@@ -1,7 +1,7 @@
 <!-- NAVBAR -->
 <app-navbar></app-navbar>
 <!-- Contenido -->
-<!-- 
+<!--
 <div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><fa-icon [icon]="faCarCrash" class="fa-2x"></fa-icon><strong><h2>SEVS - Taller - Consulta</h2></strong></div>
 <div class="row">
   <div class="col-md-12">
@@ -11,7 +11,7 @@
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Búsqueda...">
           </mat-form-field>
           <mat-table #table [dataSource]="dataSource" matSort>
-          
+
             <ng-container matColumnDef="Folio Encuesta">
               <mat-header-cell *matHeaderCellDef> Folio </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
@@ -23,7 +23,7 @@
             <ng-container matColumnDef="Fecha Salida">
               <mat-header-cell *matHeaderCellDef> Fecha Salida </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{element.fechasal}} </mat-cell>
-            </ng-container> 
+            </ng-container>
             <ng-container matColumnDef="Placa">
               <mat-header-cell *matHeaderCellDef> Placa </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{ element.placa | uppercase }} </mat-cell>
@@ -44,7 +44,7 @@
               <mat-header-cell *matHeaderCellDef> Calificación </mat-header-cell>
               <mat-cell *matCellDef="let element"> {{ element.total }} </mat-cell>
             </ng-container>
-                  
+
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
@@ -66,9 +66,10 @@
     <div class="card">
       <form >
         <div class="row">
-  
             <div class="col-md-2">
-                <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
+              <button type="button" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"  (click)="changesitio('viga')" *ngIf="button"><strong>Viga</strong></button>
+              <button type="button" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" (click)="changesitio('cente')" *ngIf="button"><strong>Centenario</strong></button>
+              <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
             </div>
           </div>
         </form>
@@ -123,7 +124,7 @@
               <td>{{promere7}}</td>
               <td>{{promere8}}</td>
               <td>Conteo</td>
-              <td>Conteo</td> 
+              <td>Conteo</td>
               <td>{{prome}}</td>
             </tr>
             <tr>
@@ -139,7 +140,7 @@
               <td>-</td>
               <td >{{cp9r}}</td>
               <td >/</td>
-            
+
             </tr>
             <tr>
               <th scope="row">SI</th>
@@ -154,7 +155,7 @@
               <td>-</td>
               <td >{{cp9mb}}</td>
               <td >{{cp10mb}}</td>
-             
+
             </tr>
             <tr>
               <th scope="row">NO</th>
@@ -169,7 +170,7 @@
               <td>-</td>
               <td >{{cp9mm}}</td>
               <td >{{cp10mm}}</td>
-            
+
             </tr>
             <tr>
               <th scope="row">Ponderación</th>
@@ -189,7 +190,7 @@
               <td >{{cp1mm}}</td>
               <td>-</td>
               <td >{{cp3mm}}</td>
-              <td >{{cp4mm}}</td>             
+              <td >{{cp4mm}}</td>
               <td >{{cp5mm}}</td>
               <td >{{cp6mm}}</td>
               <td >{{cp7mm}}</td>
@@ -201,7 +202,7 @@
               <td >{{cp1m}}</td>
               <td >-</td>
               <td >{{cp3m}}</td>
-              <td >{{cp4m}}</td>             
+              <td >{{cp4m}}</td>
               <td >{{cp5m}}</td>
               <td >{{cp6m}}</td>
               <td >{{cp7m}}</td>
@@ -225,7 +226,7 @@
               <td >{{cp1r}}</td>
               <td>-</td>
               <td >{{cp3r}}</td>
-              <td >{{cp4r}}</td>             
+              <td >{{cp4r}}</td>
               <td >{{cp5r}}</td>
               <td >{{cp6r}}</td>
               <td >{{cp7r}}</td>
@@ -237,7 +238,7 @@
               <td >{{cp1b}}</td>
               <td>-</td>
               <td >{{cp3b}}</td>
-              <td >{{cp4b}}</td>             
+              <td >{{cp4b}}</td>
               <td >{{cp5b}}</td>
               <td >{{cp6b}}</td>
               <td >{{cp7b}}</td>
@@ -249,7 +250,7 @@
               <td >{{cp1mb}}</td>
               <td >{{cp2mb}}</td>
               <td >{{cp3mb}}</td>
-              <td >{{cp4mb}}</td>             
+              <td >{{cp4mb}}</td>
               <td >{{cp5mb}}</td>
               <td >{{cp6mb}}</td>
               <td >{{cp7mb}}</td>
