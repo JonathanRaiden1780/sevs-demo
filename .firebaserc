@@ -1,7 +1,8 @@
 {
   "projects": {
     "404": "casanovaeva01",
-    "default": "casanovasevs"
+    "default": "casanovasevs",
+    "sevs": "casanovasevs"
   },
   "targets": {
     "casanovaeva01": {
