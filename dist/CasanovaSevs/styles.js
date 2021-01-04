@@ -638,11 +638,11 @@ module.exports = exported;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jonathanimac/Desktop/CasanovaSevs/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
-__webpack_require__(/*! /Users/jonathanimac/Desktop/CasanovaSevs/node_modules/bootswatch/dist/sandstone/bootstrap.css */"./node_modules/bootswatch/dist/sandstone/bootstrap.css");
-__webpack_require__(/*! /Users/jonathanimac/Desktop/CasanovaSevs/node_modules/font-awesome/css/font-awesome.css */"./node_modules/font-awesome/css/font-awesome.css");
-__webpack_require__(/*! /Users/jonathanimac/Desktop/CasanovaSevs/node_modules/@nebular/theme/styles/prebuilt/corporate.css */"./node_modules/@nebular/theme/styles/prebuilt/corporate.css");
-module.exports = __webpack_require__(/*! /Users/jonathanimac/Desktop/CasanovaSevs/src/styles.css */"./src/styles.css");
+__webpack_require__(/*! /workspace/CasanovaSevs/node_modules/@angular/material/prebuilt-themes/indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
+__webpack_require__(/*! /workspace/CasanovaSevs/node_modules/bootswatch/dist/sandstone/bootstrap.css */"./node_modules/bootswatch/dist/sandstone/bootstrap.css");
+__webpack_require__(/*! /workspace/CasanovaSevs/node_modules/font-awesome/css/font-awesome.css */"./node_modules/font-awesome/css/font-awesome.css");
+__webpack_require__(/*! /workspace/CasanovaSevs/node_modules/@nebular/theme/styles/prebuilt/corporate.css */"./node_modules/@nebular/theme/styles/prebuilt/corporate.css");
+module.exports = __webpack_require__(/*! /workspace/CasanovaSevs/src/styles.css */"./src/styles.css");
 
 
 /***/ })
