@@ -8,15 +8,13 @@ import { faCarCrash, faSearch, faStickyNote, faPrint, faCar } from '@fortawesome
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 
-import { AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import { AngularFirestoreCollection} from 'angularfire2/firestore';
 import { EncuestaService } from 'src/app/services/encuesta.service';
-import { DatatableService } from 'src/app/services/datatable.service';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboardtaller',
@@ -67,10 +65,8 @@ ubi:string;
   mod: any = {};
   fechareporte: string;
   constructor(
-    private afs: AngularFirestore,
     private exportAsService: ExportAsService,
     private controlService: EncuestaService,
-    private _dataService: DatatableService,
     public authService: AuthService,
     private lvlaccess: LevelaccessService
   ) {
@@ -140,9 +136,6 @@ ubi:string;
     }, 100);
   }
 
-  onDetailToggle(event) {
-    ////console.log('Detail Toggled', event);
-  }
 
   exportAs(type) {
     this.config.type = type;

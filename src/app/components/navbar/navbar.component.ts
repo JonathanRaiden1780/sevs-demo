@@ -4,8 +4,6 @@ import { faFemale, faChartLine, faSignOutAlt, faSignInAlt, faHome, faVoteYea, fa
 
 import { AuthService } from '../../services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
-import { AngularFirestore } from 'angularfire2/firestore';
-import { take } from 'rxjs/operators';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 
 @Component({
@@ -51,7 +49,7 @@ export class NavbarComponent implements OnInit {
 
   // roles de usuario
 
-  usuario: RegistroInterface = { 
+  usuario: RegistroInterface = {
     id: '',
     nombre: '',
     correo: '',
@@ -88,7 +86,7 @@ export class NavbarComponent implements OnInit {
                 this.isLoginCallcenter = false;
                 this.isLoginTaller = false;
               }
-              
+
             } else if (info.tipo === 'CallCenter') {
               this.isLoginCallcenter = true;
               this.isLoginAdmin = false;
