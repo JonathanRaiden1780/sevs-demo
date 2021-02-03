@@ -13,6 +13,9 @@
 .elastic-fai-md{
     font-size:40px;
 }
+.light {
+      background-color: lightgray;
+}
 .elastic-fai-sm{
     font-size:30px;
 }
@@ -51,7 +54,7 @@
 }
 
 div.faicon {
-    
+
     font-size: 0.8vw;
 }
 @media screen and (max-width: 600px) {

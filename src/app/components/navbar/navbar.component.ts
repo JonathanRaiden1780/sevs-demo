@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
 
   public isLogin = false;
   public isLoginAdmin = false;
+  public DEMO = false;
 
   public isLoginAdminC = false;
 
@@ -74,6 +75,9 @@ export class NavbarComponent implements OnInit {
               this.isLoginAdmin = false;
               this.isLoginCallcenter = false;
               this.isLoginTaller = false;
+               if(info.nombre == 'DEMO'){
+                this.DEMO = true;
+              }
             } else if (info.admin === true) {
               if(info.ubicacion == 'Centenario'){
                 this.isLoginAdminC = true;

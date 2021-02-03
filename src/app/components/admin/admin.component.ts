@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { EncuestaService } from 'src/app/services/encuesta.service';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
@@ -9,6 +9,7 @@ import { RegistroInterface } from 'src/app/Models/registro';
 import { Router } from '@angular/router';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { ContadorInterface } from 'src/app/Models/contador';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-admin',
@@ -16,7 +17,9 @@ import { ContadorInterface } from 'src/app/Models/contador';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
+  @ViewChild('Modal',{ static:true }) Modal:TemplateRef<any>
   constructor(
+   private modaldemo: NgbModal,
    private encuestaex: EncuestaService,
    private afs: AngularFirestore,
    private authservice: AuthService,
@@ -120,8 +123,8 @@ export class AdminComponent implements OnInit {
     }
   }
   this.fechareporte = this.mod.mes+this.mod.año;
-  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });      
-  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });      
+  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });
+  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });
 }
 cont2(x:ContadorInterface){
   this.contadorreal = <number><any>x.contador;
@@ -146,7 +149,7 @@ arras() {
       }
     }
     else {
-      this.sumas = this.rows1[0].total;    
+      this.sumas = this.rows1[0].total;
       this.insre = this.sumas;
       this.insre2 = this.insre;
     }
@@ -179,7 +182,7 @@ arras2() {
         p7= this.rows1[i].pregunta7 as number;
         this.listpregunta7 = this.listpregunta7 + p7;
         p8= this.rows1[i].pregunta8 as number;
-        this.listpregunta8 = this.listpregunta8 + p8; 
+        this.listpregunta8 = this.listpregunta8 + p8;
       }
     }
     else {
@@ -195,7 +198,7 @@ arras2() {
     this.promere1 = (this.listpregunta1 / this.contadorreal).toFixed(2);
     this.promere2 = (this.listpregunta2 / this.contadorreal).toFixed(2);
     this.promere3 = (this.listpregunta3 / this.contadorreal).toFixed(2);
-    this.promere4 = (this.listpregunta4 / this.contadorreal).toFixed(2);      
+    this.promere4 = (this.listpregunta4 / this.contadorreal).toFixed(2);
     this.promere5 = (this.listpregunta5 / this.contadorreal).toFixed(2);
     this.promere6 = (this.listpregunta6 / this.contadorreal).toFixed(2);
     this.promere7 = (this.listpregunta7 / this.contadorreal).toFixed(2);
@@ -213,11 +216,12 @@ arras2() {
   }
 }
   ngOnInit() {
+  //  this.modaldemo.open(this.Modal, {animation: true, backdropClass:'light'})
     this.cont();
     this.getData1();
     this.authservice.getAuth().subscribe( user => {
      if (user) {
-       this.isLogin = true;        
+       this.isLogin = true;
        this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
         if(info.suadmin === true){
           this.isLoginSuadmin = true;

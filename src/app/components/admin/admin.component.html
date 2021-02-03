@@ -2,7 +2,7 @@
 
 <!-- Pagina de Bienvenida-->
 <div class="card col-md-3 mt-3 text-white" style="background-color: #2a206f"><strong><h2>Bienvenid@: {{nomUsuario}}<br>LA VIGA</h2></strong></div>
-<button (click)="export()" *ngIf="isLoginSuadmin" >REPORT</button>    
+<button (click)="export()" *ngIf="isLoginSuadmin" >REPORT</button>
 
 <!-- Resumen Encuestas-->
 <div class="card border-success mt-3 mr-3 ml-3">
@@ -36,7 +36,7 @@
                             {{rows1.id}}
                         </ng-template> -->
                         </ngx-datatable-column>
-                       
+
                         <ngx-datatable-column>
                             <ng-template let-column="column" ngx-datatable-header-template>
                                 Fecha
@@ -64,7 +64,7 @@
                             La Viga
                             </ng-template> -->
                         </ngx-datatable-column>
-               
+
                         <ngx-datatable-column>
                             <ng-template let-column="column" ngx-datatable-header-template>
                                 Total
@@ -77,7 +77,7 @@
                         </ng-template> -->
                         </ngx-datatable-column>
                         </ngx-datatable>
-                    </div>  
+                    </div>
                 </form>
             </div>
         </div>
@@ -172,7 +172,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Reparaciones -->
-                        <table class="table table-hover table-bordered table-sm"> 
+                        <table class="table table-hover table-bordered table-sm">
                             <thead class="thead-dark">
                                 <tr class="text-center text-white">
                                     <th scope="col">Reparación</th>
@@ -247,9 +247,58 @@
         </div>
         <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
     </div>
-   
+
 <div class="card">
     <app-reports></app-reports>
 </div>
 <!-- Footer -->
 <app-footer></app-footer>
+<ng-template #Modal let-close="close" >
+    <div class="modal-header">
+      <h5 class="modal-title">Detalles de Cita</h5>
+      <button type="button" class="close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="card-group">
+        <div class="card col-md-5 mt-3 ml-1" style="border-color: #ffffff;">
+            <div>
+        Fecha programada:
+      </div>
+      <div >
+        Folio asociado:
+
+      </div>
+      <div >
+        Paciente:
+
+      </div>
+      <div >
+        Fecha de nacimiento:
+
+      </div>
+      <div >
+        Telefono:
+
+      </div>
+      <div >
+        Correo:
+
+      </div>
+    </div>
+    <div class="card col-md-3 mt-3 ml-1" style="border-color: #ffffff;">
+        <div >
+            Detalles:
+
+          </div>
+    </div>
+</div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        OK
+      </button>
+    </div>
+
+  </ng-template>

@@ -57,6 +57,7 @@ import { AgregatorComponent } from './extras/agregator/agregator.component';
 import { ModeliComponent } from './Modals/modeli/modeli.component';
 import { AdmincComponent } from './components/adminc/adminc.component';
 import { ReportsCComponent } from './components/reports-c/reports-c.component';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { from } from 'rxjs';
 
@@ -118,7 +119,9 @@ import { from } from 'rxjs';
     AngularFireDatabaseModule,
     FlashMessagesModule,
     NbThemeModule.forRoot({ name: 'corporate' }),
-    NbLayoutModule
+    NbLayoutModule,
+    NgbModule,
+    NgbModalModule
   ],
   entryComponents: [],
   providers: [
@@ -126,7 +129,7 @@ import { from } from 'rxjs';
               AuthGuard,
               FlashMessagesService,
               EncuestaService
-              
+
             ],
   bootstrap: [AppComponent]
 })
