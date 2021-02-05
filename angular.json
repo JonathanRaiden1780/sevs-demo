@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "CasanovaSevs": {
+    "DemoSevs": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/CasanovaSevs",
+            "outputPath": "dist/DemoSevs",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -71,18 +71,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "CasanovaSevs:build"
+            "browserTarget": "DemoSevs:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "CasanovaSevs:build:production"
+              "browserTarget": "DemoSevs:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "CasanovaSevs:build"
+            "browserTarget": "DemoSevs:build"
           }
         },
         "test": {
@@ -120,18 +120,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "CasanovaSevs:serve"
+            "devServerTarget": "DemoSevs:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "CasanovaSevs:serve:production"
+              "devServerTarget": "DemoSevs:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "CasanovaSevs",
+  "defaultProject": "DemoSevs",
   "cli": {
     "analytics": "458b2c2c-ba03-4823-a5ca-412fd604c809"
   }
