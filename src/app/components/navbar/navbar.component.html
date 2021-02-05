@@ -1,7 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #2a206f ;">
-    <img src="https://i.ibb.co/kqjK0Y5/SEVSCASANOVA.png " class="navbar-brand" alt="EVALogo" style="width: 20%;">
-    <!-- <img src="https://i.ibb.co/kqjK0Y5/SEVSCASANOVA.png" alt="SEVSCASANOVA" border="0"> -->
-    <div class="collapse navbar-collapse" *ngIf="isLoginSuadmin">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon" style="color: black;"></span>
+      </button>
+    <img src="https://i.ibb.co/gV1Rrcr/SEVS.png " class="navbar-brand" alt="EVALogo" style="width: 7%;">
+    <!-- <img src="https://i.ibb.co/gV1Rrcr/SEVS.png" alt="SEVSDemo" border="0"> -->
+    <div class="collapse navbar-collapse" *ngIf="isLoginSuadmin" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" *ngIf="isLogin">
                 <a class="nav-link" routerLinkActive="active-link" routerLink="/admin">

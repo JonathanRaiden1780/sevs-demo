@@ -60,6 +60,7 @@ import { ReportsCComponent } from './components/reports-c/reports-c.component';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { from } from 'rxjs';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
@@ -121,7 +122,8 @@ import { from } from 'rxjs';
     NbThemeModule.forRoot({ name: 'corporate' }),
     NbLayoutModule,
     NgbModule,
-    NgbModalModule
+    NgbModalModule,
+    Ng2SmartTableModule
   ],
   entryComponents: [],
   providers: [

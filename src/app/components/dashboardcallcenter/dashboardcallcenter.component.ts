@@ -80,7 +80,7 @@ fechasal:string;
   }
 
   getData1() {
-    this.afs.collection('typeALL').valueChanges().subscribe((encuesta) => {
+    this.afs.collection('type').doc('Taller1').collection('').valueChanges().subscribe((encuesta) => {
       this.rows1 = encuesta;
     });
     this.listado = this.rows1;

@@ -31,7 +31,7 @@ ubi:string;
     private lvlaccess: LevelaccessService
   ) { }
 GOTO(){
-  if(this.ubi == 'Centenario'){
+  if(this.ubi == 'Taller2'){
     this.router.navigate(['/adminc']);
   }else{
     this.router.navigate(['/admin']);
@@ -44,10 +44,10 @@ GOTO(){
         this.isLogin = true;
         this.lvlaccess.getUserData(auth.email).subscribe( (info: RegistroInterface) => {
           ////console.log('usuario desde lvl:', info);
-                      if(info.ubicacion == 'Centenario'){
-                       this.ubi = 'Centenario';
-                      } else if (info.ubicacion == 'Viga') {
-                        this.ubi = 'Viga';
+                      if(info.ubicacion == 'Taller2'){
+                       this.ubi = 'Taller2';
+                      } else if (info.ubicacion == 'Taller1') {
+                        this.ubi = 'Taller1';
                       } else {
                         //console.log('Error de sistema: Usuario sin Permisos')
                       }

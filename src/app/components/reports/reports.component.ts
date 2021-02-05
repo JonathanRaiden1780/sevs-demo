@@ -38,7 +38,7 @@ export class ReportsComponent implements OnInit {
   public pieChartDataP6: SingleDataSet = [12, 9, 6, 1.5, 1.5];
     // P7 La limpieza de su vehículo fue:
     public pieChartDataP7: SingleDataSet = [12, 9, 6, 1.5, 1.5];
-    // P8 La experiencia en general de su visita a Casanova fue…
+    // P8 La experiencia en general de su visita a Demo fue…
     public pieChartDataP8: SingleDataSet = [12, 9, 6, 1.5, 1.5];
   // Rep
    // P9 ¿Se le explicó el motivo?
@@ -165,7 +165,7 @@ export class ReportsComponent implements OnInit {
   }
   
 //___________________________________________________________________
-//___________________________________________________________________ Collection Contadores VIGA
+//___________________________________________________________________ Collection Contadores Taller1
 getitemcoll1mb(con: ContadorInterface){
  this.cp1mb = con.contador
 }

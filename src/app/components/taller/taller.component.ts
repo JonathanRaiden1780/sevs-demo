@@ -8,7 +8,6 @@ import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
 import { Router } from '@angular/router';
-import * as firebase from 'firebase';
 
 @Component({
   selector: 'app-taller',
@@ -53,6 +52,7 @@ public ubi :string;
       if (user) {
         this.isLogin = true;
         this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
+          console.log(info)
             if(info.suadmin === true){
               this.ubi = info.ubicacion;
               this.isLoginSuadmin = true;
@@ -107,31 +107,34 @@ public ubi :string;
     value.fecharegistro = this.fechareporte;
     console.log(value);
 //___________________________________________________________________________________
-    this.afs.firestore.doc('Encuestareps/' + this.name).get()
-    .then(docSnapshot => {
+this.afs.firestore.doc('type/Taller1/'+ this.fechareporte + '/' + this.name).get() //this.afs.firestore.doc('Encuestareps/' + this.name).get()
+.then(docSnapshot => {
       if (docSnapshot.exists === true) {
         confirm('Ya existe el registro ' + this.name);
       }
       else{
-        this.afs.firestore.doc('EncuestarepsC/' + this.name).get()
+        this.afs.firestore.doc('type/Taller2/'+ this.fechareporte + '/' + this.name).get() //this.afs.firestore.doc('EncuestarepsC/' + this.name).get()
         .then(docSnapshot => {
           if (docSnapshot.exists === true) {
             confirm('Ya existe el registro ' + this.name);
           }
           else{
-            if(this.name.includes('VI') == true){
-              var x = "Viga";
+            if(this.name.includes('T1') == true){
+              var x = "Taller1";
               this.encuestase.requestupdateType(x,this.fechareporte); 
-              this.encuestase.addEncuestare(value);
+              //this.encuestase.addEncuestare(value);
               this.encuestase.addTypeAll(value);
               confirm('Registro ' + this.name + ' guardado');
             }
-            else if(this.name.includes('CE') == true){
-              var x = "Centenario";
+            else if(this.name.includes('T2') == true){
+              var x = "Taller2";
               this.encuestase.requestupdateType(x,this.fechareporte); 
-              this.encuestase.addEncuestareC(value);
+              //this.encuestase.addEncuestareC(value);
               this.encuestase.addTypeAll(value);
               confirm('Registro ' + this.name + ' guardado');
+            }
+            else{
+              alert('Favor de ingresar las iniciales del Taller en el Folio Ej: T1 o T2')
             }
           }
         }); 

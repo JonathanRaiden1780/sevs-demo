@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   
 onEncuesta({value}: {value: EncuestaexInterface}){
   this.name=this.idenc.toUpperCase();
+  console.log(this.idenc.length)
   this.afs.firestore.doc('Encuestareps/'+this.name).get()
   .then(docSnapshot => {
     if (docSnapshot.exists == true) {
@@ -42,8 +43,12 @@ onEncuesta({value}: {value: EncuestaexInterface}){
         if(docSnapshot.exists == true){
           this.afs.collection('EncuestarepsC').doc(this.name).valueChanges().pipe(take(1)).subscribe(res => {this.arrass(res)} );  
         }
+        else if(this.idenc.length <=1 || this.idenc.includes('T1') == false || this.idenc.includes('T2') == false){
+          alert("Favor de ingresar un número de orden correcto")
+        }
       });
     }
+
   });
 }
   arrass(x: EncuestaexInterface): string {

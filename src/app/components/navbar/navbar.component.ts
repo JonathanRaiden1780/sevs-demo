@@ -79,7 +79,7 @@ export class NavbarComponent implements OnInit {
                 this.DEMO = true;
               }
             } else if (info.admin === true) {
-              if(info.ubicacion == 'Centenario'){
+              if(info.ubicacion == 'Taller2'){
                 this.isLoginAdminC = true;
                 this.isLoginSuadmin = false;
                 this.isLoginCallcenter = false;

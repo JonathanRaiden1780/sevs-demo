@@ -123,8 +123,8 @@ export class AdminComponent implements OnInit {
     }
   }
   this.fechareporte = this.mod.mes+this.mod.año;
-  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });
-  this.afs.collection('type').doc('Viga').collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });
+  this.afs.collection('type').doc('Taller1').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });
+  this.afs.collection('type').doc('Taller1').collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });
 }
 cont2(x:ContadorInterface){
   this.contadorreal = <number><any>x.contador;

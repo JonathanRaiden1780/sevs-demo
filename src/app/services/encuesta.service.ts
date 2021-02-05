@@ -37,8 +37,8 @@ constructor(
     }
   }
   this.fechareporte = this.mod.mes+this.mod.año;
-   this.EncuestareCollection = this.afs.collection('Encuestareps', ref => ref);
-   this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', ref => ref);
+  //this.EncuestareCollection = this.afs.collection('Encuestareps', ref => ref);
+  //this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', ref => ref);
    this.typeCollectionALL = this.afs.collection('typeALL', ref => ref);
 
 
@@ -54,16 +54,16 @@ constructor(
  }
  //___________________________________________________________________ Update Encuesta
  //Update registro completo
-   updateEncuestarep(Encuestaex: RegistroCompletoInterface) {
+   /* updateEncuestarep(Encuestaex: RegistroCompletoInterface) {
      this.EncuestaexDoc = this.afs.doc('Encuestareps/' + Encuestaex.id);
      this.EncuestaexDoc.update(Encuestaex);
    }
   updateEncuestarepC(Encuestaex: RegistroCompletoInterface) {
     this.EncuestaexDoc = this.afs.doc('EncuestarepsC/' + Encuestaex.id);
     this.EncuestaexDoc.update(Encuestaex);
-  }
+  } */
   updateTypeALL(Encuestaex: RegistroCompletoInterface) {
-    this.EncuestaexDoc = this.afs.doc('typeALL/' + Encuestaex.id);
+    this.EncuestaexDoc = this.afs.doc('typeALL/' + this.mod.año + '/' + this.mod.mes+ '/' + Encuestaex.id);
     this.EncuestaexDoc.update(Encuestaex).then(function() {
       confirm('Registro ' + Encuestaex.id + ' guardado');
   })
@@ -109,23 +109,25 @@ constructor(
 //___________________________________________________________________ Add Encuesta
 
  addEncuestare(Encuestaex: EncuestaexInterface) {
+  this.EncuestaexDoc = this.afs.doc('type/Taller1/'+ this.fechareporte+ '/' + Encuestaex.id);
+
    // this.EncuestaexCollection.add(Encuestaex);
-   this.EncuestareCollection.doc(Encuestaex.id).set(Encuestaex);
+   //this.EncuestareCollection.doc(Encuestaex.id).set(Encuestaex);
  }
  addTypeAll(Encuestaex: EncuestaexInterface) {
   // this.EncuestaexCollection.add(Encuestaex);
-  this.typeCollectionALL.doc(Encuestaex.id).set(Encuestaex);
+  this.typeCollectionALL.doc(this.mod.año.toString()).collection(this.mod.mes).doc(Encuestaex.id).set(Encuestaex);
 }
 addEncuestareC(Encuestaex: EncuestaexInterface) {
   // this.EncuestaexCollection.add(Encuestaex);
-  this.EncuestareCollectionC.doc(Encuestaex.id).set(Encuestaex);
+ // this.EncuestareCollectionC.doc(Encuestaex.id).set(Encuestaex);
 }
  //___________________________________________________________________
  //Get collections
  //___________________________________________________________________
 
  getAllEncuestaexCen(x:string): Observable<EncuestaexInterface[]> {
-  this.typeCollections = this.afs.collection('EncuestarepsC', ref => ref.where("fechareporte","==",x));
+  this.typeCollections = this.afs.collection('typeALL/Taller2/'+ this.fechareporte); // igual pero con EncuestarepsC
   this.Encuestaexes = this.typeCollections.snapshotChanges()
   .pipe(map(changes => {
     return changes.map(action => {
@@ -137,7 +139,7 @@ addEncuestareC(Encuestaex: EncuestaexInterface) {
   return this.Encuestaexes;
 }
 getAllEncuestaexvig(x:string): Observable<EncuestaexInterface[]> {
-  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x));
+  this.typeCollections = this.afs.collection('typeALL/Taller1/'+this.fechareporte); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
   this.Encuestaexes = this.typeCollections.snapshotChanges()
   .pipe(map(changes => {
     return changes.map(action => {

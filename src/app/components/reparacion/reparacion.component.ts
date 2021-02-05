@@ -192,31 +192,31 @@ export class ReparacionComponent implements OnInit {
     value.total = +this.proms;
     value.fechareporte = this.fechareporte;
     this.totalnot = value.total;
-    if(this.ident.includes('VI') == true){
+    if(this.ident.includes('T1') == true){
       if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
         value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
           confirm("Comunicarse con Soporte... Problema de Registro");
         }
         else{
           
-      this.encuestaService.updateTypeALL(value);
-      this.encuestaService.requestupdateTypee('Viga',this.fechareporte)
-      this.encuestaService.updateEncuestarep(value);
+      //this.encuestaService.updateTypeALL(value);
+      this.encuestaService.requestupdateTypee('Taller1',this.fechareporte)
+      //this.encuestaService.updateEncuestarep(value);
   //    this.sendemail(value.total);
-      this.valcontadores("vi");
+      this.valcontadores("T1");
     }
   }
-    else if(this.ident.includes('CE') == true){
+    else if(this.ident.includes('T2') == true){
       if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
         value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
           confirm("Comunicarse con Soporte... Problema de Registro");
         }
         else{
-    this.encuestaService.updateTypeALL(value);
-    this.encuestaService.updateEncuestarepC(value);
-    this.encuestaService.requestupdateTypee('Centenario',this.fechareporte)
+   // this.encuestaService.updateTypeALL(value);
+   // this.encuestaService.updateEncuestarepC(value);
+    this.encuestaService.requestupdateTypee('Taller',this.fechareporte)
    // this.sendemail(value.total);
-    this.valcontadores("ce");
+    this.valcontadores("T2");
 
   }
 }
@@ -233,7 +233,7 @@ export class ReparacionComponent implements OnInit {
           p8= "Pregunta8", na = 'N-A',
           p9= "Pregunta9",
           p10= "Pregunta10"
-    if(x=="vi"){
+    if(x=="T1"){
    var docref =   this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb);
       docref.get().then( doc =>  {
         if(doc.exists == true){
@@ -615,14 +615,14 @@ sendemail(t:number) {
   }
   
 
-  /* let url = `https://us-central1-casanovaeva01.cloudfunctions.net/httpEmail`;
+  /* let url = `https://us-central1-Demoeva01.cloudfunctions.net/httpEmail`;
   let params: URLSearchParams = new URLSearchParams();
   //private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
   let headers = new Headers({'Content-Type': 'application/json', 'Access-Control-Allow-Origin':"*" , 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'});
   let options = new RequestOptions({ headers: headers });
 
   params.set('to', 'darrell.1780@gmail.com');
-  params.set('from', 'sevs@casanovarentacar.mx');
+  params.set('from', 'sevs@Demorentacar.mx');
   params.set('subject', 'test-email');
   params.set('content', 'Hello World');
   console.log('enviado');

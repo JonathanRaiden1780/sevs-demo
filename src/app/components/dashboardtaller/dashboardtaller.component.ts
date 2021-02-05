@@ -101,12 +101,12 @@ ubi:string;
     if (user) {
       this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
 ////console.log('usuario desde lvl:', info);
-            if(info.ubicacion == 'Centenario'){
-              this.ubi = 'Centenario';
+            if(info.ubicacion == 'Taller2'){
+              this.ubi = 'Taller2';
               this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
             }
-            else if (info.ubicacion === 'Viga') {
-              this.ubi = 'Viga';
+            else if (info.ubicacion === 'Taller1') {
+              this.ubi = 'Taller1';
               this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
           }
            else if (info.ubicacion === 'ALL') {
@@ -120,12 +120,12 @@ ubi:string;
   });
   }
   changesitio(sitio : string){
-    if(sitio == 'viga'){
-        this.ubi = 'Viga';
+    if(sitio == 'Taller1'){
+        this.ubi = 'Taller1';
         this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
     }
-    if(sitio == 'cente'){
-       this.ubi = 'Centenario';
+    if(sitio == 'Taller2'){
+       this.ubi = 'Taller2';
        this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
     }
   }

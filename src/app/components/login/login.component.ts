@@ -71,9 +71,7 @@ ngOnInit() {
       this.authService.getAuth().subscribe( user => {
         if (user) {
           this.isLogin = true;
-          console.log(user.email)
           this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
-  ////console.log('usuario desde lvl:', info);
               if(info.suadmin === true){
                 this.isLoginSuadmin = true;
                 this.isLoginAdmin = false;
@@ -85,7 +83,7 @@ ngOnInit() {
                 this.isLoginSuadmin = false;
                 this.isLoginCallcenter = false;
                 this.isLoginTaller = false;
-                if(info.ubicacion == 'Centenario'){
+                if(info.ubicacion == 'Taller2'){
                   this.router.navigate(['/adminc']);
                 }else{
                   this.router.navigate(['/admin']);
