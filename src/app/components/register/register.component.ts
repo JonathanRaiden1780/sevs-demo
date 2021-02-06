@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
-import { faUser, faEnvelope, faKey, faSignInAlt, faUserCog, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faEnvelope, faKey, faSignInAlt, faUserCog, faMapMarkerAlt, faTrash, faPen, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Ubicacion } from 'src/app/Models/ubicacion';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { LocalDataSource } from 'ng2-smart-table';
@@ -20,8 +20,13 @@ export class RegisterComponent implements OnInit {
   faSignInAlt = faSignInAlt;
   faUserCog = faUserCog;
   faMapMarkerAlt = faMapMarkerAlt;
-  datatable: LocalDataSource;
+  faTrash = faTrash;
+  faPen = faPen;
+  faCheck = faCheck;
+  faTimes = faTimes;
 
+  datatable: LocalDataSource;
+  datatable2: LocalDataSource;
 
   constructor(
     private router: Router,
@@ -43,10 +48,10 @@ export class RegisterComponent implements OnInit {
     this.getubi()
   }
   addnewuser() {
-      this.authservice.registeruser(this.email, this.pass)
+    this.authservice.registeruser(this.email, this.pass)
       .then((res) => {
-        this.router.navigate(['/login'])
-      }).catch(err => console.log('err', err.message)); 
+        this.router.navigate(['/register'])
+      }).catch(err => console.log('err', err.message));
   }
   guardarregistro({ value }: { value: RegistroInterface }) {
     //  let userID  = auth().currentUser!.uid;
@@ -64,7 +69,6 @@ export class RegisterComponent implements OnInit {
     value.nombre = this.nombre;
     value.admin = this.admin;
     value.suadmin = this.suadmin;
-    console.log(value)
     this.authservice.addregistro(value);
   }
   addubi({ value }: { value: Ubicacion }) {
@@ -72,47 +76,97 @@ export class RegisterComponent implements OnInit {
     value.ubicacion = this.ubicacion;
     this.authservice.addubica(value)
   }
-  getubi(){
-    this.afs.collection('Ubicacion').valueChanges().subscribe(x => {this.data = x})
+  getubi() {
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x; this.datatable2 = x as any })
+    this.afs.collection('Registro').valueChanges().subscribe(x => { this.datatable = x as any })
   }
-  /* settings = {
+  settings = {
+    delete: {
+      confirmDelete: true,
+      deleteButtonContent: '<i class="fa fa-trash" title="delete"></i>'
+    },
+    edit: {
+      editButtonContent: '<i class="fa fa-pencil" style="font-size:32px"></i>',
+      saveButtonContent: '<i class="fa fa-check" style="font-size:32px">add</i>',
+      cancelButtonContent: '<i class="fa fa-times" style="font-size:32px">cancel</i>',
+      confirmSave: true,
+    },
     actions: {
-      edit: false,
       columnTitle: '',
-      delete: false,
       add: false,
-      custom: [
-        {
-          name: 'entrada',
-          title: '<i class="fa fa-plus" title="entrada"></i><br>'
-        },
-        {
-          name: 'salida',
-          title: '<i class="fa fa-minus" title="sailda"></i><br>'
-        }
-      ],
     },
     pager: {
-      perPage: 5
+      perPage: 3
+    },
+    defaultStyle: false,
+    attr: {
+      class: 'table' // this is custom table scss or css class for table
+    },
+    columns: {
+      nombre: {
+        title: 'Nombre'
+      },
+      correo: {
+        title: 'Correo',
+        editable: false
+      },
+      ubicacion: {
+        title: 'Ubicacion',
+      },
+      tipo: {
+        title: 'Perfil',
+        editor: {
+          type: 'list',
+          config: {
+            list: [{ value: 'Administrador', title: 'Administrador' }, { value: 'Taller', title: 'Taller' }, { value: 'CallCenter', title: 'CallCenter' },]
+          }
+        }
+      }
+    },
+  };
+  settings2 = {
+    delete: {
+      confirmDelete: true,
+    },
+    edit: {
+      confirmSave: true,
+    },
+    actions: {
+      columnTitle: '',
+      add: false,
+    },
+    pager: {
+      perPage: 3
     },
     defaultStyle: false,
     attr: {
       class: 'table ' // this is custom table scss or css class for table
     },
-
     columns: {
-      nplatillo: {
-        title: 'Platillo'
+      id: {
+        title: 'ID'
       },
-      cplatillo: {
-        title: 'Categoria'
-
-      },
-      cantidad: {
-        title: 'Cantidad',
-        filter: false
-      },
-
+      ubicacion: {
+        title: 'Ubicacion',
+      }
     },
-  }; */
+  };
+  onDeleteConfirm(event, x) {
+    console.log(x)
+    if (window.confirm('¿Esta seguro que desea eliminarlo?')) {
+      this.authservice.deleteregistro(event.data)
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
+  onSaveConfirm(event, x) {
+    console.log(x)
+    if (window.confirm('¿Son correctos los cambios realizados?')) {
+      event.newData['name'] += ' + added in code';
+      event.confirm.resolve(event.newData);
+    } else {
+      event.confirm.reject();
+    }
+  }
 }

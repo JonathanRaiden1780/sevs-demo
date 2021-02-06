@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
-<div class="card-group col-md-7 mx-auto mt-3">
-  <div class="col-md-5 mt-3 ml-4">
+<div class="card-group col-md-7 mt-3">
+  <div class="col-md-5 mt-3 ml-1">
     <form>
       <div class="card mb-3 text-center" style="max-width: 20rem; background-color: #2a206f">
         <div class="card-body" style="color: white;">
@@ -72,10 +72,14 @@
         </form>
       </div>
     </form>
-   <!--  <ng2-smart-table style="color: white;" [settings]="settings" [source]="datatable">
-    </ng2-smart-table> -->
+    <flash-messages></flash-messages>
   </div>
-  <div class="col-md-5 mx-auto mt-3 ml-3">
+  <div class="col-md-3 mt-3">
+    <ng2-smart-table [settings]="settings" [source]="datatable" (deleteConfirm)="onDeleteConfirm($event,1)"
+    (editConfirm)="onSaveConfirm($event,1)">
+    </ng2-smart-table>
+  </div>
+  <div class="col-md-5 mt-3">
     <form #formguardar2="ngForm" (ngSubmit)="addubi(formguardar2)">
       <div class="card mb-2 text-center" style="max-width: 20rem; background-color: #2a206f">
         <div class="card-body" style="color: white;">
@@ -110,6 +114,9 @@
       </div>
     </form>
   </div>
-  <div class="col-md-6 mx-auto mt-2">
-    <flash-messages></flash-messages>
+  <div class="col-md-4 mt-3">
+    <ng2-smart-table [settings]="settings2" [source]="datatable2" (deleteConfirm)="onDeleteConfirm($event,2)"
+    (editConfirm)="onSaveConfirm($event,2)">
+    </ng2-smart-table>
   </div>
+</div>

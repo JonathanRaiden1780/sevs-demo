@@ -37,6 +37,7 @@ export class AuthService {
   }
   //Eliminar registro de Firestore
   deleteregistro(registro: RegistroInterface) {
+    console.log(registro)
     this.registroDoc = this.afs.doc('Registro/' + registro.id);
     this.registroDoc.delete();
   }
