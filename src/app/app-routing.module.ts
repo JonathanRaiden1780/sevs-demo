@@ -25,7 +25,7 @@ import { AdmincComponent } from './components/adminc/adminc.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+  { path: 'admin/:id', component: AdminComponent, canActivate: [AuthGuard]},
   { path: 'taller', component: TallerComponent, canActivate: [AuthGuard] },
   { path: 'reports', component: ReportsComponent, canActivate: [AuthGuard]},
   { path: 'dashboardt', component: DashboardtallerComponent, canActivate: [AuthGuard]},

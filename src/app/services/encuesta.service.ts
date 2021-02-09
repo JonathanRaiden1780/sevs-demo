@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { RegistroCompletoInterface } from '../Models/Registrocompleto';
 import { FirebaseFirestore } from 'angularfire2';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -38,25 +39,19 @@ export class EncuestaService {
       }
     }
     this.fechareporte = this.mod.mes + this.mod.año;
-    //this.EncuestareCollection = this.afs.collection('Encuestareps', ref => ref);
-    //this.EncuestareCollectionC = this.afs.collection('EncuestarepsC', ref => ref);
     this.typeCollectionALL = this.afs.collection('typeALL', ref => ref);
-
-
   }
   //___________________________________________________________________ Delete Encuesta
-  deleteEncuestaex(Encuestaex: EncuestaexInterface) {
-    this.EncuestaexDoc = this.afs.doc('Encuestaexes/' + Encuestaex.id);
-    this.EncuestaexDoc.delete();
-  }
-  deleteType(Encuestaex: EncuestaexInterface) {
-    this.EncuestaexDoc = this.afs.doc('type/' + Encuestaex.id);
+  deleteType(Encuestaex: EncuestaexInterface, ubicacion: string) {
+    this.EncuestaexDoc = this.afs.doc('type/'+ ubicacion + '/'+this.fechareporte+'/' + Encuestaex.id);
     this.EncuestaexDoc.delete();
   }
   //___________________________________________________________________ Update Encuesta
   //Update registro completo
   updateEncuestarep(Encuestaex: RegistroCompletoInterface, ubicacion: string) {
-    this.EncuestaexDoc = this.afs.doc('type/' + ubicacion + '/Encuestas/' + Encuestaex.id);
+    this.EncuestaexDoc = this.afs.doc('type/' + ubicacion + '/'+this.fechareporte+'/' + Encuestaex.id);
+    this.EncuestaexDoc1 = this.afs.doc('type/' + ubicacion + '/Encuestas/' + Encuestaex.id);
+    this.EncuestaexDoc1.update(Encuestaex);
     this.EncuestaexDoc.update(Encuestaex);
   }
   updateTypeALL(Encuestaex: RegistroCompletoInterface) {
@@ -73,46 +68,53 @@ export class EncuestaService {
   getcontador(x: string, y: string, z: string) {
     this.afs.firestore.collection('type').doc(x).collection(y).get().then(doc => {
       if (doc.docs.length > 0) {
-        this.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, y, 'registro'); });
+        this.afs.collection('type').doc(x).collection(y).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
       }
       else {
         this.add(x, y, z);
-        this.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, y, 'registro'); });
       }
     })
     this.afs.firestore.collection('type').doc(x).collection(z).get().then(doc => {
       if (doc.docs.length > 0) {
-        this.afs.collection('type').doc(x).collection(z).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, z, 'registro'); });
+        this.afs.collection('type').doc(x).collection(z).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
       }
       else {
         this.add(x, y, z);
-        this.afs.collection('type').doc(x).collection(z).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, z, 'registro'); });
+      }
+    })
+    this.afs.firestore.collection('type').doc(x).get().then(doc => {
+      if (doc.exists==true) {
+        this.afs.collection('type').doc(x).update({ registros: firebase.firestore.FieldValue.increment(1) })
+      }
+      else {
+        this.add(x, y, z);
       }
     })
   }
   add(x: string, y: string, z: string) {
     this.afs.collection('type').doc(x).collection(y).doc('contestadas').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(y).doc('registro').set({ contador: 0 })
-    this.afs.collection('type').doc(x).collection(y).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, y, 'registro'); });
+    this.afs.collection('type').doc(x).collection(y).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
+    
+    this.afs.collection('type').doc(x).set({ contestadas: 0 })
+    this.afs.collection('type').doc(x).set({ registros: 0 })
+    this.afs.collection('type').doc(x).update({ registros: firebase.firestore.FieldValue.increment(1) })
+    
     this.afs.collection('type').doc(x).collection(z).doc('contestadas').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(z).doc('registro').set({ contador: 0 })
-    this.afs.collection('type').doc(x).collection(z).doc('registro').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, z, 'registro'); });
-  }
-  arrayss(x: ContadorInterface, col: string, doc: string, bool: string): number {
-    this.EncuestaexDoc1 = this.afs.doc('type/' + col + '/' + doc + '/' + bool);
-    this.contadores = <number><any>x.contador;
-    x.contador = this.contadores + 1;
-    this.EncuestaexDoc1.update(x);
-    return this.contadores;
+    this.afs.collection('type').doc(x).collection(z).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
   }
   //------------------------------------------------
   getcontador2(x: string, y: string, z: string) {
-    this.afs.collection('type').doc(x).collection(y).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, y, 'contestadas'); });
-    this.afs.collection('type').doc(x).collection(z).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => { this.arrayss(res, x, z, 'contestadas'); });
+    this.afs.collection('type').doc(x).collection(y).doc('contestadas').update({ contador: firebase.firestore.FieldValue.increment(1) })
+    this.afs.collection('type').doc(x).update({ contestadas: firebase.firestore.FieldValue.increment(1) })
+    this.afs.collection('type').doc(x).collection(z).doc('contestadas').update({ contador: firebase.firestore.FieldValue.increment(1) })
   }
   //___________________________________________________________________ Add Encuesta
   addEncuestare(Encuestaex: EncuestaexInterface) {
+    this.afs.collection('type').doc(Encuestaex.ubicacion).collection(this.fechareporte).doc(Encuestaex.id).set(Encuestaex)
     this.afs.collection('type').doc(Encuestaex.ubicacion).collection('Encuestas').doc(Encuestaex.id).set(Encuestaex)
+
   }
   addTypeAll(Encuestaex: EncuestaexInterface) {
     // this.EncuestaexCollection.add(Encuestaex);
@@ -133,8 +135,8 @@ export class EncuestaService {
       }));
     return this.Encuestaexes;
   }
-  getAllEncuestaexvig(x: string): Observable<EncuestaexInterface[]> {
-    this.typeCollections = this.afs.collection('typeALL/Taller1/' + this.fechareporte); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+  getAllEncuestas(x: string): Observable<EncuestaexInterface[]> {
+    this.typeCollections = this.afs.collection('type/'+x+'/' + this.fechareporte, ref => ref.where("fechareporte","==",this.fechareporte)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.Encuestaexes = this.typeCollections.snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {

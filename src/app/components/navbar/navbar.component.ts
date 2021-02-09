@@ -5,6 +5,8 @@ import { faFemale, faChartLine, faSignOutAlt, faSignInAlt, faHome, faVoteYea, fa
 import { AuthService } from '../../services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -43,7 +45,7 @@ export class NavbarComponent implements OnInit {
   public taller = false;
   public callcenter = false;
   public suadmin = false;
-
+  public data: any
 
   // rol: string;
   userName: string;
@@ -61,10 +63,16 @@ export class NavbarComponent implements OnInit {
   nomUsuario: any;
   constructor(
     public authService: AuthService,
+    private afs: AngularFirestore,
+    public router: Router,
     private lvlaccess: LevelaccessService
   ) { }
-
+home(x){
+  window.location.replace('/admin/' + x)
+}
   ngOnInit() {
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
+
     this.authService.getAuth().subscribe( user => {
       if (user) {
         this.isLogin = true;

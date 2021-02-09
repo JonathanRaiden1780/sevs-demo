@@ -7,8 +7,6 @@ import { EncuestaService } from 'src/app/services/encuesta.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { AngularFireDatabase } from 'angularfire2/database';
-import { Http } from '@angular/http';
 import * as firebase from 'firebase';
 import { MatStepper } from '@angular/material/stepper'
 
@@ -30,10 +28,8 @@ export class ReparacionComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private encuestaService: EncuestaService,
     private router: Router,
-    private http: Http,
     private route: ActivatedRoute,
     private afs: AngularFirestore,
-    private af: AngularFireDatabase
   ) {
     const today = new Date();
     this.EncuestaexCollection = this.afs.collection('Contadores', ref => ref);

@@ -6,14 +6,18 @@
     <!-- <img src="https://i.ibb.co/gV1Rrcr/SEVS.png" alt="SEVSDemo" border="0"> -->
     <div class="collapse navbar-collapse" *ngIf="isLoginSuadmin" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle"id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <fa-icon [icon]="faHome" class="fa-2x"></fa-icon>Home
+
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink"  >
+                  <button class="dropdown-item" (click)="home(authservice.ubicacion)" *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
+                </div>
+              </li>
             <li class="nav-item" *ngIf="isLogin">
                 <a class="nav-link" routerLinkActive="active-link" routerLink="/admin">
-                    <fa-icon [icon]="faHome" class="fa-2x"></fa-icon>
-                </a>
-            </li>
-            <li class="nav-item" *ngIf="isLogin">
-                <a class="nav-link" routerLinkActive="active-link" routerLink="/adminc">
-                    <fa-icon [icon]="faHouseDamage" class="fa-2x"></fa-icon>
+                    <fa-icon [icon]="faHome" class="fa-2x"></fa-icon>Home
                 </a>
             </li>
             <li class="nav-item" *ngIf="isLogin">

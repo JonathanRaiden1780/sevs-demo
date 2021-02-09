@@ -16,16 +16,26 @@ import { take } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
   name: string;
+  faVoteYea = faVoteYea;
   tipo: string;
   idenc: string;
   Encuesta: Observable<EncuestaexInterface>;
+  
+  fechareporte: string;
+  mod: any = {};
+  meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
   EncuestasDoc: AngularFirestoreDocument<EncuestaexInterface>;
   public data: any;
   constructor(
+    
     public encuestase: EncuestaService,
     private afs: AngularFirestore,
     public router: Router
   ) {
+    const today = new Date();
+    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    this.mod.mesnumero =  today.getMonth()+1;
+    this.mod.año =  today.getFullYear();
   }
   onEncuesta({ value }: { value: EncuestaexInterface }) {
     const search = this.idenc.slice(0, 2)
@@ -39,11 +49,12 @@ export class HomeComponent implements OnInit {
       alert("Favor de ingresar un número de orden correcto")
     }
     else {
+      console.log(name)
       this.name = this.idenc.toUpperCase();
       this.afs.firestore.doc('type/' + ubicacion + '/Encuestas/' + this.name).get()
         .then(docSnapshot => {
           if (docSnapshot.exists == true) {
-            this.afs.collection('type').doc(ubicacion).collection('Encuestas').doc(this.name).valueChanges().pipe(take(1)).subscribe(res => { this.arrass(res) });
+            this.afs.collection('type').doc(ubicacion).collection(this.fechareporte).doc(this.name).valueChanges().pipe(take(1)).subscribe(res => { this.arrass(res) });
           }
           else {
             alert("Registro Inexistente")
@@ -64,9 +75,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
+    this.cont();
   }
 
-  faVoteYea = faVoteYea;
+  cont() {
+    for(var mc=1; mc<=12; mc++){
+      if(this.mod.mesnumero == mc){
+        this.mod.mes = this.meses[mc];
+      }
+    }
+    this.fechareporte = this.mod.mes+this.mod.año;
+  }
+  
 }
 
 

@@ -155,7 +155,7 @@ export class TallerComponent implements OnInit {
     value.ubicacion = ubicaciones;
     value.fecharegistro = this.fechareporte;
     //___________________________________________________________________________________
-    this.afs.firestore.doc('type/' + ubicaciones + '/Encuestas/' + this.name).get() //this.afs.firestore.doc('Encuestareps/' + this.name).get()
+    this.afs.firestore.doc('type/' + ubicaciones + '/'+this.fechareporte+'/' + this.name).get() //this.afs.firestore.doc('Encuestareps/' + this.name).get()
       .then(docSnapshot => {
         if (docSnapshot.exists === true) {
           confirm('Ya existe el registro ' + this.name);

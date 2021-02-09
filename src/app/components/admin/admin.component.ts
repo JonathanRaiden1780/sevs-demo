@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
 import { faArchive, faVoteYea, faBoxes, faStar, faTrophy, faThumbsUp, faThumbsDown, faCar, faCarCrash } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { ContadorInterface } from 'src/app/Models/contador';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,6 +24,7 @@ export class AdminComponent implements OnInit {
    private afs: AngularFirestore,
    private authservice: AuthService,
    private router: Router,
+   private route: ActivatedRoute,
    private lvlaccess: LevelaccessService
  ) {
   const today = new Date();
@@ -63,6 +64,7 @@ export class AdminComponent implements OnInit {
  public rows1: any[];
  public isLogin: boolean;
  public isLoginSuadmin = false;
+ ident: string;
  // Variables
  ens: number;
  listpregunta1: number;
@@ -112,8 +114,8 @@ export class AdminComponent implements OnInit {
 // -------------
  public emailUsuario: string;
  nomUsuario: any;;
- fechareporte: string;
  typeCollection: AngularFirestoreCollection<EncuestaexInterface>;
+ fechareporte: string;
  mod: any = {};
  meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
  cont() {
@@ -123,8 +125,8 @@ export class AdminComponent implements OnInit {
     }
   }
   this.fechareporte = this.mod.mes+this.mod.año;
-  this.afs.collection('type').doc('Taller1').collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });
-  this.afs.collection('type').doc('Taller1').collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });
+  this.afs.collection('type').doc(this.ident).collection(this.fechareporte).doc('contestadas').valueChanges().pipe(take(1)).subscribe(res => {this.cont2(res); });
+  this.afs.collection('type').doc(this.ident).collection(this.fechareporte).doc('registro').valueChanges().pipe(take(1)).subscribe(res => {this.cont3(res); });
 }
 cont2(x:ContadorInterface){
   this.contadorreal = <number><any>x.contador;
@@ -216,6 +218,8 @@ arras2() {
   }
 }
   ngOnInit() {
+    this.onChange();
+
   //  this.modaldemo.open(this.Modal, {animation: true, backdropClass:'light'})
     this.cont();
     this.getData1();
@@ -245,7 +249,7 @@ arras2() {
  return this.nomUsuario;
 }
 getData1(): any  {
-return  this.encuestaex.getAllEncuestaexvig(this.fechareporte).subscribe(x => {
+return  this.encuestaex.getAllEncuestas(this.ident).subscribe(x => {
  this.rows1 = x;
  this.arras();
  return ;
@@ -253,5 +257,8 @@ return  this.encuestaex.getAllEncuestaexvig(this.fechareporte).subscribe(x => {
  }
  export() {
   this.router.navigate(['/dashboardt']);
+}
+onChange() {
+  this.ident = this.route.snapshot.params['id'];
 }
 }

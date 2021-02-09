@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <!-- Pagina de Bienvenida-->
-<div class="card col-md-3 mt-3 text-white" style="background-color: #2a206f"><strong><h2>Bienvenid@: {{nomUsuario}}<br>TALLER1</h2></strong></div>
+<div class="card col-md-3 mt-3 text-white" style="background-color: #2a206f"><strong><h2>Bienvenid@: {{nomUsuario}}<br>{{ident}}</h2></strong></div>
 <button (click)="export()" *ngIf="isLoginSuadmin" >REPORT</button>
 
 <!-- Resumen Encuestas-->
