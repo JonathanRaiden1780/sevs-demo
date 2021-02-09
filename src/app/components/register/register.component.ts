@@ -50,7 +50,7 @@ export class RegisterComponent implements OnInit {
   addnewuser() {
     this.authservice.registeruser(this.email, this.pass)
       .then((res) => {
-        this.router.navigate(['/register'])
+        this.router.navigate(['/login'])
       }).catch(err => console.log('err', err.message));
   }
   guardarregistro({ value }: { value: RegistroInterface }) {
@@ -96,7 +96,7 @@ export class RegisterComponent implements OnInit {
       add: false,
     },
     pager: {
-      perPage: 3
+      perPage: 6
     },
     defaultStyle: false,
     attr: {
@@ -136,7 +136,7 @@ export class RegisterComponent implements OnInit {
       add: false,
     },
     pager: {
-      perPage: 3
+      perPage: 5
     },
     defaultStyle: false,
     attr: {
@@ -154,8 +154,14 @@ export class RegisterComponent implements OnInit {
   onDeleteConfirm(event, x) {
     console.log(x)
     if (window.confirm('¿Esta seguro que desea eliminarlo?')) {
-      this.authservice.deleteregistro(event.data)
-      event.confirm.resolve();
+      if(x==1){
+        this.authservice.deleteregistro(event.data)
+        event.confirm.resolve();
+      }
+      else{
+        this.authservice.deleteubi(event.data)
+        event.confirm.resolve();
+      }
     } else {
       event.confirm.reject();
     }
@@ -163,6 +169,14 @@ export class RegisterComponent implements OnInit {
   onSaveConfirm(event, x) {
     console.log(x)
     if (window.confirm('¿Son correctos los cambios realizados?')) {
+      if(x==1){
+        this.authservice.updateregistro(event.data,event.newData)
+        event.confirm.resolve();
+      }
+      else{
+        this.authservice.updateubi(event.data,event.newData)
+        event.confirm.resolve();
+      }
       event.newData['name'] += ' + added in code';
       event.confirm.resolve(event.newData);
     } else {

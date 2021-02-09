@@ -101,7 +101,9 @@ ngOnInit() {
                 this.isLoginSuadmin = false;
                 this.router.navigate(['/taller']);
               } else {
-                console.log('Error de sistema: Usuario sin Permisos')
+                this.flashMensaje.show('Error de sistema: Usuario sin Permisos',
+                  {cssClass: 'alert-danger', timeout: 4000 });
+                  this.router.navigate(['/login']);
               }
           });
         } else {

@@ -8,9 +8,19 @@
       <form #formGuardar="ngForm" (ngSubmit)="onEncuesta(formGuardar)">
         <div class="form-group">
           <br>
-          <h4><strong>Folio:</strong></h4>
+          <h4><strong>Folio:</strong></h4> 
           <div class="col-md-5 mx-auto">
-            <input type="text" class="form-control text-center" pattern="[A-Z]*" style="text-transform: uppercase; font-size: 1rem " name="id" [(ngModel)]="idenc" #FolioEncuesta="ngModel" id="FolioEncuesta" aria-describedby="FolioEncuesta" placeholder="TI1234">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="background-color: beige; color: black" *ngIf='isLoginALL == false'>
+                {{ubicacion}}
+              </span>
+              <select class="form-control" style="font-size: 1rem " name="ubicacion" [(ngModel)]="ubicacion" *ngIf='isLoginALL'>
+                <option *ngFor="let authservice of data">{{authservice.id}}</option>
+              </select>
+            </div>
+            <input type="text" class="form-control text-center" oninput="this.idenc = this.value = this.value.replace(/[^0-9]/g, '');" style=" font-size: 1rem " name="id" [(ngModel)]="idenc" #FolioEncuesta="ngModel" id="FolioEncuesta" aria-describedby="FolioEncuesta" placeholder="01234">
+          </div>
           </div>
           <h4><strong>Cliente:</strong></h4>
           <div class="col-md-5 mx-auto">

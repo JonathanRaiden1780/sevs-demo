@@ -42,9 +42,9 @@ export class AuthService {
     this.registroDoc.delete();
   }
   //Actualizar registro
-  updateregistro(registro: RegistroInterface) {
+  updateregistro(registro: RegistroInterface, new_data: RegistroInterface) {
     this.registroDoc = this.afs.doc('Registro/' + registro.id);
-    this.registroDoc.update(registro);
+    this.registroDoc.update(new_data);
   }
   //Crear registro
   addregistro(registro: RegistroInterface) {
@@ -93,5 +93,26 @@ export class AuthService {
   //Crear nueva ubicacion
   addubica(ubi: Ubicacion) {
     this.UbicacionCollection.doc(ubi.id).set(ubi)
+  }
+  //Eliminar ubicacion
+  deleteubi(ubi: Ubicacion) {
+    this.registroDoc = this.afs.doc('Ubicacion/' + ubi.id);
+    this.registroDoc.delete();
+  }
+  //Actualizar ubicacion
+  updateubi(ubi: Ubicacion, new_data: Ubicacion) {
+    this.registroDoc = this.afs.doc('Ubicacion/' + ubi.id);
+    this.registroDoc.update(new_data);
+  }
+  getubis(x:string): Observable<Ubicacion[]> {
+    this.UbicacionCollection = this.afs.collection('Ubicacion/',ref => ref.where('id','==',x)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+    this.registros = this.UbicacionCollection.snapshotChanges()
+    .pipe(map(changes => {
+      return changes.map(action => {
+        const data = action.payload.doc.data() as Ubicacion;
+        return data;
+      });
+    }));
+    return this.registros;
   }
 }

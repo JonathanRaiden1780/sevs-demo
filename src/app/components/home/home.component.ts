@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { faVoteYea } from '@fortawesome/free-solid-svg-icons';
 import { Router } from '@angular/router';
 
-import {EncuestaexInterface} from '../../Models/Encuestaex';
-import {EncuestaService} from '../../services/encuesta.service';
-import {Observable} from 'rxjs';
+import { EncuestaexInterface } from '../../Models/Encuestaex';
+import { EncuestaService } from '../../services/encuesta.service';
+import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { take } from 'rxjs/operators';
 
@@ -15,56 +15,57 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  name:string;
-  tipo:string;
+  name: string;
+  tipo: string;
   idenc: string;
   Encuesta: Observable<EncuestaexInterface>;
   EncuestasDoc: AngularFirestoreDocument<EncuestaexInterface>;
-
+  public data: any;
   constructor(
-    public encuestase:EncuestaService,
+    public encuestase: EncuestaService,
     private afs: AngularFirestore,
     public router: Router
   ) {
-    
-  } 
-  
-onEncuesta({value}: {value: EncuestaexInterface}){
-  this.name=this.idenc.toUpperCase();
-  console.log(this.idenc.length)
-  this.afs.firestore.doc('Encuestareps/'+this.name).get()
-  .then(docSnapshot => {
-    if (docSnapshot.exists == true) {
-      this.afs.collection('Encuestareps').doc(this.name).valueChanges().pipe(take(1)).subscribe(res => {this.arrass(res)} );  
+  }
+  onEncuesta({ value }: { value: EncuestaexInterface }) {
+    const search = this.idenc.slice(0, 2)
+    ubicacion = 'NA'
+    for (var u = 0; u < this.data.length; u++) {
+      if (search == this.data[u].id) {
+        var ubicacion = this.data[u].ubicacion;
+      }
     }
-    else{
-      this.afs.firestore.doc('EncuestarepsC/'+this.name).get().
-      then(docSnapshot => {
-        if(docSnapshot.exists == true){
-          this.afs.collection('EncuestarepsC').doc(this.name).valueChanges().pipe(take(1)).subscribe(res => {this.arrass(res)} );  
-        }
-        else if(this.idenc.length <=1 || this.idenc.includes('T1') == false || this.idenc.includes('T2') == false){
-          alert("Favor de ingresar un número de orden correcto")
-        }
-      });
+    if (this.idenc.length <= 1 || ubicacion == 'NA') {
+      alert("Favor de ingresar un número de orden correcto")
     }
-
-  });
-}
+    else {
+      this.name = this.idenc.toUpperCase();
+      this.afs.firestore.doc('type/' + ubicacion + '/Encuestas/' + this.name).get()
+        .then(docSnapshot => {
+          if (docSnapshot.exists == true) {
+            this.afs.collection('type').doc(ubicacion).collection('Encuestas').doc(this.name).valueChanges().pipe(take(1)).subscribe(res => { this.arrass(res) });
+          }
+          else {
+            alert("Registro Inexistente")
+          }
+        });
+    }
+  }
   arrass(x: EncuestaexInterface): string {
-    this.tipo= x.tipo;
-    if(x.contestada == true){
+    this.tipo = x.tipo;
+    if (x.contestada == true) {
       confirm("Encuestada ya calificada, muchas gracias");
     }
-    else{
-      this.router.navigate(['/'+ this.tipo+'/'+this.name]);
+    else {
+      this.router.navigate(['/' + this.tipo + '/' + this.name]);
     }
-   return this.tipo;
- }
+    return this.tipo;
+  }
 
   ngOnInit() {
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
   }
-  
+
   faVoteYea = faVoteYea;
 }
 

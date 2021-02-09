@@ -1,31 +1,29 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { faTired, faSadTear, faGrin, faSmileBeam, faCheckSquare, faTimesCircle, faMeh, faHourglassStart, faHourglassHalf, faHourglassEnd, faVoteYea, faCarSide, faTruck, faTruckPickup, faAmbulance } from '@fortawesome/free-solid-svg-icons';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { MAT_STEPPER_GLOBAL_OPTIONS, StepperSelectionEvent} from '@angular/cdk/stepper';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { EncuestaService } from 'src/app/services/encuesta.service';
-import {  Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { formatDate } from '@angular/common';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Http } from '@angular/http';
 import * as firebase from 'firebase';
-import {MatStepper} from '@angular/material/stepper'
-import { viewClassName } from '@angular/compiler';
+import { MatStepper } from '@angular/material/stepper'
 
 @Component({
   selector: 'app-reparacion',
   templateUrl: './reparacion.component.html',
   styleUrls: ['./reparacion.component.css'],
   providers: [{
-    provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: {displayDefaultIndicatorType: false}
+    provide: MAT_STEPPER_GLOBAL_OPTIONS, useValue: { displayDefaultIndicatorType: false }
   }]
 })
 
 export class ReparacionComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper;
   totalStepsCount: number;
-
   totalnot: number;
   EncuestaexCollection: AngularFirestoreCollection<EncuestaexInterface>;
   constructor(
@@ -36,16 +34,14 @@ export class ReparacionComponent implements OnInit {
     private route: ActivatedRoute,
     private afs: AngularFirestore,
     private af: AngularFireDatabase
-  ) 
-  
-  {
+  ) {
     const today = new Date();
     this.EncuestaexCollection = this.afs.collection('Contadores', ref => ref);
     this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    this.mod.mesnumero =  today.getMonth()+1;
-    this.mod.año =  today.getFullYear();
-   }
-   meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+    this.mod.mesnumero = today.getMonth() + 1;
+    this.mod.año = today.getFullYear();
+  }
+  meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   faTired = faTired;
   faSadTear = faSadTear;
   faGrin = faGrin;
@@ -57,14 +53,30 @@ export class ReparacionComponent implements OnInit {
   faHourglassHalf = faHourglassHalf;
   faHourglassEnd = faHourglassEnd;
   faVoteYea = faVoteYea;
-
   faCar = faCarSide;
   faTruck = faTruck;
   faTruckPickup = faTruckPickup;
   faAmbulance = faAmbulance;
-
+  public p1 = "Pregunta1";
+  public p2 = "Pregunta2";
+  public p3 = "Pregunta3";
+  public p4 = "Pregunta4";
+  public p5 = "Pregunta5";
+  public p6 = "Pregunta6";
+  public p7 = "Pregunta7";
+  public p8 = "Pregunta8";
+  public p9 = "Pregunta9";
+  public p10 = "Pregunta10";
+  public mb = 'MuyBueno';
+  public b = 'Bueno';
+  public r = 'Regular';
+  public m = 'Malo';
+  public mm = 'MuyMalo';
+  public s = 'Si';
+  public n = 'No';
+  public na = 'N-A';
   value: string;
-
+  public data: any
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -76,38 +88,13 @@ export class ReparacionComponent implements OnInit {
   eightFormGroup: FormGroup;
   nineFormGroup: FormGroup;
   tenFormGroup: FormGroup;
-  finalFormGroup:FormGroup;
+  finalFormGroup: FormGroup;
   y: number;
   ident: string;
   mod: any = {};
-  model: any = {
-    p1: 0,
-    p2: 0,
-    p3: 0,
-    p4: 0,
-    p5: 0,
-    p6: 0,
-    p7: 0,
-    p8: 0,
-    p9: false,
-    p10: false,
-    p9c: 0,
-    p10c: 0
-  };
-  model2: any = {
-    p1: 0,
-    p2: 0,
-    p3: 0,
-    p4: 0,
-    p5: 0,
-    p6: 0,
-    p7: 0,
-    p8: 0,
-    p9: 0,
-    p10: 0
-  };
+  model: any = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0, p6: 0, p7: 0, p8: 0, p9: false, p10: false, p9c: 0, p10c: 0 };
+  model2: any = { p1: 0, p2: 0, p3: 0, p4: 0, p5: 0, p6: 0, p7: 0, p8: 0, p9: 0, p10: 0 };
   Encuesta: EncuestaexInterface = {
-
     fecha: '',
     pregunta1: 0,
     pregunta2: 0,
@@ -127,7 +114,7 @@ export class ReparacionComponent implements OnInit {
   proms: string;
 
   ngOnInit() {
-    
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
     this.firstFormGroup = this._formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -161,19 +148,17 @@ export class ReparacionComponent implements OnInit {
     this.finalFormGroup = this._formBuilder.group({
       finalFormGroup: ['', Validators.required]
     });
-    
+
     this.onChange();
-    for(var mc=1; mc<=12; mc++){
-      if(this.mod.mesnumero == mc){
+    for (var mc = 1; mc <= 12; mc++) {
+      if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
       }
     }
-    this.fechareporte = this.mod.mes+this.mod.año;
-   
+    this.fechareporte = this.mod.mes + this.mod.año;
   }
-  onGuardarEncuesta({value}: {value: EncuestaexInterface}) {
+  onGuardarEncuesta({ value }: { value: EncuestaexInterface }) {
     this.proms = this.y.toFixed(2);
-    
     value.id = this.ident;
     value.pregunta1 = this.model.p1;
     value.pregunta2 = this.model.p2;
@@ -192,544 +177,312 @@ export class ReparacionComponent implements OnInit {
     value.total = +this.proms;
     value.fechareporte = this.fechareporte;
     this.totalnot = value.total;
-    if(this.ident.includes('T1') == true){
-      if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
-        value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
-          confirm("Comunicarse con Soporte... Problema de Registro");
-        }
-        else{
-          
-      //this.encuestaService.updateTypeALL(value);
-      this.encuestaService.requestupdateTypee('Taller1',this.fechareporte)
-      //this.encuestaService.updateEncuestarep(value);
-  //    this.sendemail(value.total);
-      this.valcontadores("T1");
+    const search = this.ident.slice(0, 2)
+    for (var u = 0; u < this.data.length; u++) {
+      if (search == this.data[u].id) {
+        var ubicacion = this.data[u].ubicacion;
+      }
     }
-  }
-    else if(this.ident.includes('T2') == true){
-      if(value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 || 
-        value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0 ){
-          confirm("Comunicarse con Soporte... Problema de Registro");
-        }
-        else{
-   // this.encuestaService.updateTypeALL(value);
-   // this.encuestaService.updateEncuestarepC(value);
-    this.encuestaService.requestupdateTypee('Taller',this.fechareporte)
-   // this.sendemail(value.total);
-    this.valcontadores("T2");
-
-  }
-}
+    if (value.pregunta1 == 0 || value.pregunta2 == 0 || value.pregunta3 == 0 || value.pregunta4 == 0 || value.pregunta5 == 0 ||
+      value.pregunta6 == 0 || value.pregunta7 == 0 || value.pregunta8 == 0) {
+      confirm("Comunicarse con Soporte... Problema de Registro");
+    }
+    else {
+      this.encuestaService.updateTypeALL(value);
+      var año = this.mod.año as string + '_encuestas'
+      this.encuestaService.getcontador2(ubicacion, this.fechareporte, año)
+      this.encuestaService.updateEncuestarep(value, ubicacion);
+      //    this.sendemail(value.total);
+      this.valcontadores(search);
+    }
     this.router.navigate(['/home']);
   }
-  valcontadores(x:string){
-    var p1= "Pregunta1", mb = 'MuyBueno',
-          p2= "Pregunta2", b = 'Bueno', 
-          p3= "Pregunta3", r = 'Regular',
-          p4= "Pregunta4", m = 'Malo',
-          p5= "Pregunta5", mm = 'MuyMalo',
-          p6= "Pregunta6", s = 'Si',
-          p7= "Pregunta7", n = 'No',
-          p8= "Pregunta8", na = 'N-A',
-          p9= "Pregunta9",
-          p10= "Pregunta10"
-    if(x=="T1"){
-   var docref =   this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb);
-      docref.get().then( doc =>  {
-        if(doc.exists == true){
-          this.contador();
-        }
-        else{
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).set({contador: 0, calificacion: 'Si'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).set({contador: 0, calificacion: 'No'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).set({contador: 0, calificacion: 'N/A'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).set({contador: 0, calificacion: 'Si'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).set({contador: 0, calificacion: 'No'})
-          this.contador();
-
-        }
-      })
-    }
-    else{
-      var docref =   this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb);
-      docref.get().then( doc =>  {
-        if(doc.exists == true){
-          console.log(doc.exists)
-          this.contadorC();
-        }
-        else{
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-          
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).set({contador: 0, calificacion: 'MuyBueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).set({contador: 0, calificacion: 'Bueno'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).set({contador: 0, calificacion: 'Regular'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(m).set({contador: 0, calificacion: 'Malo'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).set({contador: 0, calificacion: 'MuyMalo'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).set({contador: 0, calificacion: 'mb'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).set({contador: 0, calificacion: 'mb'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).set({contador: 0, calificacion: 'mb'})
-
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).set({contador: 0, calificacion: 'mb'})
-          this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).set({contador: 0, calificacion: 'mb'})
-
-          this.contadorC();
-
-        }
-      })
-
-    }
-
-  }
-  contadorC(){
-    var p1= "Pregunta1", mb = 'MuyBueno',
-    p2= "Pregunta2", b = 'Bueno', 
-    p3= "Pregunta3", r = 'Regular',
-    p4= "Pregunta4", m = 'Malo',
-    p5= "Pregunta5", mm = 'MuyMalo',
-    p6= "Pregunta6", s = 'Si',
-    p7= "Pregunta7", n = 'No',
-    p8= "Pregunta8", na = 'N-A',
-    p9= "Pregunta9",
-    p10= "Pregunta10"
-    //P1
-    if (this.model2.p1 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P2
-    if (this.model2.p2 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p2 == 50){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P3
-    if (this.model2.p3 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-    
-//P4
-    if (this.model2.p4 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P5
-    if (this.model2.p5 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P6
-    if (this.model2.p6 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P7
-    if (this.model2.p7 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P8
-    if (this.model2.p8 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8+'C').doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P9
-    if (this.model2.p9 == 1){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p9 == 0){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p9 == 2){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9+'C').doc(na).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
-//P10
-    if (this.model2.p10 == 1){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p10 == 0){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10+'C').doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }
+  valcontadores(x: string) {
+    var docref = this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb);
+    docref.get().then(doc => {
+      if (doc.exists == true) {
+        console.log(doc.exists)
+        this.contador(x);
       }
-  contador(){
-    var p1= "Pregunta1", mb = 'MuyBueno',
-    p2= "Pregunta2", b = 'Bueno', 
-    p3= "Pregunta3", r = 'Regular',
-    p4= "Pregunta4", m = 'Malo',
-    p5= "Pregunta5", mm = 'MuyMalo',
-    p6= "Pregunta6", s = 'Si',
-    p7= "Pregunta7", n = 'No',
-    p8= "Pregunta8", na = 'N-A',
-    p9= "Pregunta9",
-    p10= "Pregunta10"
+      else {
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p2 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p2 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.mb).set({ contador: 0, calificacion: 'MuyBueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.b).set({ contador: 0, calificacion: 'Bueno' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.r).set({ contador: 0, calificacion: 'Regular' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.m).set({ contador: 0, calificacion: 'Malo' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.mm).set({ contador: 0, calificacion: 'MuyMalo' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.s).set({ contador: 0, calificacion: 'mb' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.n).set({ contador: 0, calificacion: 'mb' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.na).set({ contador: 0, calificacion: 'mb' })
+
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p10 + x).doc(this.s).set({ contador: 0, calificacion: 'mb' })
+        this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p10 + x).doc(this.n).set({ contador: 0, calificacion: 'mb' })
+
+        this.contador(x);
+      }
+    })
+  }
+  contador(x: string) {
     //P1
-    if (this.model2.p1 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p1 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p1).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    if (this.model2.p1 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p1 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p1 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p1 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p1 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P2
-    if (this.model2.p2 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p2 == 50){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p2).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P2
+    if (this.model2.p2 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p2 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p2 == 50) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p2 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P3
-    if (this.model2.p3 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p3 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p3).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P3
+    if (this.model2.p3 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p3 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p3 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p3 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p3 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p3 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-    
-//P4
-    if (this.model2.p4 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p4 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p4).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+
+    //P4
+    if (this.model2.p4 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p4 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p4 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p4 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p4 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p4 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P5
-    if (this.model2.p5 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p5 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p5).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P5
+    if (this.model2.p5 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p5 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p5 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p5 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p5 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p5 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P6
-    if (this.model2.p6 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p6 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p6).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P6
+    if (this.model2.p6 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p6 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p6 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p6 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p6 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p6 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P7
-    if (this.model2.p7 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(m).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p7 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p7).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P7
+    if (this.model2.p7 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p7 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p7 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p7 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.m).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p7 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p7 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P8
-    if (this.model2.p8 == 100){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 80){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(b).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 60){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(r).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 40){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mb).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p8 == 20){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p8).doc(mm).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P8
+    if (this.model2.p8 == 100) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p8 == 80) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.b).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p8 == 60) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.r).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p8 == 40) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.mb).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p8 == 20) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p8 + x).doc(this.mm).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P9
-    if (this.model2.p9 == 1){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p9 == 0){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p9 == 2){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p9).doc(na).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P9
+    if (this.model2.p9 == 1) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.s).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p9 == 0) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.n).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p9 == 2) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p9 + x).doc(this.na).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
-//P10
-    if (this.model2.p10 == 1){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(s).update({contador: firebase.firestore.FieldValue.increment(1)});
-    }else if (this.model2.p10 == 0){
-      this.afs.collection('Contadores').doc(this.fechareporte).collection(p10).doc(n).update({contador: firebase.firestore.FieldValue.increment(1)});
+    //P10
+    if (this.model2.p10 == 1) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p10 + x).doc(this.s).update({ contador: firebase.firestore.FieldValue.increment(1) });
+    } else if (this.model2.p10 == 0) {
+      this.afs.collection('Contadores').doc(this.fechareporte).collection(this.p10 + x).doc(this.n).update({ contador: firebase.firestore.FieldValue.increment(1) });
     }
   }
-
-onChange() {
-
+  onChange() {
     this.ident = this.route.snapshot.params['id'];
-}
-sendemail(t:number) { 
-  //console.log('prueba');
-
-  if (t <= 50){
-  const name = 'Jonathan Huerta';
-  const email = 'jonathan.huerta@casanovarentacar.mx';
-  const message = 'ALERTA !!!!! HUBO UN PROBLEMA CON EL CLIENTE';
-  const subject = 'Validar situación calificación de encuesta: ' + this.totalnot;
-
   }
+  sendemail(t: number) {
+    //console.log('prueba');
+    if (t <= 50) {
+      const name = 'Jonathan Huerta';
+      const email = 'jonathan.huerta@casanovarentacar.mx';
+      const message = 'ALERTA !!!!! HUBO UN PROBLEMA CON EL CLIENTE';
+      const subject = 'Validar situación calificación de encuesta: ' + this.totalnot;
+
+    }
+    /* let url = `https://us-central1-Demoeva01.cloudfunctions.net/httpEmail`;
+    let params: URLSearchParams = new URLSearchParams();
+    //private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+    let headers = new Headers({'Content-Type': 'application/json', 'Access-Control-Allow-Origin':"*" , 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'});
+    let options = new RequestOptions({ headers: headers });
   
-
-  /* let url = `https://us-central1-Demoeva01.cloudfunctions.net/httpEmail`;
-  let params: URLSearchParams = new URLSearchParams();
-  //private _options = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-  let headers = new Headers({'Content-Type': 'application/json', 'Access-Control-Allow-Origin':"*" , 'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS'});
-  let options = new RequestOptions({ headers: headers });
-
-  params.set('to', 'darrell.1780@gmail.com');
-  params.set('from', 'sevs@Demorentacar.mx');
-  params.set('subject', 'test-email');
-  params.set('content', 'Hello World');
-  console.log('enviado');
-  return this.http.post(url, params, options)
-                  .toPromise()
-                  .then( res => {
-                    console.log(res)
-                  })
-                  .catch(err => {
-                    console.log(err)
-                  })
-                   */
-                
-}
-@ViewChild('stepper') private myStep: MatStepper;
-
-p1ex(x) {
-    this.myStep.next();
-  this.model.p1 = x;
-  this.model2.p1 = x;  
-}
-p2ex(x) {
-    this.myStep.next();
-  this.model.p2 = x;
-  this.model2.p2 = x;  
-}
-p3ex(x) {
-  this.model.p3 = x;
-  this.model2.p3 = x;
-  if (this.model.p3 === 100 || this.model.p3 === 80 || this.model.p3 === 60 ) {
-    this.model.p9 = 'N/A';
-    this.model.p9c = 1;
-    this.model2.p9 = 2;
-    this.myStep.next();
+    params.set('to', 'darrell.1780@gmail.com');
+    params.set('from', 'sevs@Demorentacar.mx');
+    params.set('subject', 'test-email');
+    params.set('content', 'Hello World');
+    console.log('enviado');
+    return this.http.post(url, params, options)
+                    .toPromise()
+                    .then( res => {
+                      console.log(res)
+                    })
+                    .catch(err => {
+                      console.log(err)
+                    })
+                     */
   }
-  else{
+  @ViewChild('stepper') private myStep: MatStepper;
+  p1ex(x) {
     this.myStep.next();
+    this.model.p1 = x;
+    this.model2.p1 = x;
   }
-}
-p4ex(x) {
+  p2ex(x) {
     this.myStep.next();
-  this.model.p4 = x;
-  this.model2.p4 = x;  
-}
-p5ex(x) {
-    this.myStep.next();
-  this.model.p5 = x;
-  this.model2.p5 = x;  
-}
-p6ex(x) {
-    this.myStep.next();
-  this.model.p6 = x;
-  this.model2.p6 = x;  
-}
-p7ex(x) {
-    this.myStep.next();
-  this.model.p7 = x;
-  this.model2.p7 = x;
-
-
-}
-p8ex(x) {
-    this.myStep.next();
-  this.model.p8 = x;
-  this.model2.p8 = x;
-
-
-}
-
-p10ex(x) {
-  if (x === true) {
-    this.model.p10 = 'Si';
-    this.model.p10c = 1;
-    this.model2.p10 = 1;
-    this.myStepper.selectedIndex = 2
-    console.log(x, this.isYes , this.model.p2)
-  } else {
-    this.model.p10 = 'No';
-    this.model.p2 = 100;
-    this.model2.p2 = 100;
-    this.model.p10c = 0;
-    this.model2.p10 = 0;
-    this.myStepper.selectedIndex = 2
-    console.log(x, this.isYes , this.model.p2)
+    this.model.p2 = x;
+    this.model2.p2 = x;
   }
-}
-p9ex(x) {
-    this.myStep.next();
-  if (x === false ) {
-    this.model.p9 = 'No';
-    this.model.p9c = 0;
-    this.model2.p9 = 0;
-  
-  } else {
-    this.model.p9 = 'Si';
-    this.model.p9c = 1;
-    this.model2.p9 = 1;
-  
+  p3ex(x) {
+    this.model.p3 = x;
+    this.model2.p3 = x;
+    if (this.model.p3 === 100 || this.model.p3 === 80 || this.model.p3 === 60) {
+      this.model.p9 = 'N/A';
+      this.model.p9c = 1;
+      this.model2.p9 = 2;
+      this.myStep.next();
+    }
+    else {
+      this.myStep.next();
+    }
   }
- 
-}
-sum() {
+  p4ex(x) {
+    this.myStep.next();
+    this.model.p4 = x;
+    this.model2.p4 = x;
+  }
+  p5ex(x) {
+    this.myStep.next();
+    this.model.p5 = x;
+    this.model2.p5 = x;
+  }
+  p6ex(x) {
+    this.myStep.next();
+    this.model.p6 = x;
+    this.model2.p6 = x;
+  }
+  p7ex(x) {
+    this.myStep.next();
+    this.model.p7 = x;
+    this.model2.p7 = x;
+  }
+  p8ex(x) {
+    this.myStep.next();
+    this.model.p8 = x;
+    this.model2.p8 = x;
+  }
+  p10ex(x) {
+    if (x === true) {
+      this.model.p10 = 'Si';
+      this.model.p10c = 1;
+      this.model2.p10 = 1;
+      this.myStepper.selectedIndex = 2
+      console.log(x, this.isYes, this.model.p2)
+    } else {
+      this.model.p10 = 'No';
+      this.model.p2 = 100;
+      this.model2.p2 = 100;
+      this.model.p10c = 0;
+      this.model2.p10 = 0;
+      this.myStepper.selectedIndex = 2
+      console.log(x, this.isYes, this.model.p2)
+    }
+  }
+  p9ex(x) {
+    this.myStep.next();
+    if (x === false) {
+      this.model.p9 = 'No';
+      this.model.p9c = 0;
+      this.model2.p9 = 0;
 
-  this.y =  (this.model.p1 + this.model.p2 + this.model.p3 + this.model.p4 + this.model.p5 + this.model.p6 + this.model.p7 + this.model.p8) / 8;
-}
-
-
+    } else {
+      this.model.p9 = 'Si';
+      this.model.p9c = 1;
+      this.model2.p9 = 1;
+    }
+  }
+  sum() {
+    this.y = (this.model.p1 + this.model.p2 + this.model.p3 + this.model.p4 + this.model.p5 + this.model.p6 + this.model.p7 + this.model.p8) / 8;
+  }
   onNo() {
     this.isYes = false;
   }
