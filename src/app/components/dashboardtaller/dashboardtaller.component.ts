@@ -8,7 +8,7 @@ import { faCarCrash, faSearch, faStickyNote, faPrint, faCar } from '@fortawesome
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 
-import { AngularFirestoreCollection} from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { EncuestaService } from 'src/app/services/encuesta.service';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -38,7 +38,7 @@ export class DashboardtallerComponent implements OnInit {
   fechaent: string;
   fechasal: string;
   listado: any;
-
+  public data: any;
   list: [];
   listv: string[];
 
@@ -49,7 +49,7 @@ export class DashboardtallerComponent implements OnInit {
 
   dataSource = new MatTableDataSource();
   displayedColumns = ['Folio Encuesta', 'Fecha Entrada', 'Fecha Salida', 'Placa', 'Servicio', 'Asesor', 'Cliente', 'Calificacion'];
-ubi:string;
+  ubi: string;
   expanded: any = {};
   timeout: any;
 
@@ -58,88 +58,124 @@ ubi:string;
     elementIdOrContent: 'mytable5',
   };
 
-  cols = [{name: 'Id'}, {name: 'Tipo'}, {name: 'fechaent'}];
+  cols = [{ name: 'Id' }, { name: 'Tipo' }, { name: 'fechaent' }];
   typeCollections: AngularFirestoreCollection<EncuestaexInterface>;
   Encuestaexes: Observable<EncuestaexInterface[]>;
-  meses:string[] = ["Mes","Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
+  meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   mod: any = {};
   fechareporte: string;
   constructor(
     private exportAsService: ExportAsService,
-    private controlService: EncuestaService,
     public authService: AuthService,
+    public controlService: EncuestaService,
+    private afs: AngularFirestore,
     private lvlaccess: LevelaccessService
   ) {
     const today = new Date();
     this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    this.mod.mesnumero =  today.getMonth()+1;
-    this.mod.año =  today.getFullYear();
-    for(var mc=1; mc<=12; mc++){
-      if(this.mod.mesnumero == mc){
-        if(this.mod.mesnumero == 1){
+    this.mod.mesnumero = today.getMonth() + 1;
+    this.mod.año = today.getFullYear();
+    for (var mc = 1; mc <= 12; mc++) {
+      if (this.mod.mesnumero == mc) {
+        if (this.mod.mesnumero == 1) {
           this.mod.mes = this.meses[12];
         }
-        else{
-          this.mod.mes = this.meses[mc-1];
+        else {
+          this.mod.mes = this.meses[mc - 1];
         }
       }
     }
-    if(this.mod.mes == 'Diciembre'){
-        this.fechareporte = this.mod.mes + (this.mod.año - 1);
+    if (this.mod.mes == 'Diciembre') {
+      this.fechareporte = this.mod.mes + (this.mod.año - 1);
     }
-    else{
-        this.fechareporte = this.mod.mes + this.mod.año;
+    else {
+      this.fechareporte = this.mod.mes + this.mod.año;
     }
-   }
-
-
-   contadorreal: number;
-   button:boolean;
- ngOnInit() {
-  this.button = false;
-  this.authService.getAuth().subscribe( user => {
-    if (user) {
-      this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
-////console.log('usuario desde lvl:', info);
-            if(info.ubicacion == 'Taller2'){
-              this.ubi = 'Taller2';
-              this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
-            }
-            else if (info.ubicacion === 'Taller1') {
-              this.ubi = 'Taller1';
-              this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
-          }
-           else if (info.ubicacion === 'ALL') {
-              this.button = true;
-
-          } else {
-           // //console.log('Error de sistema: Usuario sin Permisos')
-          }
-      });
-    }
-  });
   }
-  changesitio(sitio : string){
-    if(sitio == 'Taller1'){
-        this.ubi = 'Taller1';
-        this.listado = this.controlService.getAllEncuestaexvig(this.fechareporte);
-    }
-    if(sitio == 'Taller2'){
-       this.ubi = 'Taller2';
-       this.listado = this.controlService.getAllEncuestaexCen(this.fechareporte);
-    }
+  num_encuestas: number;
+  contadorreal: number;
+  button: boolean;
+  ngOnInit() {
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
+
+    this.button = false;
+    this.authService.getAuth().subscribe(user => {
+      if (user) {
+        this.lvlaccess.getUserData(user.email).subscribe((info: RegistroInterface) => {
+          if (info.ubicacion == 'ALL') {
+            this.button = true;
+          }
+          else {
+            for (var u = 0; u <= this.data.length; u++) {
+              if (info.ubicacion == this.data[u].ubicacion) {
+                this.ubi = this.data[u].ubicacion;
+              }
+            }
+            this.listado = this.controlService.getAllEncuestas(this.ubi);
+          }
+        });
+      }
+    });
+
+  }
+
+  changesitio(sitio: string) {
+    this.listado = this.controlService.getAllEncuestas(sitio);
+
+    setTimeout(() => {
+      this.getsum();
+    }, 1500)
+  }
+  getsum() {
+
+    document.querySelectorAll('.Total').forEach(total => {
+      var letra = total.classList[1];
+      var suma = 0;
+      document.querySelectorAll('.preguntas' + letra).forEach(celda => {
+        var valor = parseInt(celda.innerHTML);
+        this.num_encuestas = document.querySelectorAll('.preguntas' + letra).length
+        suma += valor;
+      });
+      var prom = suma / this.num_encuestas
+      console.log(prom)
+      total.innerHTML = prom.toString();
+    })
+    document.querySelectorAll('.Conteo').forEach(count => {
+      var letra = count.classList[1];
+      var contador = 0
+      var contador1 = 0
+      var contador2 = 0
+      var contador3 = 0
+      document.querySelectorAll('.bool' + letra).forEach(celda => {
+        var valor = celda.innerHTML.toString();
+        console.log(valor,)
+        var num = document.querySelectorAll('.bool' + letra).length
+        for(var i = 0 ; i<num ; i ++){
+          if(valor == 'N/A'){
+            contador1 = contador1+1;
+          }
+          if(valor == 'Si'){
+            contador2 = contador2+1;
+          }
+           if(valor == 'No'){
+            contador3 = contador3+1;
+          }
+        }
+        console.log(contador1,contador2,contador3)
+
+       // contador += valor;
+      });
+    })
   }
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      ////console.log('paged!', event);
     }, 100);
   }
 
-
   exportAs(type) {
     this.config.type = type;
-    this.exportAsService.save(this.config, 'myFile').subscribe(()=>{});
+    this.exportAsService.save(this.config, 'myFile').subscribe(() => { });
   }
 
   ngAfterViewInit() {

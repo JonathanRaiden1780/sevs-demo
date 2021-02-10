@@ -32,8 +32,6 @@ export class NavbarComponent implements OnInit {
   public isLoginAdmin = false;
   public DEMO = false;
 
-  public isLoginAdminC = false;
-
   public isLoginCallcenter = false;
   public isLoginSuadmin = false;
   public isLoginTaller = false;
@@ -46,7 +44,7 @@ export class NavbarComponent implements OnInit {
   public callcenter = false;
   public suadmin = false;
   public data: any
-
+  public ubicacion: any;
   // rol: string;
   userName: string;
 
@@ -77,6 +75,7 @@ home(x){
       if (user) {
         this.isLogin = true;
         this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
+          this.ubicacion = info.ubicacion;
 ////console.log('usuario desde lvl:', info);
             if(info.suadmin === true){
               this.isLoginSuadmin = true;
@@ -87,17 +86,10 @@ home(x){
                 this.DEMO = true;
               }
             } else if (info.admin === true) {
-              if(info.ubicacion == 'Taller2'){
-                this.isLoginAdminC = true;
-                this.isLoginSuadmin = false;
-                this.isLoginCallcenter = false;
-                this.isLoginTaller = false;
-              }else{
                 this.isLoginAdmin = true;
                 this.isLoginSuadmin = false;
                 this.isLoginCallcenter = false;
                 this.isLoginTaller = false;
-              }
 
             } else if (info.tipo === 'CallCenter') {
               this.isLoginCallcenter = true;

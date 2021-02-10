@@ -56,27 +56,39 @@
         </div>
   </div>
 </div>
- --><div class="row">
+ -->
+<div class="row">
   <div class="col-md-12 mx-auto">
-    <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong><h2>Exportar Información</h2></strong></div>
+    <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong>
+        <h2>Exportar Información</h2>
+      </strong></div>
   </div>
 </div>
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <form >
+      <form>
         <div class="row">
-            <div class="col-md-2">
-              <button type="button" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"  (click)="changesitio('Taller1')" *ngIf="button"><strong>Taller1</strong></button>
-              <button type="button" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" (click)="changesitio('Taller2')" *ngIf="button"><strong>Taller2</strong></button>
-              <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem" value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
+          <div class="col-md-2">
+            <div class="dropdown" *ngIf="button">
+              <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
+                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Selecciona Ubicación
+              </button>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <button class="dropdown-item" style="font-size: 1rem" (click)="changesitio(authservice.ubicacion)"
+                  *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
+              </div>
             </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
+              value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
           </div>
-        </form>
-      <div class="card-body"><!-- LLenado de la tabla atravez de un for-->
-        <table  class="table table-sm table-bordered text-center" id="mytable5">
+        </div>
+      </form>
+      <div class="card-body">
+        <table class="table table-sm table-bordered text-center" id="mytable5">
           <thead>
-            <tr >
+            <tr>
               <th scope="col">FOLIO</th>
               <th scope="col">FECHA</th>
               <th scope="col">PREGUNTA 1</th>
@@ -95,166 +107,168 @@
           </thead>
           <tbody>
             <tr *ngFor="let controlService of listado | async">
-              <th  scope="row">{{controlService.id}}</th>
-              <td >{{controlService.fecha}}</td>
-              <td >{{controlService.pregunta1}}</td>
-              <td >{{controlService.pregunta2}}</td>
-              <td >{{controlService.pregunta3}}</td>
-              <td >{{controlService.pregunta4}}</td>
-              <td >{{controlService.pregunta5}}</td>
-              <td >{{controlService.pregunta6}}</td>
-              <td >{{controlService.pregunta7}}</td>
-              <td >{{controlService.pregunta8}}</td>
-              <td >{{controlService.pregunta9}}</td>
-              <td >{{controlService.pregunta10}}</td>
-              <td >{{controlService.total}}</td>
-              <td >{{controlService.contestada}}</td>
+              <th scope="row">{{controlService.id}}</th>
+              <td class="preguntas">{{controlService.fecha}}</td>
+              <td class="preguntasA">{{controlService.pregunta1}}</td>
+              <td class="preguntasB">{{controlService.pregunta2}}</td>
+              <td class="preguntasC">{{controlService.pregunta3}}</td>
+              <td class="preguntasD">{{controlService.pregunta4}}</td>
+              <td class="preguntasE">{{controlService.pregunta5}}</td>
+              <td class="preguntasF">{{controlService.pregunta6}}</td>
+              <td class="preguntasG">{{controlService.pregunta7}}</td>
+              <td class="preguntasH">{{controlService.pregunta8}}</td>
+              <td class="boolA">{{controlService.pregunta9}}</td>
+              <td class="boolB">{{controlService.pregunta10}}</td>
+              <td class="preguntasI">{{controlService.total}}</td>
+              <td class="">{{controlService.contestada}}</td>
             </tr>
           </tbody>
-        <!--   <tfoot>
+          <tfoot>
             <tr>
               <th scope="row">TOTAL</th>
-              <td>{{contadorreal}}</td>
-              <td>{{promere1}}</td>
-              <td>{{promere2}}</td>
-              <td>{{promere3}}</td>
-              <td>{{promere4}}</td>
-              <td>{{promere5}}</td>
-              <td>{{promere6}}</td>
-              <td>{{promere7}}</td>
-              <td>{{promere8}}</td>
+              <td>{{num_encuestas}}</td>
+              <td class="Total A"><!-- {{promere1}} --></td>
+              <td class="Total B"><!-- {{promere2}} --></td>
+              <td class="Total C"><!-- {{promere3}} --></td>
+              <td class="Total D"><!-- {{promere4}} --></td>
+              <td class="Total E"><!-- {{promere5}} --></td>
+              <td class="Total F"><!-- {{promere6}} --></td>
+              <td class="Total G"><!-- {{promere7}} --></td>
+              <td class="Total H"><!-- {{promere8}} --></td> 
               <td>Conteo</td>
               <td>Conteo</td>
-              <td>{{prome}}</td>
+              <td class="Total I"><!-- {{promere8}} --></td> 
             </tr>
             <tr>
               <th scope="row">N/A</th>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td >{{cp9r}}</td>
-              <td >/</td>
-
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td class="Conteo A">-</td>
+              <td class="Conteo B">-</td>
+              <td bgcolor="black"></td>
             </tr>
             <tr>
               <th scope="row">SI</th>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td >{{cp9mb}}</td>
-              <td >{{cp10mb}}</td>
-
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td bgcolor="black"></td>
             </tr>
             <tr>
               <th scope="row">NO</th>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td >{{cp9mm}}</td>
-              <td >{{cp10mm}}</td>
-
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td bgcolor="black"></td>
             </tr>
             <tr>
               <th scope="row">Ponderación</th>
-              <td>{{das}}</td>
-              <td>20/10</td>
-              <td>50/10</td>
-              <td>20/10</td>
-              <td>20/10</td>
-              <td>20/10</td>
-              <td>20/10</td>
-              <td>20/10</td>
-              <td>20/10</td>
+              <td bgcolor="black"></td>
+              <td>20/100</td>
+              <td>50-100</td>
+              <td>20/100</td>
+              <td>20/100</td>
+              <td>20/100</td>
+              <td>20/100</td>
+              <td>20/100</td>
+              <td>20/100</td>
+              <td>N/A* / SI / NO</td>
+              <td>SI / NO</td>
             </tr>
             <tr>
               <th scope="row">20</th>
-              <td>-</td>
-              <td >{{cp1mm}}</td>
-              <td>-</td>
-              <td >{{cp3mm}}</td>
-              <td >{{cp4mm}}</td>
-              <td >{{cp5mm}}</td>
-              <td >{{cp6mm}}</td>
-              <td >{{cp7mm}}</td>
-              <td >{{cp8mm}}</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
             </tr>
             <tr>
               <th scope="row">40</th>
-              <td>-</td>
-              <td >{{cp1m}}</td>
+              <td bgcolor="black"></td>
               <td >-</td>
-              <td >{{cp3m}}</td>
-              <td >{{cp4m}}</td>
-              <td >{{cp5m}}</td>
-              <td >{{cp6m}}</td>
-              <td >{{cp7m}}</td>
-              <td >{{cp8m}}</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
             </tr>
             <tr>
               <th scope="row">50</th>
-              <td>-</td>
-              <td>-</td>
-              <td >{{cp2mm}}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td >1</td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
+              <td bgcolor="black"></td>
             </tr>
             <tr>
               <th scope="row">60</th>
-              <td>-</td>
-              <td >{{cp1r}}</td>
-              <td>-</td>
-              <td >{{cp3r}}</td>
-              <td >{{cp4r}}</td>
-              <td >{{cp5r}}</td>
-              <td >{{cp6r}}</td>
-              <td >{{cp7r}}</td>
-              <td >{{cp8r}}</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
             </tr>
             <tr>
               <th scope="row">80</th>
-              <td>-</td>
-              <td >{{cp1b}}</td>
-              <td>-</td>
-              <td >{{cp3b}}</td>
-              <td >{{cp4b}}</td>
-              <td >{{cp5b}}</td>
-              <td >{{cp6b}}</td>
-              <td >{{cp7b}}</td>
-              <td >{{cp8b}}</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
             </tr>
             <tr>
               <th scope="row">100</th>
-              <td>-</td>
-              <td >{{cp1mb}}</td>
-              <td >{{cp2mb}}</td>
-              <td >{{cp3mb}}</td>
-              <td >{{cp4mb}}</td>
-              <td >{{cp5mb}}</td>
-              <td >{{cp6mb}}</td>
-              <td >{{cp7mb}}</td>
-              <td >{{cp8mb}}</td>
+              <td bgcolor="black"></td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
+              <td >-</td>
             </tr>
           </tfoot> -->
         </table>
@@ -262,7 +276,8 @@
     </div>
   </div>
 </div>
-
+*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60) 
 <br><br><br>
 <!-- Footer -->
+
 <app-footer></app-footer>

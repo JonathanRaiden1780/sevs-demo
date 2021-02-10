@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { RegistroInterface } from 'src/app/Models/registro';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-encuesta',
@@ -16,7 +17,7 @@ export class EncuestaComponent implements OnInit {
   public isLogin: boolean;
   public nombreUsuario: string;
   public emailUsuario: string;
-
+  public data: any;
   faFemale = faFemale;
   faChartLine = faChartLine;
   faSignOutAlt = faSignOutAlt;
@@ -24,34 +25,34 @@ export class EncuestaComponent implements OnInit {
   faHome = faHome;
   faVoteYea = faVoteYea;
   faParachuteBox = faParachuteBox;
-ubi:string;
+  ubi: string;
   constructor(
     public authService: AuthService,
     public router: Router,
+    private afs: AngularFirestore,
     private lvlaccess: LevelaccessService
   ) { }
-GOTO(){
-  if(this.ubi == 'Taller2'){
-    this.router.navigate(['/adminc']);
-  }else{
-    this.router.navigate(['/admin']);
+  GOTO() {
+    this.router.navigate(['/admin/' + this.ubi]);
   }
-  //
-}
   ngOnInit() {
-    this.authService.getAuth().subscribe( auth => {
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
+
+    this.authService.getAuth().subscribe(auth => {
       if (auth) {
         this.isLogin = true;
-        this.lvlaccess.getUserData(auth.email).subscribe( (info: RegistroInterface) => {
+        this.lvlaccess.getUserData(auth.email).subscribe((info: RegistroInterface) => {
           ////console.log('usuario desde lvl:', info);
-                      if(info.ubicacion == 'Taller2'){
-                       this.ubi = 'Taller2';
-                      } else if (info.ubicacion == 'Taller1') {
-                        this.ubi = 'Taller1';
-                      } else {
-                        //console.log('Error de sistema: Usuario sin Permisos')
-                      }
-                  });
+          if (info.ubicacion == 'ALL') {
+            this.ubi = this.data[0].ubicacion;
+          } else {
+            for (var u = 0; u <= this.data.length; u++) {
+              if (info.ubicacion == this.data[u].ubicacion) {
+                this.ubi = this.data[u].ubicacion;
+              }
+            }
+          }
+        });
         this.nombreUsuario = auth.displayName;
         this.emailUsuario = auth.email;
       } else {

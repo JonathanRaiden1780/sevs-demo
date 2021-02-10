@@ -5,7 +5,6 @@ import { HttpClientModule} from '@angular/common/http';
 import { NgxDatatableModule} from '@swimlane/ngx-datatable'
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 
@@ -55,18 +54,14 @@ import { ExportAsModule } from 'ngx-export-as';
 import { HttpModule } from '@angular/http';
 import { AgregatorComponent } from './extras/agregator/agregator.component';
 import { ModeliComponent } from './Modals/modeli/modeli.component';
-import { AdmincComponent } from './components/adminc/adminc.component';
-import { ReportsCComponent } from './components/reports-c/reports-c.component';
 import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { from } from 'rxjs';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
     AppComponent,
     AdminComponent,
-    AdmincComponent,
     DashboardcallcenterComponent,
     DashboardtallerComponent,
     EncuestaComponent,
@@ -79,7 +74,6 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     RegisterComponent,
     ReparacionComponent,
     ReportsComponent,
-    ReportsCComponent,
     TallerComponent,
     ThankyouComponent,
     AgregatorComponent,

@@ -104,8 +104,11 @@ export class AuthService {
     this.registroDoc = this.afs.doc('Ubicacion/' + ubi.id);
     this.registroDoc.update(new_data);
   }
-  getubis(x:string): Observable<Ubicacion[]> {
-    this.UbicacionCollection = this.afs.collection('Ubicacion/',ref => ref.where('id','==',x)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+ /*  getUbicacion( data: any) {
+    return this.UbicacionCollection.doc(data).valueChanges();
+  } */
+   getubis(): Observable<Ubicacion[]> {
+    //this.UbicacionCollection = this.afs.collection('Ubicacion/',ref => ref.where('id','==',x)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.registros = this.UbicacionCollection.snapshotChanges()
     .pipe(map(changes => {
       return changes.map(action => {
@@ -114,5 +117,5 @@ export class AuthService {
       });
     }));
     return this.registros;
-  }
+  } 
 }

@@ -123,18 +123,6 @@ export class EncuestaService {
   //___________________________________________________________________
   //Get collections
   //___________________________________________________________________
-  getAllEncuestaexCen(x: string): Observable<EncuestaexInterface[]> {
-    this.typeCollections = this.afs.collection('typeALL/Taller2/' + this.fechareporte); // igual pero con EncuestarepsC
-    this.Encuestaexes = this.typeCollections.snapshotChanges()
-      .pipe(map(changes => {
-        return changes.map(action => {
-          const data = action.payload.doc.data() as EncuestaexInterface;
-          data.id = action.payload.doc.id;
-          return data;
-        });
-      }));
-    return this.Encuestaexes;
-  }
   getAllEncuestas(x: string): Observable<EncuestaexInterface[]> {
     this.typeCollections = this.afs.collection('type/'+x+'/' + this.fechareporte, ref => ref.where("fechareporte","==",this.fechareporte)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.Encuestaexes = this.typeCollections.snapshotChanges()
