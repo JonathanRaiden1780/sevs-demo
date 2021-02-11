@@ -152,7 +152,6 @@ export class RegisterComponent implements OnInit {
     },
   };
   onDeleteConfirm(event, x) {
-    console.log(x)
     if (window.confirm('¿Esta seguro que desea eliminarlo?')) {
       if(x==1){
         this.authservice.deleteregistro(event.data)
@@ -167,7 +166,6 @@ export class RegisterComponent implements OnInit {
     }
   }
   onSaveConfirm(event, x) {
-    console.log(x)
     if (window.confirm('¿Son correctos los cambios realizados?')) {
       if(x==1){
         this.authservice.updateregistro(event.data,event.newData)

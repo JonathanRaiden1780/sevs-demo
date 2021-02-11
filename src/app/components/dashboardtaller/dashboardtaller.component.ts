@@ -1,13 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
-
 import { faCarCrash, faSearch, faStickyNote, faPrint, faCar } from '@fortawesome/free-solid-svg-icons';
-
-
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
-
-
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { EncuestaService } from 'src/app/services/encuesta.service';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
@@ -41,6 +35,12 @@ export class DashboardtallerComponent implements OnInit {
   public data: any;
   list: [];
   listv: string[];
+  count9_na: number;
+  count9_si: number;
+  count9_no: number;
+  count10_na: number;
+  count10_si: number;
+  count10_no: number;
 
   list2 = [];
 
@@ -97,7 +97,6 @@ export class DashboardtallerComponent implements OnInit {
   button: boolean;
   ngOnInit() {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
-
     this.button = false;
     this.authService.getAuth().subscribe(user => {
       if (user) {
@@ -116,66 +115,84 @@ export class DashboardtallerComponent implements OnInit {
         });
       }
     });
-
   }
-
   changesitio(sitio: string) {
     this.listado = this.controlService.getAllEncuestas(sitio);
-
+    this.ubi = sitio
     setTimeout(() => {
       this.getsum();
     }, 1500)
   }
   getsum() {
+    this.count9_na = 0
+    this.count9_si = 0
+    this.count9_no = 0
+    this.count10_na = 0
+    this.count10_si = 0
+    this.count10_no = 0
 
     document.querySelectorAll('.Total').forEach(total => {
       var letra = total.classList[1];
       var suma = 0;
       document.querySelectorAll('.preguntas' + letra).forEach(celda => {
-        var valor = parseInt(celda.innerHTML);
+        var valor = parseFloat(celda.innerHTML);
         this.num_encuestas = document.querySelectorAll('.preguntas' + letra).length
         suma += valor;
       });
       var prom = suma / this.num_encuestas
-      console.log(prom)
       total.innerHTML = prom.toString();
     })
-    document.querySelectorAll('.Conteo').forEach(count => {
-      var letra = count.classList[1];
-      var contador = 0
-      var contador1 = 0
-      var contador2 = 0
-      var contador3 = 0
-      document.querySelectorAll('.bool' + letra).forEach(celda => {
-        var valor = celda.innerHTML.toString();
-        console.log(valor,)
-        var num = document.querySelectorAll('.bool' + letra).length
-        for(var i = 0 ; i<num ; i ++){
-          if(valor == 'N/A'){
-            contador1 = contador1+1;
+    var v = [0, 0, 0, 0, 0, 0]
+    var pond = [20, 40, 50, 60, 80, 100]
+    for (var i = 0; i < 6; i++) {
+      document.querySelectorAll('.Ponderacion' + pond[i]).forEach(total => {
+        var letra = total.classList[1];
+        v[i] = 0;
+        document.querySelectorAll('.preguntas' + letra).forEach(celda => {
+          var valor = celda.innerHTML.toString();
+          if (valor == pond[i].toString()) {
+            v[i] = v[i] + 1;
           }
-          if(valor == 'Si'){
-            contador2 = contador2+1;
-          }
-           if(valor == 'No'){
-            contador3 = contador3+1;
-          }
-        }
-        console.log(contador1,contador2,contador3)
-
-       // contador += valor;
-      });
-    })
+          total.innerHTML = v[i].toString();
+        })
+      })
+    }
+    document.querySelectorAll('.nueve').forEach(celda => {
+      var valor = celda.innerHTML.toString();
+      if (valor == 'N/A') {
+        this.count9_na = this.count9_na + 1;
+      }
+      if (valor == 'Si') {
+        this.count9_si = this.count9_si + 1;
+      }
+      if (valor == 'No') {
+        this.count9_no = this.count9_no + 1;
+      }
+    });
+    document.querySelectorAll('.diez').forEach(celda => {
+      var valor = celda.innerHTML.toString();
+      if (valor == 'N/A') {
+        this.count10_na = this.count10_na + 1;
+      }
+      if (valor == 'Si') {
+        this.count10_si = this.count10_si + 1;
+      }
+      if (valor == 'No') {
+        this.count10_no = this.count10_no + 1;
+      }
+    });
   }
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
     }, 100);
   }
+  Global(){
 
+  }
   exportAs(type) {
     this.config.type = type;
-    this.exportAsService.save(this.config, 'myFile').subscribe(() => { });
+    this.exportAsService.save(this.config, 'Reporte'+this.fechareporte).subscribe(() => { });
   }
 
   ngAfterViewInit() {

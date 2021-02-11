@@ -104,7 +104,6 @@ fechasal:string;
     value.id = this.id;
     value.validacion = 'Ok';
     value.fechac = formatDate(new Date(), 'dd/MM/yyyy hh:mm:ss a', 'en');
-      ////console.log (value, this.id);
     this.encuestase.updateTypeALL(value);
   }
   getval(id) {

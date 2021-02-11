@@ -197,7 +197,6 @@ export class ReparacionComponent implements OnInit {
     var docref = this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb);
     docref.get().then(doc => {
       if (doc.exists == true) {
-        console.log(doc.exists)
         this.contador(x);
       }
       else {
@@ -368,7 +367,6 @@ export class ReparacionComponent implements OnInit {
     this.ident = this.route.snapshot.params['id'];
   }
   sendemail(t: number) {
-    //console.log('prueba');
     if (t <= 50) {
       const name = 'Jonathan Huerta';
       const email = 'jonathan.huerta@casanovarentacar.mx';
@@ -386,14 +384,11 @@ export class ReparacionComponent implements OnInit {
     params.set('from', 'sevs@Demorentacar.mx');
     params.set('subject', 'test-email');
     params.set('content', 'Hello World');
-    console.log('enviado');
     return this.http.post(url, params, options)
                     .toPromise()
                     .then( res => {
-                      console.log(res)
                     })
                     .catch(err => {
-                      console.log(err)
                     })
                      */
   }
@@ -452,7 +447,6 @@ export class ReparacionComponent implements OnInit {
       this.model.p10c = 1;
       this.model2.p10 = 1;
       this.myStepper.selectedIndex = 2
-      console.log(x, this.isYes, this.model.p2)
     } else {
       this.model.p10 = 'No';
       this.model.p2 = 100;
@@ -460,7 +454,6 @@ export class ReparacionComponent implements OnInit {
       this.model.p10c = 0;
       this.model2.p10 = 0;
       this.myStepper.selectedIndex = 2
-      console.log(x, this.isYes, this.model.p2)
     }
   }
   p9ex(x) {

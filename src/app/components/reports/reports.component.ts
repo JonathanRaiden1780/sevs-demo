@@ -106,13 +106,11 @@ export class ReportsComponent implements OnInit {
     });
   }
   onChange(dtatemp: any) {
-    console.log(dtatemp)
     this.ident = this.route.snapshot.params['id'];
     const search = this.ident
     for (var u = 0; u < dtatemp.length; u++) {
       if (search == dtatemp[u].ubicacion) {
         this.id_ubi = dtatemp[u].id;
-        console.log(this.id_ubi)
       }
     }
     this.getData();
@@ -174,11 +172,9 @@ export class ReportsComponent implements OnInit {
 
   // events
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    //console.log(event, active);
   }
 
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
-    //console.log(event, active);
   }
 
   //___________________________________________________________________

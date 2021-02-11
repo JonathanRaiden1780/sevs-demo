@@ -49,7 +49,6 @@ export class HomeComponent implements OnInit {
       alert("Favor de ingresar un número de orden correcto")
     }
     else {
-      console.log(name)
       this.name = this.idenc.toUpperCase();
       this.afs.firestore.doc('type/' + ubicacion + '/Encuestas/' + this.name).get()
         .then(docSnapshot => {

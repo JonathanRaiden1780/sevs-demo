@@ -42,7 +42,6 @@ export class EncuestaComponent implements OnInit {
       if (auth) {
         this.isLogin = true;
         this.lvlaccess.getUserData(auth.email).subscribe((info: RegistroInterface) => {
-          ////console.log('usuario desde lvl:', info);
           if (info.ubicacion == 'ALL') {
             this.ubi = this.data[0].ubicacion;
           } else {

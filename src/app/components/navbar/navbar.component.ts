@@ -70,13 +70,12 @@ home(x){
 }
   ngOnInit() {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
-
+    console.log('11/02/21')
     this.authService.getAuth().subscribe( user => {
       if (user) {
         this.isLogin = true;
         this.lvlaccess.getUserData(user.email).subscribe( (info: RegistroInterface) => {
           this.ubicacion = info.ubicacion;
-////console.log('usuario desde lvl:', info);
             if(info.suadmin === true){
               this.isLoginSuadmin = true;
               this.isLoginAdmin = false;
@@ -102,7 +101,7 @@ home(x){
               this.isLoginAdmin = false;
               this.isLoginSuadmin = false;
             } else {
-              console.log('Error de sistema: Usuario sin Permisos')
+              alert('Error de sistema: Usuario sin Permisos')
             }
         });
       } else {

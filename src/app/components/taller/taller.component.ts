@@ -67,8 +67,6 @@ export class TallerComponent implements OnInit {
             }
             else {
               for (var u = 0; u <= this.data.length; u++) {
-                console.log(this.data[u].ubicacion)
-
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
@@ -85,8 +83,6 @@ export class TallerComponent implements OnInit {
             }
             else {
               for (var u = 0; u <= this.data.length; u++) {
-                console.log(this.data[u].ubicacion)
-
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
@@ -109,14 +105,13 @@ export class TallerComponent implements OnInit {
             }
             else {
               for (var u = 0; u <= this.data.length; u++) {
-                console.log(this.data[u].ubicacion)
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
               }
             }
           } else {
-            console.log('Error de sistema: Usuario sin Permisos')
+            alert('Error de sistema: Usuario sin Permisos')
           }
         });
       } else {

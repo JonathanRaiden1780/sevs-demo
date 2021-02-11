@@ -76,13 +76,11 @@ export class AgregatorComponent implements OnInit {
         nombre: form.nombre
       }
       this._apolo.addadministrador( data ).then(() => {
-        //console.log('Administrador Flota creado con éxito!');
         this.iniciaraf();
       }, (error) => {
-        //console.log('ERROR: ', error);
+
       });
     } else {
-      //console.log('UPDATE status')
     }
   }
 
@@ -103,13 +101,10 @@ export class AgregatorComponent implements OnInit {
         nombre: form.nombre
       }
       this._apolo.addmecanico( data ).then(() => {
-        //console.log('Mecanico creado con éxito!');
         this.inciarmecanico();
       }, (error) => {
-        //console.log('ERROR: ', error);
       });
     } else {
-      //console.log('UPDATE status');
     }
   }
 
@@ -130,13 +125,10 @@ export class AgregatorComponent implements OnInit {
         nombre: form.nombre
     }
       this._apolo.addasesor( data ).then(() => {
-        //console.log('Asesor creado con éxito!');
         this.inciarasesor();
       }, (error) => {
-        //console.log('ERROR: ', error);
       });
     } else {
-      //console.log('UPDATE status');
     }
   }
 
@@ -151,13 +143,10 @@ export class AgregatorComponent implements OnInit {
         nombre: form.nombre
       }
       this._apolo.addcliente( data ).then(() => {
-        //console.log('Cliente creado con éxito!');
         this.iniciarcliente();
       }, (error) => {
-        //console.log('ERROR: ', error);
       });
     } else {
-      //console.log('UPDATE status');
     }
   }
 

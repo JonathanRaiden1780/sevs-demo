@@ -68,7 +68,7 @@
   <div class="col-md-12">
     <div class="card">
       <form>
-        <div class="row">
+        <div class="card-group">
           <div class="col-md-2">
             <div class="dropdown" *ngIf="button">
               <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
@@ -83,11 +83,18 @@
             <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
               value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
           </div>
+          <div class="col-md-2" *ngIf="button">
+            <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
+            value="Guardar" (click)="Global()"><strong>Reporte Global</strong></button>
+          </div>
         </div>
+        <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong>
+            <h2>{{ubi}}</h2>
+          </strong></div>
       </form>
       <div class="card-body">
         <table class="table table-sm table-bordered text-center" id="mytable5">
-          <thead>
+          <thead hidden="true">
             <tr>
               <th scope="col">FOLIO</th>
               <th scope="col">FECHA</th>
@@ -105,7 +112,7 @@
               <th scope="col">Contestada</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody hidden="true">
             <tr *ngFor="let controlService of listado | async">
               <th scope="row">{{controlService.id}}</th>
               <td class="preguntas">{{controlService.fecha}}</td>
@@ -117,8 +124,8 @@
               <td class="preguntasF">{{controlService.pregunta6}}</td>
               <td class="preguntasG">{{controlService.pregunta7}}</td>
               <td class="preguntasH">{{controlService.pregunta8}}</td>
-              <td class="boolA">{{controlService.pregunta9}}</td>
-              <td class="boolB">{{controlService.pregunta10}}</td>
+              <td class="nueve">{{controlService.pregunta9}}</td>
+              <td class="diez">{{controlService.pregunta10}}</td>
               <td class="preguntasI">{{controlService.total}}</td>
               <td class="">{{controlService.contestada}}</td>
             </tr>
@@ -127,66 +134,66 @@
             <tr>
               <th scope="row">TOTAL</th>
               <td>{{num_encuestas}}</td>
-              <td class="Total A"><!-- {{promere1}} --></td>
-              <td class="Total B"><!-- {{promere2}} --></td>
-              <td class="Total C"><!-- {{promere3}} --></td>
-              <td class="Total D"><!-- {{promere4}} --></td>
-              <td class="Total E"><!-- {{promere5}} --></td>
-              <td class="Total F"><!-- {{promere6}} --></td>
-              <td class="Total G"><!-- {{promere7}} --></td>
-              <td class="Total H"><!-- {{promere8}} --></td> 
+              <td class="Total A"></td>
+              <td class="Total B"></td>
+              <td class="Total C"></td>
+              <td class="Total D"></td>
+              <td class="Total E"></td>
+              <td class="Total F"></td>
+              <td class="Total G"></td>
+              <td class="Total H"></td>
               <td>Conteo</td>
               <td>Conteo</td>
-              <td class="Total I"><!-- {{promere8}} --></td> 
+              <td class="Total I"></td>
             </tr>
             <tr>
               <th scope="row">N/A</th>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td class="Conteo A">-</td>
-              <td class="Conteo B">-</td>
-              <td bgcolor="black"></td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td>{{count9_na}}</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
             </tr>
             <tr>
               <th scope="row">SI</th>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td bgcolor="black"></td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td>{{count9_si}}</td>
+              <td>{{count10_si}}</td>
+              <td bgcolor="black">-</td>
             </tr>
             <tr>
               <th scope="row">NO</th>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td bgcolor="black"></td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td>{{count9_no}}</td>
+              <td>{{count10_no}}</td>
+              <td bgcolor="black">-</td>
             </tr>
             <tr>
-              <th scope="row">Ponderación</th>
-              <td bgcolor="black"></td>
+              <th scope="row">Ponderacion</th>
+              <td bgcolor="black">-</td>
               <td>20/100</td>
               <td>50-100</td>
               <td>20/100</td>
@@ -200,83 +207,125 @@
             </tr>
             <tr>
               <th scope="row">20</th>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion20 A"></td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion20 C"></td>
+              <td class="Ponderacion20 D"></td>
+              <td class="Ponderacion20 E"></td>
+              <td class="Ponderacion20 F"></td>
+              <td class="Ponderacion20 G"></td>
+              <td class="Ponderacion20 H"></td>
             </tr>
             <tr>
               <th scope="row">40</th>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion40 A"></td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion40 C"></td>
+              <td class="Ponderacion40 D"></td>
+              <td class="Ponderacion40 E"></td>
+              <td class="Ponderacion40 F"></td>
+              <td class="Ponderacion40 G"></td>
+              <td class="Ponderacion40 H"></td>
             </tr>
             <tr>
               <th scope="row">50</th>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td >1</td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
-              <td bgcolor="black"></td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion50 B"></td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
+              <td bgcolor="black">-</td>
             </tr>
             <tr>
               <th scope="row">60</th>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion60 A"></td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion60 C"></td>
+              <td class="Ponderacion60 D"></td>
+              <td class="Ponderacion60 E"></td>
+              <td class="Ponderacion60 F"></td>
+              <td class="Ponderacion60 G"></td>
+              <td class="Ponderacion60 H"></td>
             </tr>
             <tr>
               <th scope="row">80</th>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion80 A"></td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion80 C"></td>
+              <td class="Ponderacion80 D"></td>
+              <td class="Ponderacion80 E"></td>
+              <td class="Ponderacion80 F"></td>
+              <td class="Ponderacion80 G"></td>
+              <td class="Ponderacion80 H"></td>
             </tr>
             <tr>
               <th scope="row">100</th>
-              <td bgcolor="black"></td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
-              <td >-</td>
+              <td bgcolor="black">-</td>
+              <td class="Ponderacion100 A"></td>
+              <td class="Ponderacion100 B"></td>
+              <td class="Ponderacion100 C"></td>
+              <td class="Ponderacion100 D"></td>
+              <td class="Ponderacion100 E"></td>
+              <td class="Ponderacion100 F"></td>
+              <td class="Ponderacion100 G"></td>
+              <td class="Ponderacion100 H"></td>
             </tr>
-          </tfoot> -->
+          </tfoot>
+        </table>
+      </div>
+      <div class="card-body">
+        <table class="table table-sm table-bordered text-center" id="mytableglobal">
+          <thead >
+            <tr>
+              <th scope="col">Ubicacion</th>
+              <th scope="col">Encuestas realizadas</th>
+              <th scope="col">Promedio General</th>
+              <th scope="col">PREGUNTA 1</th>
+              <th scope="col">PREGUNTA 2</th>
+              <th scope="col">PREGUNTA 3</th>
+              <th scope="col">PREGUNTA 4</th>
+              <th scope="col">PREGUNTA 5</th>
+              <th scope="col">PREGUNTA 6</th>
+              <th scope="col">PREGUNTA 7</th>
+              <th scope="col">PREGUNTA 8</th>
+              <th scope="col">PREGUNTA 9 N/A</th>
+              <th scope="col">PREGUNTA 9 NO</th>
+              <th scope="col">PREGUNTA 9 SI</th>
+              <th scope="col">PREGUNTA 10 NO</th>
+              <th scope="col">PREGUNTA 10 SI</th>
+            </tr>
+          </thead>
+          <tbody >
+            <tr *ngFor="let controlService of data">
+              <th scope="row">{{controlService.ubicacion}}</th>
+              <td class="">{{controlService.fecha}}</td>
+              <td class="">{{controlService.pregunta1}}</td>
+              <td class="">{{controlService.pregunta2}}</td>
+              <td class="">{{controlService.pregunta3}}</td>
+              <td class="">{{controlService.pregunta4}}</td>
+              <td class="">{{controlService.pregunta5}}</td>
+              <td class="">{{controlService.pregunta6}}</td>
+              <td class="">{{controlService.pregunta7}}</td>
+              <td class="">{{controlService.pregunta8}}</td>
+              <td class="">{{controlService.pregunta9}}</td>
+              <td class="">{{controlService.pregunta10}}</td>
+              <td class="">{{controlService.total}}</td>
+              <td class="">{{controlService.contestada}}</td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
   </div>
 </div>
-*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60) 
+*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60)
 <br><br><br>
 <!-- Footer -->
 
