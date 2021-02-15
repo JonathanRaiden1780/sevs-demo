@@ -9,6 +9,8 @@ import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { Observable } from 'rxjs';
+import { Global } from 'src/app/Models/global';
+import { FlatpickrFn } from 'flatpickr/dist/types/instance';
 
 @Component({
   selector: 'app-dashboardtaller',
@@ -33,26 +35,25 @@ export class DashboardtallerComponent implements OnInit {
   fechasal: string;
   listado: any;
   public data: any;
-  list: [];
-  listv: string[];
+  listglobal: any;
   count9_na: number;
   count9_si: number;
   count9_no: number;
   count10_na: number;
   count10_si: number;
   count10_no: number;
-
-  list2 = [];
-
+  ubicaciones: any[10];
+  globalesview: boolean
+  contadortemp: number;
   // Variables
   rows1: any[] = [];
-
+  save: Array<Global>
   dataSource = new MatTableDataSource();
   displayedColumns = ['Folio Encuesta', 'Fecha Entrada', 'Fecha Salida', 'Placa', 'Servicio', 'Asesor', 'Cliente', 'Calificacion'];
   ubi: string;
   expanded: any = {};
   timeout: any;
-
+  totalesview: boolean;
   config: ExportAsConfig = {
     type: 'csv',
     elementIdOrContent: 'mytable5',
@@ -63,6 +64,7 @@ export class DashboardtallerComponent implements OnInit {
   Encuestaexes: Observable<EncuestaexInterface[]>;
   meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   mod: any = {};
+  fechaselct: string
   fechareporte: string;
   constructor(
     private exportAsService: ExportAsService,
@@ -93,11 +95,13 @@ export class DashboardtallerComponent implements OnInit {
     }
   }
   num_encuestas: number;
-  contadorreal: number;
+  contadorglobal: number;
   button: boolean;
   ngOnInit() {
-    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
+    this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x; this.contadorglobal = x.length })
     this.button = false;
+    this.totalesview = false;
+    this.globalesview = false;
     this.authService.getAuth().subscribe(user => {
       if (user) {
         this.lvlaccess.getUserData(user.email).subscribe((info: RegistroInterface) => {
@@ -112,6 +116,7 @@ export class DashboardtallerComponent implements OnInit {
             }
             this.listado = this.controlService.getAllEncuestas(this.ubi);
           }
+
         });
       }
     });
@@ -123,6 +128,7 @@ export class DashboardtallerComponent implements OnInit {
       this.getsum();
     }, 1500)
   }
+  
   getsum() {
     this.count9_na = 0
     this.count9_si = 0
@@ -130,7 +136,8 @@ export class DashboardtallerComponent implements OnInit {
     this.count10_na = 0
     this.count10_si = 0
     this.count10_no = 0
-
+    var arrtemp = ['', '', '', '', '', '', '', '', '']
+    var counttemp = 0;
     document.querySelectorAll('.Total').forEach(total => {
       var letra = total.classList[1];
       var suma = 0;
@@ -140,6 +147,8 @@ export class DashboardtallerComponent implements OnInit {
         suma += valor;
       });
       var prom = suma / this.num_encuestas
+      arrtemp[counttemp] = prom.toString();
+      counttemp = counttemp + 1;
       total.innerHTML = prom.toString();
     })
     var v = [0, 0, 0, 0, 0, 0]
@@ -169,6 +178,7 @@ export class DashboardtallerComponent implements OnInit {
         this.count9_no = this.count9_no + 1;
       }
     });
+
     document.querySelectorAll('.diez').forEach(celda => {
       var valor = celda.innerHTML.toString();
       if (valor == 'N/A') {
@@ -181,18 +191,92 @@ export class DashboardtallerComponent implements OnInit {
         this.count10_no = this.count10_no + 1;
       }
     });
+    this.save = [ 
+      {
+        p1: arrtemp[0],
+        p2: arrtemp[1],
+        p3: arrtemp[2],
+        p4: arrtemp[3],
+        p5: arrtemp[4],
+        p6: arrtemp[5],
+        p7: arrtemp[6],
+        p8: arrtemp[7],
+        promgen: arrtemp[8],
+        numencuestas: this.num_encuestas.toString(),
+        p9na: this.count9_na.toString(),
+        p9no: this.count9_no.toString(),
+        p9si: this.count9_si.toString(),
+        ubicacion: this.ubi,
+        p10n: this.count10_no.toString(),
+        p10s: this.count10_si.toString()
+      }
+    ]
+    this.controlService.addGlobal(this.save as Global)
   }
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
     }, 100);
   }
-  Global(){
-
+  Global() {
+    this.contadortemp = 0
+    var año
+    var mes
+    console.log(this.fechaselct)
+    if(this.fechaselct == undefined){
+      for (var mc = 1; mc <= 12; mc++) {
+        if (this.mod.mesnumero == mc) {
+          if (this.mod.mesnumero == 1) {
+            this.mod.mes = this.meses[12];
+            mes = this.mod.mes;
+          }
+          else {
+            this.mod.mes = this.meses[mc];
+            mes = this.mod.mes;
+          }
+        }
+      }
+     año  = this.mod.año;
+    }
+    else{
+      año = this.fechaselct.slice(0,4)
+      var mesns = this.fechaselct.slice(5,8)
+      var mesn: number = +mesns;
+      for (var mc = 1; mc <= 12; mc++) {
+        if (mesn == mc) {
+            mes = this.meses[mc];
+        }
+      }
+    }
+    for(var i = 0 ; i<this.contadorglobal; i++ ){
+      var ubicaciones = this.data[i].ubicacion  
+      this.contadortemp = this.contadortemp +1;  
+        this.changesitio(ubicaciones);
+        if(this.contadortemp == this.contadorglobal){
+          this.views(false)
+        }
+    }
+    
+    this.afs.collection('Global/'+this.mod.año+'/'+this.mod.mes).valueChanges().subscribe(x => { this.listglobal = x; console.log(x, this.contadortemp) })
+  }
+  views(bool:boolean){
+    if(bool){
+      this.globalesview = false
+      this.totalesview = true
+    }
+    else{
+      this.globalesview = true
+      this.totalesview = false
+    }
   }
   exportAs(type) {
     this.config.type = type;
-    this.exportAsService.save(this.config, 'Reporte'+this.fechareporte).subscribe(() => { });
+    this.exportAsService.save(this.config, 'Reporte' + this.fechareporte).subscribe(() => { });
+    if(this.globalesview == true){
+      this.config.elementIdOrContent = "mytableglobal"
+      this.exportAsService.save(this.config, 'Reporte_Global' + this.fechareporte).subscribe(() => { });
+
+    }
   }
 
   ngAfterViewInit() {

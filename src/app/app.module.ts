@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule} from '@angular/common/http';
+import 'flatpickr/dist/flatpickr.css'; // you may need to adjust the css import depending on your build tool
 
 import { NgxDatatableModule} from '@swimlane/ngx-datatable'
 
@@ -11,6 +12,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatStepperModule, MatInputModule, MatButtonModule, MatAutocompleteModule, MatNativeDateModule, MatIconModule, MatFormFieldModule, MatTabsModule, MatCheckboxModule, MatTableModule, MatSortModule, MatPaginatorModule, MatDatepickerModule, MatRadioButton, MatRadioModule } from '@angular/material';
 
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -88,6 +90,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     MatTableModule,
     MatSortModule,
     MatPaginatorModule,
+    FlatpickrModule.forRoot(),
     MatCheckboxModule,
     MatInputModule,
     MatIconModule,

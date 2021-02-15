@@ -67,33 +67,33 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <form>
-        <div class="card-group">
-          <div class="col-md-2">
-            <div class="dropdown" *ngIf="button">
-              <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
-                type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Selecciona Ubicación
-              </button>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <button class="dropdown-item" style="font-size: 1rem" (click)="changesitio(authservice.ubicacion)"
-                  *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
-              </div>
+      <div class="card-group">
+        <div class="col-md-2">
+          <div class="dropdown" *ngIf="button">
+            <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
+              type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Selecciona Ubicación
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <button class="dropdown-item" style="font-size: 1rem" (click)="changesitio(authservice.ubicacion); views(true)"
+                *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
             </div>
-            <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
-              value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
           </div>
-          <div class="col-md-2" *ngIf="button">
-            <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
-            value="Guardar" (click)="Global()"><strong>Reporte Global</strong></button>
-          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
+            value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
         </div>
-        <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong>
-            <h2>{{ubi}}</h2>
-          </strong></div>
-      </form>
+        <div class="col-md-2" *ngIf="button">
+          Selecciona Fecha
+          <input class="form-control" type="month" [(ngModel)]="fechaselct" dateFormat="Y-m-d" placeholder="Not set" />
+          <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
+            value="Guardar" (click)="Global()"><strong>Reporte Global</strong></button>
+        </div>
+      </div>
+      <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong>
+          <h2>{{ubi}}</h2>
+        </strong></div>
       <div class="card-body">
-        <table class="table table-sm table-bordered text-center" id="mytable5">
+        <table class="table table-sm table-bordered text-center" id="mytable5" >
           <thead hidden="true">
             <tr>
               <th scope="col">FOLIO</th>
@@ -113,21 +113,21 @@
             </tr>
           </thead>
           <tbody hidden="true">
-            <tr *ngFor="let controlService of listado | async">
-              <th scope="row">{{controlService.id}}</th>
-              <td class="preguntas">{{controlService.fecha}}</td>
-              <td class="preguntasA">{{controlService.pregunta1}}</td>
-              <td class="preguntasB">{{controlService.pregunta2}}</td>
-              <td class="preguntasC">{{controlService.pregunta3}}</td>
-              <td class="preguntasD">{{controlService.pregunta4}}</td>
-              <td class="preguntasE">{{controlService.pregunta5}}</td>
-              <td class="preguntasF">{{controlService.pregunta6}}</td>
-              <td class="preguntasG">{{controlService.pregunta7}}</td>
-              <td class="preguntasH">{{controlService.pregunta8}}</td>
-              <td class="nueve">{{controlService.pregunta9}}</td>
-              <td class="diez">{{controlService.pregunta10}}</td>
-              <td class="preguntasI">{{controlService.total}}</td>
-              <td class="">{{controlService.contestada}}</td>
+            <tr *ngFor="let authservice of listado | async">
+              <th scope="row">{{authservice.id}}</th>
+              <td class="preguntas">{{authservice.fecha}}</td>
+              <td class="preguntasA">{{authservice.pregunta1}}</td>
+              <td class="preguntasB">{{authservice.pregunta2}}</td>
+              <td class="preguntasC">{{authservice.pregunta3}}</td>
+              <td class="preguntasD">{{authservice.pregunta4}}</td>
+              <td class="preguntasE">{{authservice.pregunta5}}</td>
+              <td class="preguntasF">{{authservice.pregunta6}}</td>
+              <td class="preguntasG">{{authservice.pregunta7}}</td>
+              <td class="preguntasH">{{authservice.pregunta8}}</td>
+              <td class="nueve">{{authservice.pregunta9}}</td>
+              <td class="diez">{{authservice.pregunta10}}</td>
+              <td class="preguntasI">{{authservice.total}}</td>
+              <td class="">{{authservice.contestada}}</td>
             </tr>
           </tbody>
           <tfoot>
@@ -281,8 +281,8 @@
         </table>
       </div>
       <div class="card-body">
-        <table class="table table-sm table-bordered text-center" id="mytableglobal">
-          <thead >
+        <table class="table table-sm table-bordered text-center" id="mytableglobal" *ngIf="globalesview" >
+          <thead>
             <tr>
               <th scope="col">Ubicacion</th>
               <th scope="col">Encuestas realizadas</th>
@@ -302,22 +302,24 @@
               <th scope="col">PREGUNTA 10 SI</th>
             </tr>
           </thead>
-          <tbody >
-            <tr *ngFor="let controlService of data">
+          <tbody>
+            <tr *ngFor="let controlService of listglobal">
               <th scope="row">{{controlService.ubicacion}}</th>
-              <td class="">{{controlService.fecha}}</td>
-              <td class="">{{controlService.pregunta1}}</td>
-              <td class="">{{controlService.pregunta2}}</td>
-              <td class="">{{controlService.pregunta3}}</td>
-              <td class="">{{controlService.pregunta4}}</td>
-              <td class="">{{controlService.pregunta5}}</td>
-              <td class="">{{controlService.pregunta6}}</td>
-              <td class="">{{controlService.pregunta7}}</td>
-              <td class="">{{controlService.pregunta8}}</td>
-              <td class="">{{controlService.pregunta9}}</td>
-              <td class="">{{controlService.pregunta10}}</td>
-              <td class="">{{controlService.total}}</td>
-              <td class="">{{controlService.contestada}}</td>
+              <td class="">{{controlService.numencuestas}}</td>
+              <td class="">{{controlService.promgen}}</td>
+              <td class="">{{controlService.p1}}</td>
+              <td class="">{{controlService.p2}}</td>
+              <td class="">{{controlService.p3}}</td>
+              <td class="">{{controlService.p4}}</td>
+              <td class="">{{controlService.p5}}</td>
+              <td class="">{{controlService.p6}}</td>
+              <td class="">{{controlService.p7}}</td>
+              <td class="">{{controlService.p8}}</td>
+              <td class="">{{controlService.p9na}}</td>
+              <td class="">{{controlService.p9no}}</td>
+              <td class="">{{controlService.p9si}}</td>
+              <td class="">{{controlService.p10n}}</td>
+              <td class="">{{controlService.p10s}}</td>
             </tr>
           </tbody>
         </table>
@@ -325,7 +327,7 @@
     </div>
   </div>
 </div>
-*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60)
+<p  *ngIf="totalesview">*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60)</p>
 <br><br><br>
 <!-- Footer -->
 
