@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
-import { faCarCrash, faSearch, faStickyNote, faPrint, faCar } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { EncuestaService } from 'src/app/services/encuesta.service';
@@ -10,7 +10,6 @@ import { RegistroInterface } from 'src/app/Models/registro';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { Observable } from 'rxjs';
 import { Global } from 'src/app/Models/global';
-import { FlatpickrFn } from 'flatpickr/dist/types/instance';
 
 @Component({
   selector: 'app-dashboardtaller',
@@ -73,7 +72,7 @@ export class DashboardtallerComponent implements OnInit {
     this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     this.mod.mesnumero = today.getMonth() + 1;
     this.mod.año = today.getFullYear();
-    for (var mc = 1; mc <= 12; mc++) {
+    for (let mc = 1; mc <= 12; mc++) {
       if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
         if (this.mod.mesnumero < 10) {
@@ -97,7 +96,6 @@ export class DashboardtallerComponent implements OnInit {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x; this.contadorglobal = x.length })
     this.button = false;
     this.totalesview = false;
-    console.log(this.fechaselct, this.fechareporte)
     this.globalesview = false;
     this.authService.getAuth().subscribe(user => {
       if (user) {
@@ -106,7 +104,7 @@ export class DashboardtallerComponent implements OnInit {
             this.button = true;
           }
           else {
-            for (var u = 0; u < this.data.length; u++) {
+            for (let u = 0; u < this.data.length; u++) {
               if (info.ubicacion == this.data[u].ubicacion) {
                 this.ubi = this.data[u].ubicacion;
               }
@@ -123,7 +121,6 @@ export class DashboardtallerComponent implements OnInit {
   }
   changesitio(sitio: string) {
     this.getdate()
-    console.log(this.fechareporte)
     this.listado = this.controlService.getAllEncuestas(sitio, this.fechareporte);
     this.ubi = sitio
     setTimeout(() => {
@@ -131,19 +128,17 @@ export class DashboardtallerComponent implements OnInit {
     }, 1500)
   }
   getdate() {
-    var año;
-    var mes;
+    let año = '';
+    let mes = '';
     año = this.fechaselct.slice(0, 4)
-    var mesns = this.fechaselct.slice(5, 8)
-    var mesn: number = +mesns;
-    for (var mc = 1; mc <= 12; mc++) {
+    const mesns = this.fechaselct.slice(5, 8)
+    const mesn: number = +mesns;
+    for (let mc = 1; mc <= 12; mc++) {
       if (mesn == mc) {
         mes = this.meses[mc];
         this.fechareporte = mes + año;
       }
     }
-    console.log(this.fechaselct, this.fechareporte)
-
   }
   getsum() {
     this.count9_na = 0
@@ -153,29 +148,29 @@ export class DashboardtallerComponent implements OnInit {
     this.count10_na = 0
     this.count10_si = 0
     this.count10_no = 0
-    var arrtemp = ['', '', '', '', '', '', '', '', '']
-    var counttemp = 0;
+    const arrtemp = ['', '', '', '', '', '', '', '', '']
+    let counttemp = 0;
     document.querySelectorAll('.Total').forEach(total => {
-      var letra = total.classList[1];
-      var suma = 0;
+      const letra = total.classList[1];
+      let suma = 0;
       document.querySelectorAll('.preguntas' + letra).forEach(celda => {
-        var valor = parseFloat(celda.innerHTML);
+        const valor = parseFloat(celda.innerHTML);
         this.num_encuestas = document.querySelectorAll('.preguntas' + letra).length
         suma += valor;
       });
-      var prom = suma / this.num_encuestas
+      const prom = suma / this.num_encuestas
       arrtemp[counttemp] = prom.toString();
       counttemp = counttemp + 1;
       total.innerHTML = prom.toString();
     })
-    var v = [0, 0, 0, 0, 0, 0]
-    var pond = [20, 40, 50, 60, 80, 100]
-    for (var i = 0; i < 6; i++) {
+    const v = [0, 0, 0, 0, 0, 0]
+    const pond = [20, 40, 50, 60, 80, 100]
+    for (let i = 0; i < 6; i++) {
       document.querySelectorAll('.Ponderacion' + pond[i]).forEach(total => {
-        var letra = total.classList[1];
+        const letra = total.classList[1];
         v[i] = 0;
         document.querySelectorAll('.preguntas' + letra).forEach(celda => {
-          var valor = celda.innerHTML.toString();
+          const valor = celda.innerHTML.toString();
           if (valor == pond[i].toString()) {
             v[i] = v[i] + 1;
           }
@@ -184,7 +179,7 @@ export class DashboardtallerComponent implements OnInit {
       })
     }
     document.querySelectorAll('.nueve').forEach(celda => {
-      var valor = celda.innerHTML.toString();
+      const valor = celda.innerHTML.toString();
       if (valor == 'N/A') {
         this.count9_na = this.count9_na + 1;
       }
@@ -197,7 +192,7 @@ export class DashboardtallerComponent implements OnInit {
     });
 
     document.querySelectorAll('.diez').forEach(celda => {
-      var valor = celda.innerHTML.toString();
+      const valor = celda.innerHTML.toString();
       if (valor == 'N/A') {
         this.count10_na = this.count10_na + 1;
       }
@@ -230,32 +225,31 @@ export class DashboardtallerComponent implements OnInit {
     ]
     this.controlService.addGlobal(this.save as Global)
   }
-  onPage(event) {
+  onPage() {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
     }, 100);
   }
   Global() {
-    this.contadortemp = 0
-    var año;
-    var mes;
-    año = this.fechaselct.slice(0, 4)
-    var mesns = this.fechaselct.slice(5, 8)
-    var mesn: number = +mesns;
-    for (var mc = 1; mc <= 12; mc++) {
+    this.contadortemp = 0;
+    let mes;
+    const año = this.fechaselct.slice(0, 4)
+    const mesns = this.fechaselct.slice(5, 8)
+    const mesn: number = +mesns;
+    for (let mc = 1; mc <= 12; mc++) {
       if (mesn == mc) {
         mes = this.meses[mc];
       }
     }
-    for (var i = 0; i < this.contadorglobal; i++) {
-      var ubicaciones = this.data[i].ubicacion
+    for (let i = 0; i < this.contadorglobal; i++) {
+      const ubicaciones = this.data[i].ubicacion
       this.contadortemp = this.contadortemp + 1;
       this.changesitio(ubicaciones);
       if (this.contadortemp == this.contadorglobal) {
         this.views(false)
       }
     }
-    this.afs.collection('Global/' + año + '/' + mes).valueChanges().subscribe(x => { this.listglobal = x; console.log(x, this.contadortemp) })
+    this.afs.collection('Global/' + año + '/' + mes).valueChanges().subscribe(x => { this.listglobal = x })
   }
   views(bool: boolean) {
     if (bool) {
@@ -269,10 +263,10 @@ export class DashboardtallerComponent implements OnInit {
   }
   exportAs(type) {
     this.config.type = type;
-    this.exportAsService.save(this.config, 'Reporte' + this.fechareporte).subscribe(() => { });
+    this.exportAsService.save(this.config, 'Reporte' + this.fechareporte).subscribe();
     if (this.globalesview == true) {
       this.config.elementIdOrContent = "mytableglobal"
-      this.exportAsService.save(this.config, 'Reporte_Global' + this.fechareporte).subscribe(() => { });
+      this.exportAsService.save(this.config, 'Reporte_Global' + this.fechareporte).subscribe();
 
     }
   }

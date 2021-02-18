@@ -16,7 +16,7 @@ import { ContadorInterface } from 'src/app/Models/contador';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  @ViewChild('Modal', { static: true }) Modal: TemplateRef<any>
+  @ViewChild('Modal', { static: true }) Modal: TemplateRef<unknown>
   constructor(
     private encuestaex: EncuestaService,
     private afs: AngularFirestore,
@@ -111,13 +111,13 @@ export class AdminComponent implements OnInit {
   insre2: number;
   // -------------
   public emailUsuario: string;
-  nomUsuario: any;;
+  nomUsuario: any;
   typeCollection: AngularFirestoreCollection<EncuestaexInterface>;
   fechareporte: string;
   mod: any = {};
   meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
   cont() {
-    for (var mc = 1; mc <= 12; mc++) {
+    for (let mc = 1; mc <= 12; mc++) {
       if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
       }

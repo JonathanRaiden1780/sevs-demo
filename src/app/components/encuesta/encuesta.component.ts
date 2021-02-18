@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { faFemale, faChartLine, faSignOutAlt, faSignInAlt, faHome, faVoteYea, faParachuteBox } from '@fortawesome/free-solid-svg-icons';
-
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
@@ -13,7 +12,6 @@ import { AngularFirestore } from 'angularfire2/firestore';
   styleUrls: ['./encuesta.component.css']
 })
 export class EncuestaComponent implements OnInit {
-
   public isLogin: boolean;
   public nombreUsuario: string;
   public emailUsuario: string;
@@ -45,7 +43,7 @@ export class EncuestaComponent implements OnInit {
           if (info.ubicacion == 'ALL') {
             this.ubi = this.data[0].ubicacion;
           } else {
-            for (var u = 0; u <= this.data.length; u++) {
+            for (let u = 0; u <= this.data.length; u++) {
               if (info.ubicacion == this.data[u].ubicacion) {
                 this.ubi = this.data[u].ubicacion;
               }
@@ -59,7 +57,6 @@ export class EncuestaComponent implements OnInit {
       }
     });
   }
-
   onClickLogOut() {
     this.authService.logout();
   }

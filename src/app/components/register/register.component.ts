@@ -24,15 +24,8 @@ export class RegisterComponent implements OnInit {
   faPen = faPen;
   faCheck = faCheck;
   faTimes = faTimes;
-
   datatable: LocalDataSource;
   datatable2: LocalDataSource;
-
-  constructor(
-    private router: Router,
-    private authservice: AuthService,
-    private afs: AngularFirestore
-  ) { }
   public email: string;
   public pass: string;
   public nombre: string;
@@ -43,6 +36,11 @@ export class RegisterComponent implements OnInit {
   public admin: boolean;
   public tipo: string;
   public suadmin: boolean;
+  constructor(
+    private router: Router,
+    private authservice: AuthService,
+    private afs: AngularFirestore
+  ) { }
 
   ngOnInit() {
     this.getubi()
@@ -153,11 +151,11 @@ export class RegisterComponent implements OnInit {
   };
   onDeleteConfirm(event, x) {
     if (window.confirm('¿Esta seguro que desea eliminarlo?')) {
-      if(x==1){
+      if (x == 1) {
         this.authservice.deleteregistro(event.data)
         event.confirm.resolve();
       }
-      else{
+      else {
         this.authservice.deleteubi(event.data)
         event.confirm.resolve();
       }
@@ -167,12 +165,12 @@ export class RegisterComponent implements OnInit {
   }
   onSaveConfirm(event, x) {
     if (window.confirm('¿Son correctos los cambios realizados?')) {
-      if(x==1){
-        this.authservice.updateregistro(event.data,event.newData)
+      if (x == 1) {
+        this.authservice.updateregistro(event.data, event.newData)
         event.confirm.resolve();
       }
-      else{
-        this.authservice.updateubi(event.data,event.newData)
+      else {
+        this.authservice.updateubi(event.data, event.newData)
         event.confirm.resolve();
       }
       event.newData['name'] += ' + added in code';

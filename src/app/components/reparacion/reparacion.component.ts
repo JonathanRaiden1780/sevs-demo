@@ -24,19 +24,6 @@ export class ReparacionComponent implements OnInit {
   totalStepsCount: number;
   totalnot: number;
   EncuestaexCollection: AngularFirestoreCollection<EncuestaexInterface>;
-  constructor(
-    private _formBuilder: FormBuilder,
-    private encuestaService: EncuestaService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private afs: AngularFirestore,
-  ) {
-    const today = new Date();
-    this.EncuestaexCollection = this.afs.collection('Contadores', ref => ref);
-    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    this.mod.mesnumero = today.getMonth() + 1;
-    this.mod.año = today.getFullYear();
-  }
   meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   faTired = faTired;
   faSadTear = faSadTear;
@@ -108,6 +95,20 @@ export class ReparacionComponent implements OnInit {
   public isYes = true;
   public isNo = true;
   proms: string;
+  constructor(
+    private _formBuilder: FormBuilder,
+    private encuestaService: EncuestaService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private afs: AngularFirestore,
+  ) {
+    const today = new Date();
+    this.EncuestaexCollection = this.afs.collection('Contadores', ref => ref);
+    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    this.mod.mesnumero = today.getMonth() + 1;
+    this.mod.año = today.getFullYear();
+  }
+
 
   ngOnInit() {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
@@ -146,7 +147,7 @@ export class ReparacionComponent implements OnInit {
     });
 
     this.onChange();
-    for (var mc = 1; mc <= 12; mc++) {
+    for (let mc = 1; mc <= 12; mc++) {
       if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
       }
@@ -174,8 +175,9 @@ export class ReparacionComponent implements OnInit {
     value.fechareporte = this.fechareporte;
     this.totalnot = value.total;
     const search = this.ident.slice(0, 2)
-    for (var u = 0; u < this.data.length; u++) {
+    for (let u = 0; u < this.data.length; u++) {
       if (search == this.data[u].id) {
+        // eslint-disable-next-line no-var
         var ubicacion = this.data[u].ubicacion;
       }
     }
@@ -185,7 +187,7 @@ export class ReparacionComponent implements OnInit {
     }
     else {
       this.encuestaService.updateTypeALL(value);
-      var año = this.mod.año as string + '_encuestas'
+      const año = this.mod.año as string + '_encuestas'
       this.encuestaService.getcontador2(ubicacion, this.fechareporte, año)
       this.encuestaService.updateEncuestarep(value, ubicacion);
       //    this.sendemail(value.total);
@@ -194,7 +196,7 @@ export class ReparacionComponent implements OnInit {
     this.router.navigate(['/home']);
   }
   valcontadores(x: string) {
-    var docref = this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb);
+    const docref = this.afs.firestore.collection('Contadores').doc(this.fechareporte).collection(this.p1 + x).doc(this.mb);
     docref.get().then(doc => {
       if (doc.exists == true) {
         this.contador(x);
@@ -368,11 +370,11 @@ export class ReparacionComponent implements OnInit {
   }
   sendemail(t: number) {
     if (t <= 50) {
-      const name = 'Jonathan Huerta';
+      /* const name = 'Jonathan Huerta';
       const email = 'jonathan.huerta@casanovarentacar.mx';
       const message = 'ALERTA !!!!! HUBO UN PROBLEMA CON EL CLIENTE';
       const subject = 'Validar situación calificación de encuesta: ' + this.totalnot;
-
+ */
     }
     /* let url = `https://us-central1-Demoeva01.cloudfunctions.net/httpEmail`;
     let params: URLSearchParams = new URLSearchParams();

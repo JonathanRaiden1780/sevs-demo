@@ -1,36 +1,49 @@
 <!-- NAVBAR admin-->
 <app-navbar></app-navbar>
 <!-- Contenido -->
-<div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><fa-icon [icon]="faCarCrash" class="fa-2x"></fa-icon><strong><h2>SEVS - Taller</h2></strong></div>
-  <!-- Llenado rápido-->
-    <div class="card col-md-3 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><strong><h2>Llenado rápido</h2></strong></div><br>
-    <div class="card col-md-5 mx-auto mt-2">
-      <form #formGuardar="ngForm" (ngSubmit)="onEncuesta(formGuardar)">
-        <div class="form-group">
-          <br>
-          <h4><strong>Folio:</strong></h4> 
-          <div class="col-md-5 mx-auto">
-          <div class="input-group mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="background-color: beige; color: black" *ngIf='isLoginALL == false'>
-                {{ubicacion}}
-              </span>
-              <select class="form-control" style="font-size: 1rem " name="ubicacion" [(ngModel)]="ubicacion" *ngIf='isLoginALL'>
-                <option *ngFor="let authservice of data">{{authservice.id}}</option>
-              </select>
-            </div>
-            <input type="text" class="form-control text-center" oninput="this.idenc = this.value = this.value.replace(/[^0-9]/g, '');" style=" font-size: 1rem " name="id" [(ngModel)]="idenc" #FolioEncuesta="ngModel" id="FolioEncuesta" aria-describedby="FolioEncuesta" placeholder="01234">
+<div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263">
+  <fa-icon [icon]="faCarCrash" class="fa-2x"></fa-icon><strong>
+    <h2>SEVS - Taller</h2>
+  </strong>
+</div>
+<!-- Llenado rápido-->
+<div class="card col-md-3 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><strong>
+    <h2>Llenado rápido</h2>
+  </strong></div><br>
+<div class="card col-md-5 mx-auto mt-2">
+  <form #formGuardar="ngForm" (ngSubmit)="onEncuesta(formGuardar)">
+    <div class="form-group">
+      <br>
+      <h4><strong>Folio:</strong></h4>
+      <div class="col-md-5 mx-auto">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text" style="background-color: beige; color: black" *ngIf='isLoginALL == false'>
+              {{ubicacion}}
+            </span>
+            <select class="form-control" style="font-size: 1rem " name="ubicacion" [(ngModel)]="ubicacion"
+              *ngIf='isLoginALL'>
+              <option *ngFor="let authservice of data">{{authservice.id}}</option>
+            </select>
           </div>
-          </div>
-          <h4><strong>Cliente:</strong></h4>
-          <div class="col-md-5 mx-auto">
-            <input type="text" class="form-control text-center" pattern="[A-Z]*" style="text-transform: uppercase; font-size: 1rem " name="cliente" [(ngModel)]="cliente" #Cliente="ngModel" id="cliente" aria-describedby="Cliente" placeholder="CFE/IMSS/PGR">
-          </div>
+          <input type="text" class="form-control text-center"
+            oninput="this.idenc = this.value = this.value.replace(/[^0-9]/g, '');" style=" font-size: 1rem " name="id"
+            [(ngModel)]="idenc" #FolioEncuesta="ngModel" id="FolioEncuesta" aria-describedby="FolioEncuesta"
+            placeholder="01234">
         </div>
-        <hr style="background-color: black">
-        <button type="submit" class="btn btn-primary btn-lg btn-block mb-2" style="font-size: 1rem" value="Guardar" ><strong>Ingresar</strong></button>
-      </form>
-    </div><br>
+      </div>
+      <h4><strong>Cliente:</strong></h4>
+      <div class="col-md-5 mx-auto">
+        <input type="text" class="form-control text-center" pattern="[A-Z]*"
+          style="text-transform: uppercase; font-size: 1rem " name="cliente" [(ngModel)]="cliente" #Cliente="ngModel"
+          id="cliente" aria-describedby="Cliente" placeholder="CFE/IMSS/PGR">
+      </div>
+    </div>
+    <hr style="background-color: black">
+    <button type="submit" class="btn btn-primary btn-lg btn-block mb-2" style="font-size: 1rem"
+      value="Guardar"><strong>Ingresar</strong></button>
+  </form>
+</div><br>
 <br><br><br>
 <!-- Footer -->
 <app-footer></app-footer>

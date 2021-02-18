@@ -1,260 +1,222 @@
 <!-- Pagina de Reportes-->
-<div class="card col-md-2 mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><fa-icon [icon]="faChartLine" class="fa-2x"></fa-icon><strong><h2>SEVS-Reportes</h2></strong></div>
-
+<div class="card col-md-2 mt-3 ml-1 text-white text-center" style="background-color: #1a3263">
+  <fa-icon [icon]="faChartLine" class="fa-2x"></fa-icon><strong>
+    <h2>SEVS-Reportes</h2>
+  </strong>
+</div>
 <!-- Paginacion Reportes -->
 <ul class="nav nav-pills mb-3 justify-content-center flex-column flex-sm-row">
-        <li class="nav-item">
-            <a class="nav-link active text-white mr-2" style="background-color:#1a3263" id="pills-graficas-tab" data-toggle="pill" href="#pills-graficas" role="tab" aria-controls="pills-graficas" aria-selected="true"><h5><strong>Calificación</strong></h5></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link text-white mr-2" style="background-color:#1a3263" id="pills-encuesta-tab" data-toggle="pill" href="#pills-encuesta" role="tab" aria-controls="pills-encuesta" aria-selected="false"><h5><strong>Detalle encuestas</strong></h5></a>
-        </li>
-    </ul>
-
+  <li class="nav-item">
+    <a class="nav-link active text-white mr-2" style="background-color:#1a3263" id="pills-graficas-tab"
+      data-toggle="pill" href="#pills-graficas" role="tab" aria-controls="pills-graficas" aria-selected="true">
+      <h5><strong>Calificación</strong></h5>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-white mr-2" style="background-color:#1a3263" id="pills-encuesta-tab" data-toggle="pill"
+      href="#pills-encuesta" role="tab" aria-controls="pills-encuesta" aria-selected="false">
+      <h5><strong>Detalle encuestas</strong></h5>
+    </a>
+  </li>
+</ul>
 <div class="tab-content" id="pills-tabContent">
-    <!-- Calificación "Resumen de las preguntas con graficos de la calificación " -->
-    <div class="tab-pane fade show active" id="pills-graficas" role="tabpanel" aria-labelledby="pills-graficas-tab">
-            <div class="col order-first">
-                <div class="tab-pane fade show active" id="v-pills-graficos" role="tabpanel" aria-labelledby="v-pills-graficos-tab">
-                    <div class="card border-primary mt-3">
-                        <div class="card-header text-center text-white" style="background-color: #1a3263"><strong><h3>Preguntas</h3></strong></div>
-                            <div class="card-group">
-                                <div class="card">
-                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>El tiempo que transcurrió para que lo atendieran en recepción fue:</strong></small></div>
-                                    <div class="card-body" style="background-color: #e8e2db">
-                                        <div style="display: block;">
-                                            <canvas baseChart 
-                                                [data]="pieChartDataP1" 
-                                                [labels]="pieChartLabels" 
-                                                [chartType]="pieChartType"
-                                                [options]="pieChartOptions"
-                                                [plugins]="pieChartPlugins"
-                                                [legend]="pieChartLegend">
-                                            </canvas> 
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Durante la recepción ¿Nuestro asesor le preguntó si su vehículo requería de algún servicio adicional a lo previamente solicitado?</strong></small></div>
-                                    <div class="card-body" style="background-color: #e8e2db">
-                                        <div style="display: block;">
-                                            <canvas baseChart 
-                                                [data]="pieChartDataP2" 
-                                                [labels]="pieChartLabelP2" 
-                                                [chartType]="pieChartType"
-                                                [options]="pieChartOptions"
-                                                [plugins]="pieChartPlugins"
-                                                [legend]="pieChartLegend">
-                                            </canvas>
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>El tiempo de entrega acorde al proporcionado posterior al diagnostico fue:</strong></small></div>
-                                    <div class="card-body" style="background-color: #e8e2db">
-                                        <div style="display: block;">
-                                            <canvas baseChart 
-                                                [data]="pieChartDataP3" 
-                                                [labels]="pieChartLabels" 
-                                                [chartType]="pieChartType"
-                                                [options]="pieChartOptions"
-                                                [plugins]="pieChartPlugins"
-                                                [legend]="pieChartLegend">
-                                            </canvas>
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>¿Cómo calificaría la imagen de nuestras instalaciones?</strong></small></div>
-                                    <div class="card-body" style="background-color: #e8e2db">
-                                        <div style="display: block;">
-                                            <canvas baseChart 
-                                                [data]="pieChartDataP4" 
-                                                [labels]="pieChartLabels" 
-                                                [chartType]="pieChartType"
-                                                [options]="pieChartOptions"
-                                                [plugins]="pieChartPlugins"
-                                                [legend]="pieChartLegend">
-                                            </canvas>
-                                        </div>    
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La atención que recibió de nuestro asesor de servicio fue…</strong></small></div>
-                                    <div class="card-body" style="background-color: #e8e2db">
-                                        <div style="display: block;">
-                                            <canvas baseChart 
-                                                [data]="pieChartDataP5" 
-                                                [labels]="pieChartLabels" 
-                                                [chartType]="pieChartType"
-                                                [options]="pieChartOptions"
-                                                [plugins]="pieChartPlugins"
-                                                [legend]="pieChartLegend">
-                                            </canvas>
-                                        </div>    
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        <div class="card-footer text-right text-white" style="background-color: #1a3263"><br>Ultima Actualización {{mod.fecha}}</div>
-                    </div>  
+  <!-- Calificación "Resumen de las preguntas con graficos de la calificación " -->
+  <div class="tab-pane fade show active" id="pills-graficas" role="tabpanel" aria-labelledby="pills-graficas-tab">
+    <div class="col order-first">
+      <div class="tab-pane fade show active" id="v-pills-graficos" role="tabpanel"
+        aria-labelledby="v-pills-graficos-tab">
+        <div class="card border-primary mt-3">
+          <div class="card-header text-center text-white" style="background-color: #1a3263"><strong>
+              <h3>Preguntas</h3>
+            </strong></div>
+          <div class="card-group">
+            <div class="card">
+              <div class="card-header text-white" style="background-color: #fab95b"><small><strong>El tiempo que
+                    transcurrió para que lo atendieran en recepción fue:</strong></small></div>
+              <div class="card-body" style="background-color: #e8e2db">
+                <div style="display: block;">
+                  <canvas baseChart [data]="pieChartDataP1" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                  </canvas>
                 </div>
+              </div>
             </div>
-            <div class="col order-last">
-                        <div class="card border-primary mt-3 mb-3">
-                                    <div class="card-group">
-                                            <div class="card">
-                                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Considera que la imagen de nuestro asesor de servicio es...</strong></small></div>
-                                                    <div class="card-body" style="background-color: #e8e2db">
-                                                        <div style="display: block;">
-                                                            <canvas baseChart 
-                                                                [data]="pieChartDataP6" 
-                                                                [labels]="pieChartLabels" 
-                                                                [chartType]="pieChartType"
-                                                                [options]="pieChartOptions"
-                                                                [plugins]="pieChartPlugins"
-                                                                [legend]="pieChartLegend">
-                                                            </canvas>
-                                                        </div>    
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La limpieza de su vehículo fue:</strong></small></div>
-                                                    <div class="card-body" style="background-color: #e8e2db">
-                                                        <div style="display: block;">
-                                                            <canvas baseChart 
-                                                                [data]="pieChartDataP7" 
-                                                                [labels]="pieChartLabels" 
-                                                                [chartType]="pieChartType"
-                                                                [options]="pieChartOptions"
-                                                                [plugins]="pieChartPlugins"
-                                                                [legend]="pieChartLegend">
-                                                            </canvas>
-                                                        </div>                                                                
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La experiencia en general de su visita a Demo fue:</strong></small></div>
-                                                    <div class="card-body" style="background-color: #e8e2db">
-                                                        <div style="display: block;">
-                                                            <canvas baseChart 
-                                                                [data]="pieChartDataP8" 
-                                                                [labels]="pieChartLabels" 
-                                                                [chartType]="pieChartType"
-                                                                [options]="pieChartOptions"
-                                                                [plugins]="pieChartPlugins"
-                                                                [legend]="pieChartLegend">
-                                                            </canvas>
-                                                        </div>     
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Se explicó el motivo (tiempo entrega)</strong></small></div>
-                                                    <div class="card-body" style="background-color: #e8e2db">
-                                                        <div style="display: block;">
-                                                            <canvas baseChart 
-                                                                [data]="pieChartDataP1_R" 
-                                                                [labels]="pieChartLabelP1_R" 
-                                                                [chartType]="pieChartType"
-                                                                [options]="pieChartOptions"
-                                                                [plugins]="pieChartPlugins"
-                                                                [legend]="pieChartLegend">
-                                                            </canvas>
-                                                        </div>     
-                                                    </div>
-                                                </div>
-                                                <div class="card">
-                                                    <div class="card-header text-white" style="background-color: #fab95b"><small><strong>¿Usted ingresó el vehículo?</strong></small></div>
-                                                    <div class="card-body" style="background-color: #e8e2db">
-                                                        <div style="display: block;">
-                                                            <canvas baseChart 
-                                                                [data]="pieChartDataP2_R" 
-                                                                [labels]="pieChartLabelP2_R" 
-                                                                [chartType]="pieChartType"
-                                                                [options]="pieChartOptions"
-                                                                [plugins]="pieChartPlugins"
-                                                                [legend]="pieChartLegend">
-                                                            </canvas>
-                                                        </div>   
-                                                    </div>
-                                                </div>
-                                            
-                                    </div>
-                                <div class="card-footer text-right text-white" style="background-color: #1a3263">Ultima Actualización {{mod.fecha}}</div>
-                            </div>  
-            
+            <div class="card">
+              <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Durante la recepción
+                    ¿Nuestro asesor le preguntó si su vehículo requería de algún servicio adicional a lo previamente
+                    solicitado?</strong></small></div>
+              <div class="card-body" style="background-color: #e8e2db">
+                <div style="display: block;">
+                  <canvas baseChart [data]="pieChartDataP2" [labels]="pieChartLabelP2" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                  </canvas>
+                </div>
+              </div>
             </div>
-    </div> 
+            <div class="card">
+              <div class="card-header text-white" style="background-color: #fab95b"><small><strong>El tiempo de entrega
+                    acorde al proporcionado posterior al diagnostico fue:</strong></small></div>
+              <div class="card-body" style="background-color: #e8e2db">
+                <div style="display: block;">
+                  <canvas baseChart [data]="pieChartDataP3" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header text-white" style="background-color: #fab95b"><small><strong>¿Cómo calificaría la
+                    imagen de nuestras instalaciones?</strong></small></div>
+              <div class="card-body" style="background-color: #e8e2db">
+                <div style="display: block;">
+                  <canvas baseChart [data]="pieChartDataP4" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La atención que
+                    recibió de nuestro asesor de servicio fue…</strong></small></div>
+              <div class="card-body" style="background-color: #e8e2db">
+                <div style="display: block;">
+                  <canvas baseChart [data]="pieChartDataP5" [labels]="pieChartLabels" [chartType]="pieChartType"
+                    [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                  </canvas>
+                </div>
+              </div>
+            </div>
 
-    <!-- Detalles de Encuesta "Muestra las encuestas realizadas con la calificación que tienen en cada pregunta" -->
-    <div class="tab-pane fade" id="pills-encuesta" role="tabpanel" aria-labelledby="pills-encuesta-tab">
-    <div class="card border-success mt-3 mr-3 ml-3 mb-3">
-    <div class="card-header text-center text-white" style="background-color: #1a3263"><h2><strong>Resumen de Preguntas</strong></h2></div>
-    <!-- Tabla encuestas Express -->
-    
-    <!-- Tabla encuestas Reparaciones -->
-    <div class="card border-primary mt-3 ml-3 mr-3">
-        <div class="card-header text-center bg-danger text-white">
-            <h5><strong style="font-size: 1.5rem">Reparaciones</strong></h5>
+          </div>
+          <div class="card-footer text-right text-white" style="background-color: #1a3263"><br>Ultima Actualización
+            {{mod.fecha}}</div>
         </div>
-            <div class="card-body ">
-                <ngx-datatable
-                    class="material"
-                    [headerHeight]="35"
-                    [columnMode]="'force'"
-                    [rowHeight]="'auto'"
-                    [footerHeight]="30"
-                    [count]="true"
-                    [limit]="5"
-                    [rows]="rows2"
-                >
-                <ngx-datatable-column name="fecha">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="Id">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta1">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta2">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta3">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta4">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta5">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta6">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta7">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="pregunta8">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="sucursal">
-                    <ng-template ngx-datatable-cell-template let-value="value">Taller1</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="cliente">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
-                </ngx-datatable-column>
-                <ngx-datatable-column name="total">
-                    <ng-template ngx-datatable-cell-template let-value="value">{{value}} / 100</ng-template>
-                </ngx-datatable-column>
-                </ngx-datatable>
+      </div>
+    </div>
+    <div class="col order-last">
+      <div class="card border-primary mt-3 mb-3">
+        <div class="card-group">
+          <div class="card">
+            <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Considera que la imagen
+                  de nuestro asesor de servicio es...</strong></small></div>
+            <div class="card-body" style="background-color: #e8e2db">
+              <div style="display: block;">
+                <canvas baseChart [data]="pieChartDataP6" [labels]="pieChartLabels" [chartType]="pieChartType"
+                  [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+              </div>
             </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La limpieza de su
+                  vehículo fue:</strong></small></div>
+            <div class="card-body" style="background-color: #e8e2db">
+              <div style="display: block;">
+                <canvas baseChart [data]="pieChartDataP7" [labels]="pieChartLabels" [chartType]="pieChartType"
+                  [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-white" style="background-color: #fab95b"><small><strong>La experiencia en
+                  general de su visita a Demo fue:</strong></small></div>
+            <div class="card-body" style="background-color: #e8e2db">
+              <div style="display: block;">
+                <canvas baseChart [data]="pieChartDataP8" [labels]="pieChartLabels" [chartType]="pieChartType"
+                  [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-white" style="background-color: #fab95b"><small><strong>Se explicó el motivo
+                  (tiempo entrega)</strong></small></div>
+            <div class="card-body" style="background-color: #e8e2db">
+              <div style="display: block;">
+                <canvas baseChart [data]="pieChartDataP1_R" [labels]="pieChartLabelP1_R" [chartType]="pieChartType"
+                  [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header text-white" style="background-color: #fab95b"><small><strong>¿Usted ingresó el
+                  vehículo?</strong></small></div>
+            <div class="card-body" style="background-color: #e8e2db">
+              <div style="display: block;">
+                <canvas baseChart [data]="pieChartDataP2_R" [labels]="pieChartLabelP2_R" [chartType]="pieChartType"
+                  [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend">
+                </canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-right text-white" style="background-color: #1a3263">Ultima Actualización
+          {{mod.fecha}}</div>
+      </div>
     </div>
-        <!-- Tabla encuestas Tramites -->
-    
-<div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
-</div>
+  </div>
+  <!-- Detalles de Encuesta "Muestra las encuestas realizadas con la calificación que tienen en cada pregunta" -->
+  <div class="tab-pane fade" id="pills-encuesta" role="tabpanel" aria-labelledby="pills-encuesta-tab">
+    <div class="card border-success mt-3 mr-3 ml-3 mb-3">
+      <div class="card-header text-center text-white" style="background-color: #1a3263">
+        <h2><strong>Resumen de Preguntas</strong></h2>
+      </div>
+      <!-- Tabla encuestas Express -->
+
+      <!-- Tabla encuestas Reparaciones -->
+      <div class="card border-primary mt-3 ml-3 mr-3">
+        <div class="card-header text-center bg-danger text-white">
+          <h5><strong style="font-size: 1.5rem">Reparaciones</strong></h5>
+        </div>
+        <div class="card-body ">
+          <ngx-datatable class="material" [headerHeight]="35" [columnMode]="'force'" [rowHeight]="'auto'"
+            [footerHeight]="30" [count]="true" [limit]="5" [rows]="rows2">
+            <ngx-datatable-column name="fecha">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Id">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta1">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta2">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta3">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta4">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta5">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta6">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta7">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="pregunta8">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="sucursal">
+              <ng-template ngx-datatable-cell-template let-value="value">Taller1</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="cliente">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}}</ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="total">
+              <ng-template ngx-datatable-cell-template let-value="value">{{value}} / 100</ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+      <!-- Tabla encuestas Tramites -->
+      <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
     </div>
+  </div>
 </div>
-
-

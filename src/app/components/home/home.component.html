@@ -1,17 +1,22 @@
 <app-encuesta></app-encuesta>
 <div class="col-md-5 mx-auto mt-5">
-               <form #formguardar="ngForm" (ngSubmit)="onEncuesta(formguardar)">
-                   <div class="card mb-3" style="max-width: 20rem;" style="background-color: #2a206f"> 
-                           <div class="card-header text-center">
-                               <img class="card-img-top" src="https://i.ibb.co/gV1Rrcr/SEVS.png "alt="Demo-SEVS" style="width: 10%;">
-                           </div>
-                       <div class="card-header text-center text-white"><h4><strong>Ingresa el número de Orden</strong></h4></div>
-                       <div class="card-body input-group input-group-lg mx-auto">
-                           <input type="text" style="text-transform: uppercase" class="form-control text-center" placeholder="VI1234" name="id" [(ngModel)]="idenc" #id="ngModel" pattern="[A-Z]*">
-                       </div>
-                       <button type="submit" value="Guardar" class="btn btn-warning text-center btn-block" ><fa-icon [icon]="faVoteYea" class="fa-2x"></fa-icon><h4>Encuesta</h4></button>
-                   </div>
-               </form>
-              
+  <form #formguardar="ngForm" (ngSubmit)="onEncuesta(formguardar)">
+    <div class="card mb-3" style="max-width: 20rem;" style="background-color: #2a206f">
+      <div class="card-header text-center">
+        <img class="card-img-top" src="https://i.ibb.co/gV1Rrcr/SEVS.png " alt="Demo-SEVS" style="width: 10%;">
+      </div>
+      <div class="card-header text-center text-white">
+        <h4><strong>Ingresa el número de Orden</strong></h4>
+      </div>
+      <div class="card-body input-group input-group-lg mx-auto">
+        <input type="text" style="text-transform: uppercase" class="form-control text-center" placeholder="VI1234"
+          name="id" [(ngModel)]="idenc" #id="ngModel" pattern="[A-Z]*">
+      </div>
+      <button type="submit" value="Guardar" class="btn btn-warning text-center btn-block">
+        <fa-icon [icon]="faVoteYea" class="fa-2x"></fa-icon>
+        <h4>Encuesta</h4>
+      </button>
+    </div>
+  </form>
 </div>
 <app-navbardown></app-navbardown>

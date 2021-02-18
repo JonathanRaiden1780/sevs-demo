@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "demosevs-f780c"
+  },
+  "targets": {
+    "demosevs-f780c": {
+      "hosting": {
+        "prod": [
+          "demosevs"
+        ]
+      }
+    }
+  }
+}

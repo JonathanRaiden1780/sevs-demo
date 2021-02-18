@@ -1,5 +1,5 @@
 export interface AdminFlota {
-    id_af ?: number;
-    id ?: number;
-    nombre ?: string;
+    id_af?: number;
+    id?: number;
+    nombre?: string;
 }

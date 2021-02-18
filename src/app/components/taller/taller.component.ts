@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-// tslint:disable-next-line:max-line-length
-import { faCarCrash, faShippingFast, faNotesMedical, faEnvelope, faMobileAlt, faFileInvoice, faCarSide, faTachometerAlt, faGasPump, faCarAlt, faCheck, faTimes, faUser, faUserCheck } from '@fortawesome/free-solid-svg-icons';
+import { faCarCrash } from '@fortawesome/free-solid-svg-icons';
 import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { EncuestaService } from 'src/app/services/encuesta.service';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { LevelaccessService } from 'src/app/services/levelaccess.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { RegistroInterface } from 'src/app/Models/registro';
@@ -19,11 +18,9 @@ export class TallerComponent implements OnInit {
   opcion: string;
   name: string;
   idenc: string;
-
   cliente: string;
   /* Iconos */
   faCarCrash = faCarCrash;
-
   public isLogin = false;
   public isLoginAdmin = false;
   public isLoginCallcenter = false;
@@ -32,13 +29,10 @@ export class TallerComponent implements OnInit {
   public isLoginALL = false;
   public data: any;
   public ubicacion: string;
-
   fechareporte: string;
   mod: any = {};
   meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-
   public ubi: string;
-
   constructor(
     private afs: AngularFirestore,
     public authService: AuthService,
@@ -66,7 +60,7 @@ export class TallerComponent implements OnInit {
               this.isLoginALL = true;
             }
             else {
-              for (var u = 0; u <= this.data.length; u++) {
+              for (let u = 0; u <= this.data.length; u++) {
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
@@ -82,7 +76,7 @@ export class TallerComponent implements OnInit {
               this.isLoginALL = true;
             }
             else {
-              for (var u = 0; u <= this.data.length; u++) {
+              for (let u = 0; u <= this.data.length; u++) {
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
@@ -104,7 +98,7 @@ export class TallerComponent implements OnInit {
               this.isLoginALL = true;
             }
             else {
-              for (var u = 0; u <= this.data.length; u++) {
+              for (let u = 0; u <= this.data.length; u++) {
                 if (this.ubi == this.data[u].ubicacion) {
                   this.ubicacion = this.data[u].id;
                 }
@@ -118,7 +112,7 @@ export class TallerComponent implements OnInit {
         this.isLogin = false;
       }
     });
-    for (var mc = 1; mc <= 12; mc++) {
+    for (let mc = 1; mc <= 12; mc++) {
       if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
       }
@@ -129,9 +123,9 @@ export class TallerComponent implements OnInit {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x })
   }
   onEncuesta({ value }: { value: EncuestaexInterface }) {
-    var ubicaciones: string;
+    let ubicaciones: string;
     if (this.isLoginALL == true) {
-      for (var u = 0; u < this.data.length; u++) {
+      for (let u = 0; u < this.data.length; u++) {
         if (this.ubicacion == this.data[u].id) {
           ubicaciones = this.data[u].ubicacion;
         }
@@ -150,13 +144,13 @@ export class TallerComponent implements OnInit {
     value.ubicacion = ubicaciones;
     value.fecharegistro = this.fechareporte;
     //___________________________________________________________________________________
-    this.afs.firestore.doc('type/' + ubicaciones + '/'+this.fechareporte+'/' + this.name).get() //this.afs.firestore.doc('Encuestareps/' + this.name).get()
+    this.afs.firestore.doc('type/' + ubicaciones + '/' + this.fechareporte + '/' + this.name).get() //this.afs.firestore.doc('Encuestareps/' + this.name).get()
       .then(docSnapshot => {
         if (docSnapshot.exists === true) {
           confirm('Ya existe el registro ' + this.name);
         }
         else {
-          var año = this.mod.año as string + '_encuestas'
+          const año = this.mod.año as string + '_encuestas'
           this.encuestase.getcontador(ubicaciones, this.fechareporte, año);
           this.encuestase.addEncuestare(value);
           this.encuestase.addTypeAll(value);

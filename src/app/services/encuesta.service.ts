@@ -3,7 +3,7 @@ import { EncuestaexInterface } from '../Models/Encuestaex';
 import { ContadorInterface } from '../Models/contador';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { RegistroCompletoInterface } from '../Models/Registrocompleto';
 import { FirebaseFirestore } from 'angularfire2';
 import * as firebase from 'firebase';
@@ -35,7 +35,7 @@ export class EncuestaService {
     this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
     this.mod.mesnumero = today.getMonth() + 1;
     this.mod.año = today.getFullYear();
-    for (var mc = 1; mc <= 12; mc++) {
+    for (let mc = 1; mc <= 12; mc++) {
       if (this.mod.mesnumero == mc) {
         this.mod.mes = this.meses[mc];
       }
@@ -46,13 +46,13 @@ export class EncuestaService {
   }
   //___________________________________________________________________ Delete Encuesta
   deleteType(Encuestaex: EncuestaexInterface, ubicacion: string) {
-    this.EncuestaexDoc = this.afs.doc('type/'+ ubicacion + '/'+this.fechareporte+'/' + Encuestaex.id);
+    this.EncuestaexDoc = this.afs.doc('type/' + ubicacion + '/' + this.fechareporte + '/' + Encuestaex.id);
     this.EncuestaexDoc.delete();
   }
   //___________________________________________________________________ Update Encuesta
   //Update registro completo
   updateEncuestarep(Encuestaex: RegistroCompletoInterface, ubicacion: string) {
-    this.EncuestaexDoc = this.afs.doc('type/' + ubicacion + '/'+this.fechareporte+'/' + Encuestaex.id);
+    this.EncuestaexDoc = this.afs.doc('type/' + ubicacion + '/' + this.fechareporte + '/' + Encuestaex.id);
     this.EncuestaexDoc1 = this.afs.doc('type/' + ubicacion + '/Encuestas/' + Encuestaex.id);
     this.EncuestaexDoc1.update(Encuestaex);
     this.EncuestaexDoc.update(Encuestaex);
@@ -86,7 +86,7 @@ export class EncuestaService {
       }
     })
     this.afs.firestore.collection('type').doc(x).get().then(doc => {
-      if (doc.exists==true) {
+      if (doc.exists == true) {
         this.afs.collection('type').doc(x).update({ registros: firebase.firestore.FieldValue.increment(1) })
       }
       else {
@@ -98,11 +98,11 @@ export class EncuestaService {
     this.afs.collection('type').doc(x).collection(y).doc('contestadas').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(y).doc('registro').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(y).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
-    
+
     this.afs.collection('type').doc(x).set({ contestadas: 0 })
     this.afs.collection('type').doc(x).set({ registros: 0 })
     this.afs.collection('type').doc(x).update({ registros: firebase.firestore.FieldValue.increment(1) })
-    
+
     this.afs.collection('type').doc(x).collection(z).doc('contestadas').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(z).doc('registro').set({ contador: 0 })
     this.afs.collection('type').doc(x).collection(z).doc('registro').update({ contador: firebase.firestore.FieldValue.increment(1) })
@@ -118,7 +118,6 @@ export class EncuestaService {
     this.typeCollectionALL.doc(this.mod.año.toString()).collection(this.mod.mes).doc(Encuestaex.id).set(Encuestaex);
   }
   addGlobal(Encuestaex: Global) {
-    console.log(Encuestaex)
     this.GlobalCollection.doc(this.mod.año.toString()).collection(this.mod.mes).doc(Encuestaex[0].ubicacion).set(Encuestaex[0]);
   }
   //___________________________________________________________________
@@ -130,8 +129,8 @@ export class EncuestaService {
     this.afs.collection('type').doc(x).collection(z).doc('contestadas').update({ contador: firebase.firestore.FieldValue.increment(1) })
   }
 
-  getAllEncuestas(x: string,date:string): Observable<EncuestaexInterface[]> {
-    this.typeCollections = this.afs.collection('type/'+x+'/' + 'Encuestas', ref => ref.where("fechareporte","==",date)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+  getAllEncuestas(x: string, date: string): Observable<EncuestaexInterface[]> {
+    this.typeCollections = this.afs.collection('type/' + x + '/' + 'Encuestas', ref => ref.where("fechareporte", "==", date)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.Encuestaexes = this.typeCollections.snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {
@@ -142,15 +141,15 @@ export class EncuestaService {
       }));
     return this.Encuestaexes;
   }
-getglobal(): Observable<Global[]> {
-    this.GlobalCollection = this.afs.collection('Global/'+this.mod.año+'/'+this.mod.mes); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+  getglobal(): Observable<Global[]> {
+    this.GlobalCollection = this.afs.collection('Global/' + this.mod.año + '/' + this.mod.mes); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.Globales = this.GlobalCollection.snapshotChanges()
-    .pipe(map(changes => {
-      return changes.map(action => {
-        const data = action.payload.doc.data() as Global;
-        return data;
-      });
-    }));
+      .pipe(map(changes => {
+        return changes.map(action => {
+          const data = action.payload.doc.data() as Global;
+          return data;
+        });
+      }));
     return this.Globales;
-  } 
+  }
 }

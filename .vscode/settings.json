@@ -2,5 +2,10 @@
     "git.ignoreLimitWarning": true,
     "editor.autoSave": "off",
     "god.tsconfig": "./tsconfig.json",
-    "compile-hero.disable-compile-files-on-did-save-code": true
+    "compile-hero.disable-compile-files-on-did-save-code": true,
+    "eslint.alwaysShowStatus": true,
+    "eslint.codeAction.showDocumentation": {
+
+        "enable": true
+    }
 }

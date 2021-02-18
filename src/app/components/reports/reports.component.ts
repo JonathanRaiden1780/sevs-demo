@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { faChartLine } from '@fortawesome/free-solid-svg-icons';
-import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
+import { ChartType, ChartOptions } from 'chart.js';
 import { SingleDataSet, Label, monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
-import { EncuestaexInterface } from 'src/app/Models/Encuestaex';
 import { EncuestaService } from 'src/app/services/encuesta.service';
 import { take } from 'rxjs/operators';
 import { ContadorInterface } from 'src/app/Models/contador';
@@ -59,24 +58,6 @@ export class ReportsComponent implements OnInit {
   meses: string[] = ["Mes", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
   mod: any = {};
   fechareporte: string;
-  constructor(
-    private afs: AngularFirestore,
-    private route: ActivatedRoute,
-    private encuestaex: EncuestaService
-  ) {
-    const today = new Date();
-    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
-    this.mod.mesnumero = today.getMonth() + 1;
-    this.mod.año = today.getFullYear();
-    for (var mc = 1; mc <= 12; mc++) {
-      if (this.mod.mesnumero == mc) {
-        this.mod.mes = this.meses[mc];
-      }
-    }
-    monkeyPatchChartJsTooltip();
-    monkeyPatchChartJsLegend();
-    this.fechareporte = this.mod.mes + this.mod.año;
-  }
   cp1mb: number; cp1b: number; cp1r: number; cp1m: number; cp1mm: number;
   cp2mb: number; cp2mm: number;
   cp3mb: number; cp3b: number; cp3r: number; cp3m: number; cp3mm: number;
@@ -86,6 +67,25 @@ export class ReportsComponent implements OnInit {
   cp7mb: number; cp7b: number; cp7r: number; cp7m: number; cp7mm: number;
   cp8mb: number; cp8b: number; cp8r: number; cp8m: number; cp8mm: number;
   cp9mb: number; cp9mm: number; cp9r: number; cp10mb: number; cp10mm: number;
+  constructor(
+    private afs: AngularFirestore,
+    private route: ActivatedRoute,
+    private encuestaex: EncuestaService
+  ) {
+    const today = new Date();
+    this.mod.fecha = today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + ('0' + today.getDate()).slice(-2);
+    this.mod.mesnumero = today.getMonth() + 1;
+    this.mod.año = today.getFullYear();
+    for (let mc = 1; mc <= 12; mc++) {
+      if (this.mod.mesnumero == mc) {
+        this.mod.mes = this.meses[mc];
+      }
+    }
+    monkeyPatchChartJsTooltip();
+    monkeyPatchChartJsLegend();
+    this.fechareporte = this.mod.mes + this.mod.año;
+  }
+
   ngOnInit() {
     this.afs.collection('Ubicacion').valueChanges().subscribe(x => { this.data = x; this.onChange(this.data) })
     // this.onChange();
@@ -101,14 +101,14 @@ export class ReportsComponent implements OnInit {
     this.pieChartDataP8 = [this.cp8mm, this.cp8m, this.cp8r, this.cp8b, this.cp8mb];
     this.pieChartDataP1_R = [this.cp9mb, this.cp9mm, this.cp9r];
     this.pieChartDataP2_R = [this.cp10mm, this.cp10mb];
-    this.encuestaex.getAllEncuestas(this.ident,this.fechareporte).subscribe((encuesta) => {
+    this.encuestaex.getAllEncuestas(this.ident, this.fechareporte).subscribe((encuesta) => {
       this.rows2 = encuesta;
     });
   }
   onChange(dtatemp: any) {
     this.ident = this.route.snapshot.params['id'];
     const search = this.ident
-    for (var u = 0; u < dtatemp.length; u++) {
+    for (let u = 0; u < dtatemp.length; u++) {
       if (search == dtatemp[u].ubicacion) {
         this.id_ubi = dtatemp[u].id;
       }
@@ -169,14 +169,13 @@ export class ReportsComponent implements OnInit {
     this.afs.collection('Contadores').doc(this.fechareporte).collection('Pregunta10' + this.id_ubi).doc('Si').valueChanges().pipe(take(1)).subscribe(dat => { this.getitemcomll10mb(dat) });
     this.afs.collection('Contadores').doc(this.fechareporte).collection('Pregunta10' + this.id_ubi).doc('No').valueChanges().pipe(take(1)).subscribe(dat => { this.getitemcoll10mm(dat) });
   }
-
   // events
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
   }
-
+  // eslint-disable-next-line @typescript-eslint/ban-types
   public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
   }
-
   //___________________________________________________________________
   //___________________________________________________________________ Collection Contadores Taller1
   getitemcoll1mb(con: ContadorInterface) {

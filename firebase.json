@@ -1,0 +1,17 @@
+{
+  "hosting": {
+    "public": "dist/DemoSevs",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "site": "demosevs",
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
