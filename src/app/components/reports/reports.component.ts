@@ -101,7 +101,7 @@ export class ReportsComponent implements OnInit {
     this.pieChartDataP8 = [this.cp8mm, this.cp8m, this.cp8r, this.cp8b, this.cp8mb];
     this.pieChartDataP1_R = [this.cp9mb, this.cp9mm, this.cp9r];
     this.pieChartDataP2_R = [this.cp10mm, this.cp10mb];
-    this.encuestaex.getAllEncuestas(this.ident).subscribe((encuesta) => {
+    this.encuestaex.getAllEncuestas(this.ident,this.fechareporte).subscribe((encuesta) => {
       this.rows2 = encuesta;
     });
   }

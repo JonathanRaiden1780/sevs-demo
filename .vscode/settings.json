@@ -1,4 +1,6 @@
 {
     "git.ignoreLimitWarning": true,
-    "editor.autoSave": "off"
+    "editor.autoSave": "off",
+    "god.tsconfig": "./tsconfig.json",
+    "compile-hero.disable-compile-files-on-did-save-code": true
 }

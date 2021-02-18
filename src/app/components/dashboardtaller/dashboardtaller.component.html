@@ -1,66 +1,13 @@
 <!-- NAVBAR -->
 <app-navbar></app-navbar>
 <!-- Contenido -->
-<!--
-<div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><fa-icon [icon]="faCarCrash" class="fa-2x"></fa-icon><strong><h2>SEVS - Taller - Consulta</h2></strong></div>
-<div class="row">
-  <div class="col-md-12">
-      <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong><h2>Resumen de Reportes</h2></strong></div>
-          <div class="mat-elevation-z8">
-          <mat-form-field class="ml-3">
-              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Búsqueda...">
-          </mat-form-field>
-          <mat-table #table [dataSource]="dataSource" matSort>
-
-            <ng-container matColumnDef="Folio Encuesta">
-              <mat-header-cell *matHeaderCellDef> Folio </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Fecha Entrada">
-              <mat-header-cell *matHeaderCellDef> Fecha Entrada </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.fechaent}} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Fecha Salida">
-              <mat-header-cell *matHeaderCellDef> Fecha Salida </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.fechasal}} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Placa">
-              <mat-header-cell *matHeaderCellDef> Placa </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.placa | uppercase }} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Servicio">
-              <mat-header-cell *matHeaderCellDef> Servicio </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.tipo | uppercase }} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Asesor">
-              <mat-header-cell *matHeaderCellDef> Asesor </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.asesor | titlecase}} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Cliente">
-              <mat-header-cell *matHeaderCellDef> Cliente </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.NombreCliente | titlecase }} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="Calificacion">
-              <mat-header-cell *matHeaderCellDef> Calificación </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{ element.total }} </mat-cell>
-            </ng-container>
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
-          <mat-paginator #paginator
-            [length]="dataSource.filteredData.length"
-            [pageIndex]="0"
-            [pageSize]="25">
-          </mat-paginator>
-        </div>
-  </div>
-</div>
- -->
+<div class="card col-md-2 mt-3 ml-1 text-white text-center form-inline" style="background-color: #1a3263"><strong>
+    <h2>SEVS - Consulta</h2>
+  </strong></div>
 <div class="row">
   <div class="col-md-12 mx-auto">
     <div class="card mt-3 ml-1 text-white text-center" style="background-color: #1a3263"><strong>
-        <h2>Exportar Información</h2>
+        <h2>Resumen de Reportes</h2>
       </strong></div>
   </div>
 </div>
@@ -69,22 +16,34 @@
     <div class="card">
       <div class="card-group">
         <div class="col-md-2">
-          <div class="dropdown" *ngIf="button">
-            <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
-              type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Selecciona Ubicación
-            </button>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <button class="dropdown-item" style="font-size: 1rem" (click)="changesitio(authservice.ubicacion); views(true)"
-                *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
+          <div class="input-group mb-3 mt-4">
+            <input class="form-control" type="month" value="fechaselct" min="2021-02" max="{{fechamax}}"
+              [(ngModel)]="fechaselct" dateFormat="Y-m-d" placeholder="Not set" />
+            <div class="input-group-prepend">
+              <button type="submit" class="btn btn-primary " style="font-size: 1rem" value="Guardar"
+                (click)="ngOnInit()" *ngIf="button == false">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+              <span class="input-group-text" *ngIf="button">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </span>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
             value="Guardar" (click)="exportAs('csv')"><strong>Generar Reporte</strong></button>
         </div>
         <div class="col-md-2" *ngIf="button">
-          Selecciona Fecha
-          <input class="form-control" type="month" [(ngModel)]="fechaselct" dateFormat="Y-m-d" placeholder="Not set" />
+          <div class="dropdown" *ngIf="button">
+            <button class="btn btn-primary btn-block btn-lg mb-2 mt-4 dropdown-toggle" style="font-size: 1rem"
+              type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Selecciona Ubicación
+            </button>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <button class="dropdown-item" style="font-size: 1rem"
+                (click)="changesitio(authservice.ubicacion); views(true)"
+                *ngFor="let authservice of data">{{authservice.ubicacion}}</button>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary btn-block btn-lg mb-2 mt-4" style="font-size: 1rem"
             value="Guardar" (click)="Global()"><strong>Reporte Global</strong></button>
         </div>
@@ -93,7 +52,7 @@
           <h2>{{ubi}}</h2>
         </strong></div>
       <div class="card-body">
-        <table class="table table-sm table-bordered text-center" id="mytable5" >
+        <table class="table table-sm table-bordered text-center" id="mytable5">
           <thead hidden="true">
             <tr>
               <th scope="col">FOLIO</th>
@@ -112,7 +71,7 @@
               <th scope="col">Contestada</th>
             </tr>
           </thead>
-          <tbody hidden="true">
+          <tbody>
             <tr *ngFor="let authservice of listado | async">
               <th scope="row">{{authservice.id}}</th>
               <td class="preguntas">{{authservice.fecha}}</td>
@@ -281,7 +240,7 @@
         </table>
       </div>
       <div class="card-body">
-        <table class="table table-sm table-bordered text-center" id="mytableglobal" *ngIf="globalesview" >
+        <table class="table table-sm table-bordered text-center" id="mytableglobal" *ngIf="globalesview">
           <thead>
             <tr>
               <th scope="col">Ubicacion</th>
@@ -327,8 +286,7 @@
     </div>
   </div>
 </div>
-<p  *ngIf="totalesview">*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60)</p>
+<p *ngIf="totalesview">*Nota: N/A (No se activo la pregunta debido a que la pregunta 3 no fue menor a 60)</p>
 <br><br><br>
 <!-- Footer -->
-
 <app-footer></app-footer>

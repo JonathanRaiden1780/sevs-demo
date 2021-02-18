@@ -1,16 +1,17 @@
 .table-container {
-    height: 400px;
-    overflow: auto;
-  }
-  
-  table {
-    width: 100%;
-  }
-  mat-form-field {
-    width: 100%;
-  }
-  .mat-table {
-    overflow: auto;
-    max-height: 500px;
-  }
-  
+  height: 400px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}

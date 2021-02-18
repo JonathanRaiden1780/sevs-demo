@@ -130,8 +130,8 @@ export class EncuestaService {
     this.afs.collection('type').doc(x).collection(z).doc('contestadas').update({ contador: firebase.firestore.FieldValue.increment(1) })
   }
 
-  getAllEncuestas(x: string): Observable<EncuestaexInterface[]> {
-    this.typeCollections = this.afs.collection('type/'+x+'/' + this.fechareporte, ref => ref.where("fechareporte","==",this.fechareporte)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
+  getAllEncuestas(x: string,date:string): Observable<EncuestaexInterface[]> {
+    this.typeCollections = this.afs.collection('type/'+x+'/' + 'Encuestas', ref => ref.where("fechareporte","==",date)); //  this.typeCollections = this.afs.collection('Encuestareps', ref => ref.where("fechareporte","==",x)); 
     this.Encuestaexes = this.typeCollections.snapshotChanges()
       .pipe(map(changes => {
         return changes.map(action => {

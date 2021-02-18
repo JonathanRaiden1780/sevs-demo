@@ -1,304 +1,288 @@
 <app-navbar></app-navbar>
-
 <!-- Pagina de Bienvenida-->
-<div class="card col-md-3 mt-3 text-white" style="background-color: #2a206f"><strong><h2>Bienvenid@: {{nomUsuario}}<br>{{ident}}</h2></strong></div>
-<button (click)="export()" *ngIf="isLoginSuadmin" >REPORT</button>
-
+<div class="card col-md-3 mt-3 text-white" style="background-color: #2a206f"><strong>
+    <h2>Bienvenid@: {{nomUsuario}}<br>{{ident}}</h2>
+  </strong></div>
+<button (click)="export()" *ngIf="isLoginSuadmin">REPORT</button>
 <!-- Resumen Encuestas-->
 <div class="card border-success mt-3 mr-3 ml-3">
-    <div class="card-header text-center text-white" style="background-color: #2a206f"><h2><strong>Resumen del Día</strong></h2></div>
-    <div class="row">
-        <div class="col-sm-6">
-            <div class="card border-primary mt-3 ml-3">
-                <div class="card-header text-center">
-                    <h5 class="h5-responsive"><strong>Encuestas</strong></h5>
-                </div>
-                <form>
-                    <div class="card-body text-center">
-                        <ngx-datatable
-                         class="material"
-                        [headerHeight]="35"
-                        [columnMode]="'force'"
-                        [rowHeight]="'auto'"
-                        [footerHeight]="30"
-                        [count]="true"
-                        [limit]="7"
-                        [rows]="rows1"
-                        >
-                        <ngx-datatable-column >
-                            <ng-template let-column="column" ngx-datatable-header-template>
-                                Id
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.id}}
-                            </ng-template>
-                        <!-- <ng-template ngx-datatable-cell-template let-row="rows1" let-rowIndex="rowIndex">
-                            {{rows1.id}}
-                        </ng-template> -->
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column>
-                            <ng-template let-column="column" ngx-datatable-header-template>
-                                Fecha
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.fecha}}
-                            </ng-template>
-                            <!-- <ng-template ngx-datatable-cell-template let-row="rows1" let-rowIndex="rowIndex">
-                                {{ rows1.fecha }}
-                            </ng-template> -->
-                         </ngx-datatable-column>
-                         <ngx-datatable-column name="cliente">
-                            <ng-template ngx-datatable-cell-template let-value="value">
-                                {{value}}
-                            </ng-template>
-                            </ngx-datatable-column>
-                         <ngx-datatable-column >
-                                <ng-template let-column="column" ngx-datatable-header-template>
-                                        Sucursal
-                                    </ng-template>
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{row.ubicacion}}
-                                    </ng-template>
-                           <!--  <ng-template ngx-datatable-cell-template let-value="value">
-                            La Viga
-                            </ng-template> -->
-                        </ngx-datatable-column>
-
-                        <ngx-datatable-column>
-                            <ng-template let-column="column" ngx-datatable-header-template>
-                                Total
-                            </ng-template>
-                            <ng-template let-row="row" ngx-datatable-cell-template>
-                                {{row.total}} / 100
-                            </ng-template>
-                      <!--   <ng-template ngx-datatable-cell-template  let-row="rows1" let-rowIndex="rowIndex">
-                            {{ rows1.fecha }} / 100
-                        </ng-template> -->
-                        </ngx-datatable-column>
-                        </ngx-datatable>
-                    </div>
-                </form>
-            </div>
+  <div class="card-header text-center text-white" style="background-color: #2a206f">
+    <h2><strong>Resumen del Día</strong></h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <div class="card border-primary mt-3 ml-3">
+        <div class="card-header text-center">
+          <h5 class="h5-responsive"><strong>Encuestas</strong></h5>
         </div>
-        <div class="col-sm-6">
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="card mt-3">
-                        <div class="card-header text-center text-white" style="background-color: #2a206f">
-                            <h5 class="h5-responsive"><strong>Encuestas Contestadas</strong></h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div id="square" class="card-header text-white text-center" style="background-color: #5AC041">
-                                        <h5 class="h5-responsive"><strong>Encuestas Realizadas</strong></h5>
-                                    </div>
-                                    <div class="card-body text-center faicon" >
-                                        <span class="fa-layers fa-fw fa-6x">
-                                            <fa-icon [icon]="faVoteYea"></fa-icon>
-                                            <span class="fa-layers-counter" style="background:#fd5f00; font-size-adjust: inherit;">{{contadorreal}}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-header bg-info text-white text-center ">
-                                        <h5 class="h5-responsive"><strong>Registros Ingresados</strong></h5>
-                                    </div>
-                                    <div class="card-body text-center faicon">
-                                        <span class="fa-layers fa-fw fa-6x">
-                                            <fa-icon [icon]="faBoxes"></fa-icon>
-                                                <span class="fa-layers-counter" style="background:#fd5f00; font-size-adjust: inherit;">{{contadorrep}}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="card mt-3 ml-3 mr-3">
-                        <div class="card-header text-center text-white" style="background-color: #2a206f">
-                            <h5 class="h5-responsive"><strong>Promedio Calificación Sucursal</strong></h5>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-header bg-warning text-white text-center ">
-                                        <h5 class="h5-responsive"><strong>Promedio<br> Actual</strong></h5>
-                                    </div>
-                                    <div class="card-body text-center faicon">
-                                        <span class="fa-layers fa-fw fa-6x">
-                                            <fa-icon [icon]="faStar" style="color: #B7963D"></fa-icon>
-                                            <span class="fa-layers-counter text-center" style="background: #92BA3E; font-size-adjust: inherit;"  >{{prome}}</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="card">
-                                    <div class="card-header text-white text-center" style="background-color: #5AC041 ">
-                                        <h5 class="h5-responsive"><strong>Meta<br> Actual</strong></h5>
-                                    </div>
-                                    <div class="card-body text-center faicon">
-                                        <span class="fa-layers fa-fw fa-6x">
-                                            <fa-icon [icon]="faTrophy" style="color: #B7963D"></fa-icon>
-                                                <span class="fa-layers-counter text-center" style="background:green; font-size-adjust: inherit;">85</span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <form>
+          <div class="card-body text-center">
+            <ngx-datatable class="material" [headerHeight]="35" [columnMode]="'force'" [rowHeight]="'auto'"
+              [footerHeight]="30" [count]="true" [limit]="7" [rows]="rows1">
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Id
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.id}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Fecha
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.fecha}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="cliente">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                  {{value}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Sucursal
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.ubicacion}}
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column>
+                <ng-template let-column="column" ngx-datatable-header-template>
+                  Total
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  {{row.total}} / 100
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card mt-3">
+            <div class="card-header text-center text-white" style="background-color: #2a206f">
+              <h5 class="h5-responsive"><strong>Encuestas Contestadas</strong></h5>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="card">
+                  <div id="square" class="card-header text-white text-center" style="background-color: #5AC041">
+                    <h5 class="h5-responsive"><strong>Encuestas Realizadas</strong></h5>
+                  </div>
+                  <div class="card-body text-center faicon">
+                    <span class="fa-layers fa-fw fa-6x">
+                      <fa-icon [icon]="faVoteYea"></fa-icon>
+                      <span class="fa-layers-counter"
+                        style="background:#fd5f00; font-size-adjust: inherit;">{{contadorreal}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header bg-info text-white text-center ">
+                    <h5 class="h5-responsive"><strong>Registros Ingresados</strong></h5>
+                  </div>
+                  <div class="card-body text-center faicon">
+                    <span class="fa-layers fa-fw fa-6x">
+                      <fa-icon [icon]="faBoxes"></fa-icon>
+                      <span class="fa-layers-counter"
+                        style="background:#fd5f00; font-size-adjust: inherit;">{{contadorrep}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card mt-3 ml-3 mr-3">
+            <div class="card-header text-center text-white" style="background-color: #2a206f">
+              <h5 class="h5-responsive"><strong>Promedio Calificación Sucursal</strong></h5>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header bg-warning text-white text-center ">
+                    <h5 class="h5-responsive"><strong>Promedio<br> Actual</strong></h5>
+                  </div>
+                  <div class="card-body text-center faicon">
+                    <span class="fa-layers fa-fw fa-6x">
+                      <fa-icon [icon]="faStar" style="color: #B7963D"></fa-icon>
+                      <span class="fa-layers-counter text-center"
+                        style="background: #92BA3E; font-size-adjust: inherit;">{{prome}}</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card">
+                  <div class="card-header text-white text-center" style="background-color: #5AC041 ">
+                    <h5 class="h5-responsive"><strong>Meta<br> Actual</strong></h5>
+                  </div>
+                  <div class="card-body text-center faicon">
+                    <span class="fa-layers fa-fw fa-6x">
+                      <fa-icon [icon]="faTrophy" style="color: #B7963D"></fa-icon>
+                      <span class="fa-layers-counter text-center"
+                        style="background:green; font-size-adjust: inherit;">85</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
 </div>
-
 <!-- Resumen Preguntas -->
 <div class="card border-success mt-3 mr-3 ml-3 mb-5">
-        <div class="card-header text-center text-white" style="background-color: #2a206f"><h2><strong>Resumen Servicios</strong></h2></div>
-        <div class="row">
-            <div class="col-sm-9">
-                <div class="card mt-3 mb-3 ml-3">
-                    <div class="card-header text-center">
-                    <!--Calificaciones de Servicios-->
-                        <h5 class="h5-responsive"><strong>Calificaciones Servicios</strong></h5>
-                    </div>
-                    <div class="card-body">
-                        <!-- Reparaciones -->
-                        <table class="table table-hover table-bordered table-sm">
-                            <thead class="thead-dark">
-                                <tr class="text-center text-white">
-                                    <th scope="col">Reparación</th>
-                                    <th scope="col" title="El tiempo que transcurrió para que lo atendieran fue:">P 1</th>
-                                    <th scope="col" title="Durante la recepción ¿Nuestro asesor le preguntó si su vehículo requería de algún servicio adicional a lo previamente solicitado?">P 2</th>
-                                    <th scope="col" title="¿Se cumplió con la fecha promesa de entrega?">P 3</th>
-                                    <th scope="col" title="¿Cómo calificaría la imagen de nuestras instalaciones?">P 4</th>
-                                    <th scope="col" title="La atención que recibió de nuestro asesor de servicio fue….">P 5</th>
-                                    <th scope="col" title="Considera que la imagen de nuestro asesor de servicio es…">P 6</th>
-                                    <th scope="col" title="Le entregaron su vehículo...">P 7</th>
-                                    <th scope="col" title="La experiencia en general de su visita a Demo fue…">P 8</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="table-warning text-center">
-                                    <td>Promedios</td>
-                                    <td>{{promere1}}</td>
-                                    <td>{{promere2}}</td>
-                                    <td>{{promere3}}</td>
-                                    <td>{{promere4}}</td>
-                                    <td>{{promere5}}</td>
-                                    <td>{{promere6}}</td>
-                                    <td>{{promere7}}</td>
-                                    <td>{{promere8}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <!-- Bundle de Calificaciones-->
-                <div class="card mt-3">
-                    <div class="row">
-                        <!-- Calificaciones Altas -->
-                        <div class="col-sm-6">
-                            <div class="card text-center">
-                                <div class="card-header text-center text-white" style="background-color: #2a206f; font-size: 1rem"><strong>Calificación más alta</strong></div>
-                                    <div class="card text-center">
-                                        <div class="card-header text-white" style="background-color: #2e5a1c">
-                                            <strong style="font-size: 1rem; font-size-adjust: initial">Reparaciones</strong>
-                                        </div>
-                                        <div class="card-header text-center faicon" style="background-color: #edf0c7">
-                                            <span class="fa-layers fa-fw fa-5x">
-                                                <fa-icon [icon]="faThumbsUp" style="color: #4e9525"></fa-icon>
-                                                <span class="fa-layers-counter" style="background: #1a3263; font-size-adjust: inherit;"><strong>{{insre}}</strong></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                            </div>
-                        </div>
-                        <!-- Calificaciones Bajas -->
-                        <div class="col-sm-6">
-                            <div class="card">
-                                <div class="card-header text-center text-white" style="background-color: #2a206f; font-size: 1rem"><strong>Calificación más baja</strong></div>
-                                <div class="card text-center">
-                                    <div class="card-header text-white" style="background-color: #f05a28">
-                                        <strong style="font-size: 1rem; font-size-adjust: initial">Reparaciones</strong>
-                                    </div>
-                                    <div class="card-header text-center faicon" style="background-color: #edf0c7">
-                                        <span class="fa-layers fa-fw fa-5x">
-                                            <fa-icon [icon]="faThumbsDown" style="color: #f7931e"></fa-icon>
-                                            <span class="fa-layers-counter" style="background: #1a3263; font-size-adjust: inherit;"><strong>{{insre2}}</strong></span>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="card-header text-center text-white" style="background-color: #2a206f">
+    <h2><strong>Resumen Servicios</strong></h2>
+  </div>
+  <div class="row">
+    <div class="col-sm-9">
+      <div class="card mt-3 mb-3 ml-3">
+        <div class="card-header text-center">
+          <!--Calificaciones de Servicios-->
+          <h5 class="h5-responsive"><strong>Calificaciones Servicios</strong></h5>
         </div>
-        <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
+        <div class="card-body">
+          <!-- Reparaciones -->
+          <table class="table table-hover table-bordered table-sm">
+            <thead class="thead-dark">
+              <tr class="text-center text-white">
+                <th scope="col">Reparación</th>
+                <th scope="col" title="El tiempo que transcurrió para que lo atendieran fue:">P 1</th>
+                <th scope="col"
+                  title="Durante la recepción ¿Nuestro asesor le preguntó si su vehículo requería de algún servicio adicional a lo previamente solicitado?">
+                  P 2</th>
+                <th scope="col" title="¿Se cumplió con la fecha promesa de entrega?">P 3</th>
+                <th scope="col" title="¿Cómo calificaría la imagen de nuestras instalaciones?">P 4</th>
+                <th scope="col" title="La atención que recibió de nuestro asesor de servicio fue….">P 5</th>
+                <th scope="col" title="Considera que la imagen de nuestro asesor de servicio es…">P 6</th>
+                <th scope="col" title="Le entregaron su vehículo...">P 7</th>
+                <th scope="col" title="La experiencia en general de su visita a Demo fue…">P 8</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="table-warning text-center">
+                <td>Promedios</td>
+                <td>{{promere1}}</td>
+                <td>{{promere2}}</td>
+                <td>{{promere3}}</td>
+                <td>{{promere4}}</td>
+                <td>{{promere5}}</td>
+                <td>{{promere6}}</td>
+                <td>{{promere7}}</td>
+                <td>{{promere8}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-
+    <div class="col-sm-3">
+      <!-- Bundle de Calificaciones-->
+      <div class="card mt-3">
+        <div class="row">
+          <!-- Calificaciones Altas -->
+          <div class="col-sm-6">
+            <div class="card text-center">
+              <div class="card-header text-center text-white" style="background-color: #2a206f; font-size: 1rem">
+                <strong>Calificación más alta</strong>
+              </div>
+              <div class="card text-center">
+                <div class="card-header text-white" style="background-color: #2e5a1c">
+                  <strong style="font-size: 1rem; font-size-adjust: initial">Reparaciones</strong>
+                </div>
+                <div class="card-header text-center faicon" style="background-color: #edf0c7">
+                  <span class="fa-layers fa-fw fa-5x">
+                    <fa-icon [icon]="faThumbsUp" style="color: #4e9525"></fa-icon>
+                    <span class="fa-layers-counter"
+                      style="background: #1a3263; font-size-adjust: inherit;"><strong>{{insre}}</strong></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Calificaciones Bajas -->
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header text-center text-white" style="background-color: #2a206f; font-size: 1rem">
+                <strong>Calificación más baja</strong>
+              </div>
+              <div class="card text-center">
+                <div class="card-header text-white" style="background-color: #f05a28">
+                  <strong style="font-size: 1rem; font-size-adjust: initial">Reparaciones</strong>
+                </div>
+                <div class="card-header text-center faicon" style="background-color: #edf0c7">
+                  <span class="fa-layers fa-fw fa-5x">
+                    <fa-icon [icon]="faThumbsDown" style="color: #f7931e"></fa-icon>
+                    <span class="fa-layers-counter"
+                      style="background: #1a3263; font-size-adjust: inherit;"><strong>{{insre2}}</strong></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-muted text-right">Ultima Actualización {{mod.fecha}}</div>
+</div>
 <div class="card">
-    <app-reports></app-reports>
+  <app-reports></app-reports>
 </div>
 <!-- Footer -->
 <app-footer></app-footer>
-<ng-template #Modal let-close="close" >
-    <div class="modal-header">
-      <h5 class="modal-title">Detalles de Cita</h5>
-      <button type="button" class="close" (click)="close()">
-        <span aria-hidden="true">&times;</span>
-      </button>
+<ng-template #Modal let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Detalles de Cita</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card-group">
+      <div class="card col-md-5 mt-3 ml-1" style="border-color: #ffffff;">
+        <div>
+          Fecha programada:
+        </div>
+        <div>
+          Folio asociado:
+        </div>
+        <div>
+          Paciente:
+        </div>
+        <div>
+          Fecha de nacimiento:
+        </div>
+        <div>
+          Telefono:
+        </div>
+        <div>
+          Correo:
+        </div>
+      </div>
+      <div class="card col-md-3 mt-3 ml-1" style="border-color: #ffffff;">
+        <div>
+          Detalles:
+        </div>
+      </div>
     </div>
-    <div class="modal-body">
-        <div class="card-group">
-        <div class="card col-md-5 mt-3 ml-1" style="border-color: #ffffff;">
-            <div>
-        Fecha programada:
-      </div>
-      <div >
-        Folio asociado:
-
-      </div>
-      <div >
-        Paciente:
-
-      </div>
-      <div >
-        Fecha de nacimiento:
-
-      </div>
-      <div >
-        Telefono:
-
-      </div>
-      <div >
-        Correo:
-
-      </div>
-    </div>
-    <div class="card col-md-3 mt-3 ml-1" style="border-color: #ffffff;">
-        <div >
-            Detalles:
-
-          </div>
-    </div>
-</div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-secondary" (click)="close()">
-        OK
-      </button>
-    </div>
-
-  </ng-template>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+  </div>
+</ng-template>
